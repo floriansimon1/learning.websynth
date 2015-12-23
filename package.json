@@ -1,0 +1,13 @@
+{
+  "author": "Florian Simon <florian@tentwentyfour.lu>",
+  "license": "MIT",
+  "description": "Small synthesizer built using the Web Audio API.",
+  "dependencies": {
+    "express": "^4.13.3",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-replace": "^0.5.4"
+  }
+}
