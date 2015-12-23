@@ -26,7 +26,7 @@ gulp.task('process-templates', function () {
             '<link href="/assets/css/'
             + style
             + '" rel="stylesheet" type="text/css" />'
-        ))
+        )).join('\n        ')
     ))
     .pipe(gulp.dest('./web'))
 });
