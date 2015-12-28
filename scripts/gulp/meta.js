@@ -5,5 +5,5 @@
 var gulp = require('gulp');
 
 gulp.task('live-rebuild', function () {
-    gulp.watch(['lib/assets/**/*', 'lib/templates/*'], ['create-root']);
+    gulp.watch(['package.json', 'lib/client/**/*', 'lib/assets/**/*', 'lib/templates/*'], ['create-root']);
 });

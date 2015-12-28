@@ -4,10 +4,12 @@
   "description": "Small synthesizer built using the Web Audio API.",
   "dependencies": {
     "express": "^4.13.3",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "materialize-css": "^0.97.5"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
     "gulp-replace": "^0.5.4"
   }
 }

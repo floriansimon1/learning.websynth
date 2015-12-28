@@ -4,7 +4,7 @@
 
 const express = require('express');
 
-const config = require('./config');
+const config = require('./config')();
 
 const app = express();
 
@@ -13,4 +13,6 @@ app.get('/', express.static('./web'));
 app.use(express.static('./web'));
 
 /* Starts the web server. */
-app.listen(config.port);
+app.listen(config.port, function () {
+    console.log('Webserver started on port ' + config.port + '.');
+});
