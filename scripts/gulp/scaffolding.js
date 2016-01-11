@@ -11,32 +11,34 @@ const vendorCss = [
 ];
 
 const vendorJs = [
+	'node_modules/jquery/dist/jquery.js',
     'node_modules/materialize-css/bin/materialize.js',
 	'node_modules/lodash/index.js',
 	'node_modules/bacon/dist/Bacon.js',
 	'node_modules/react/dist/react.js',
 	'node_modules/react-stampit/dist/react-stampit.js',
 	'node_modules/react-hyperscript/index.js',
-	'node_modules/routerjs/src/router.js',
+	'node_modules/react-router/umd/ReactRouter.js',
 	'node_modules/di4js/lib/di4js.js'
 ];
 
 /* Paths and file names. */
 const rootFolder            = 'web/';
-const appSubFolder          = 'app/';
+const webJsFolder           = 'app/';
+const webAppSubFolder       = 'client/';
 const assetsSubFolder       = 'assets/';
 const sourceFolder          = 'source/';
 const vendorJsFileName      = 'vendor.js';
 const vendorCssFileName     = 'vendor.css';
+const rootJsFolder          = rootFolder + webJsFolder;
 const cssAssetsSubFolder    = assetsSubFolder + 'css/';
-const rootJsFolder          = rootFolder + appSubFolder;
 const templatesBase         = sourceFolder + 'templates/';
-const sourceJsFolder        = sourceFolder + 'client/';
 const rootAssetsFolder      = rootFolder + assetsSubFolder;
 const sourceAssetsFolder    = sourceFolder + assetsSubFolder;
 const rootCssFolder         = rootFolder + cssAssetsSubFolder;
 const sourceCssAssetsFolder = sourceFolder + cssAssetsSubFolder;
-const sourceScripts         = sourceFolder + appSubFolder + '/**/*';
+const sourceWebAppFolder    = sourceFolder + webAppSubFolder
+const sourceWebAppFiles     = sourceWebAppFolder + '/**/*';
 const sourceAssets          = sourceAssetsFolder + '/**/*';
 const indexHtmlTemplate     = templatesBase + 'index.html';
 const indexHtmlFile         = rootFolder + 'index.html';
@@ -81,7 +83,7 @@ gulp.task('copy-assets', function () {
 /* Takes all assets files and places them into the web root. */
 gulp.task('copy-app', function () {
     return gulp
-    .src(sourceFolder, { base : sourceJsFolder })
+    .src(sourceWebAppFiles, { base : sourceWebAppFolder })
     .pipe(gulp.dest(rootJsFolder));
 });
 
@@ -116,17 +118,18 @@ gulp.task('add-js', function () {
 		indexHtmlFile,
         '%SCRIPTS%',
         getAndConvertFileNames(
-            sourceJsFolder,
+            sourceWebAppFolder,
             [vendorJsFileName],
             (
                 '<script type="text/javascript" src="'
-                + appSubFolder
+                + webJsFolder
                 + '%s"></script>'
             ),
             '\n        '
         )
     );
 });
+
 /* Processes template files and saves them in the root. */
 gulp.task('process-templates', function () {
 	return tasks.runSequence('copy-templates', 'add-css', 'add-js');
