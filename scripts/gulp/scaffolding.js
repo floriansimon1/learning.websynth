@@ -11,7 +11,13 @@ const vendorCss = [
 ];
 
 const vendorJs = [
-    'node_modules/materialize-css/bin/materialize.js'
+    'node_modules/materialize-css/bin/materialize.js',
+	'node_modules/lodash/index.js',
+	'node_modules/bacon/dist/Bacon.js',
+	'node_modules/react/dist/react.js',
+	'node_modules/react-stampit/dist/react-stampit.js',
+	'node_modules/routerjs/src/router.js',
+	'node_modules/di4js/lib/di4js.js'
 ];
 
 /* Paths and file names. */
