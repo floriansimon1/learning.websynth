@@ -16,6 +16,7 @@ const vendorJs = [
 	'node_modules/bacon/dist/Bacon.js',
 	'node_modules/react/dist/react.js',
 	'node_modules/react-stampit/dist/react-stampit.js',
+	'node_modules/react-hyperscript/index.js',
 	'node_modules/routerjs/src/router.js',
 	'node_modules/di4js/lib/di4js.js'
 ];
