@@ -2,8 +2,15 @@
  * Page that allows an user to compose music.
  */
 
-const Composer = function () {
+const di    = require('di4js');
+const React = require('react');
+const h     = require('react-hyperscript');
 
-};
+const Composer = React.createClass({
+    render() {
+        return h('a.btn.waves-effect.waves-light', undefined, 'Stuff');
+    }
+});
 
-di.register('fs1-ws.views.pages.Composer', Composer);
+di.register('fs1-ws.views.pages.Composer').instance(Composer);
+
