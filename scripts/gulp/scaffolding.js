@@ -3,9 +3,9 @@ const readdir = require('recursive-readdir');
 const source  = require('vinyl-source-stream');
 
 const tasks   = {
+    replace     : require('gulp-replace-task'),
     concat      : require('gulp-concat'),
     runSequence : require('run-sequence'),
-    replace     : require('gulp-replace'),
     browserify  : require('browserify'),
     glob        : require('glob')
 };
@@ -16,6 +16,7 @@ const vendorCss = [
 
 /* Paths and file names. */
 const indexHtmlTemplate          = 'source/templates/index.html';
+const indexHtmlDestionationFile  = 'web/index.html';
 const sourceCssFolder            = 'source/assets/css/';
 const sourceWebAppFolder         = 'source/client/';
 const vendorCssFile              = 'vendor.css';
@@ -51,7 +52,7 @@ const getFiles = function (directory) {
 /* Gulp helper to replace a string in a file. */
 const replaceInFile = function (file, destination, what, replacement) {
     return gulp
-    .src(file)
+    .src(file, { base : parent(file) })
     .pipe(tasks.replace(what, replacement))
     .pipe(gulp.dest(destination));
 };
@@ -92,42 +93,39 @@ gulp.task('copy-templates', function () {
     .pipe(gulp.dest(indexHtmlDestinationFolder));
 });
 
-/* Adds CSS files to the index.html template. */
-gulp.task('insert-css', function () {
+/* Adds app files to the index.html template. */
+gulp.task('insert-app', function () {
     return getFiles(sourceCssFolder)
     .then(function (files) {
         replaceInFile(
-            indexHtmlTemplate,
-            indexHtmlDestinationFolder,
-            '%STYLES%',
-            filesListToString(
-                files,
-                '<link href="/'
-                + cssUrl
-                + '%s" rel="stylesheet" type="text/css" />',
-                '\n        '
-            )
+            indexHtmlDestionationFile,
+            indexHtmlDestinationFolder, { patterns : [
+                {
+                    match       : /--STYLES--/,
+                    replacement : filesListToString(
+                        files,
+                        '<link href="/'
+                        + cssUrl
+                        + '%s" rel="stylesheet" type="text/css" />',
+                        '\n        '
+                    )
+                },
+                {
+                    match       : /--SCRIPTS--/,
+                    replacement : (
+                        '<script type="text/javascript" src="'
+                        + webAppDestinationFileName + '">'
+                        + '</script>'
+                    )
+                }
+            ] }
         );
     });
 });
 
-/* Adds JS files to the index.html template. */
-gulp.task('insert-js', function () {
-    return replaceInFile(
-        indexHtmlTemplate,
-        indexHtmlDestinationFolder,
-        '%SCRIPTS%',
-        (
-            '<script type="text/javascript" src="'
-            + webAppDestinationFileName + '">'
-            + '</script>'
-        )
-    );
-});
-
 /* Processes template files and saves them in the root. */
 gulp.task('process-templates', function () {
-    return tasks.runSequence('copy-templates', 'insert-css', 'insert-js');
+    return tasks.runSequence('copy-templates', 'insert-app');
 });
 
 /* Task that puts assets in the web folder and transforms them. */
