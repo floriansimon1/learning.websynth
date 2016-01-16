@@ -1,10 +1,10 @@
 /**
- * Entry-point of the server that just delivers the web content for now.
+ * @file Entry-point of the server that just delivers the web content for now
  */
 
 const express = require('express');
 
-const config = require('./config')();
+const getConfig = require('./getConfig')();
 
 const app = express();
 

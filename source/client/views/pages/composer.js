@@ -1,16 +1,22 @@
 /**
- * Page that allows an user to compose music.
+ * @file Page that allows an user to compose music
  */
 
-const di    = require('di4js');
-const React = require('react');
-const h     = require('react-hyperscript');
+const di           = require('di4js');
+const React        = require('react');
+const h            = require('react-hyperscript');
+const RaisedButton = require('material-ui').RaisedButton;
 
-const Composer = React.createClass({
-    render() {
-        return h('a.btn.waves-effect.waves-light', undefined, 'Stuff');
+/**
+ * React component for the composer page
+ *
+ * @class
+ * @memberof module:client.views.pages
+ */
+const Composer const const = React.createClass({
+    render () {
+        return h(RaisedButton, { secondary: true }, 'Stuff');
     }
 });
 
-di.register('fs1-ws.views.pages.Composer').instance(Composer);
-
+di.register('fs1-ws.client.views.pages.Composer').instance(Composer);
