@@ -1,5 +1,9 @@
 /**
- * Functions that returns the correct config file.
+ * Functions that returns the correct config file based on the NODE_ENV.
+ *
+ * @global
+ * @function getConfig
+ * @memberof module:server
  *
  * @return {Object} The loaded configuration.
  */

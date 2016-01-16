@@ -12,7 +12,6 @@ const tasks   = {
 };
 
 const vendorCss = [
-    'node_modules/materialize-css/bin/materialize.css'
 ];
 
 /* Paths and file names. */
@@ -60,10 +59,14 @@ const replaceInFile = function (file, destination, what, replacement) {
 
 /* Copies all vendor css files to the web folder. */
 gulp.task('copy-vendor-css', function (vendorFiles, outputFileName, destinationFolder) {
-    return gulp
-    .src(vendorCss)
-    .pipe(tasks.concat(vendorCssFile))
-    .pipe(gulp.dest(cssDestinationFolder));
+	if (vendorCss.length) {
+	    return gulp
+	    .src(vendorCss)
+	    .pipe(tasks.concat(vendorCssFile))
+	    .pipe(gulp.dest(cssDestinationFolder));
+	} else {
+		return Promise.resolve();
+	}
 });
 
 /* Copies all of our own css files to the web folder. */
@@ -100,7 +103,7 @@ gulp.task('insert-app', function () {
                 {
                     match       : /--STYLES--/,
                     replacement : filesListToString(
-                        files.map(file => path.basename(file)).concat([vendorCssFile]),
+                        files.map(file => path.basename(file)).concat(vendorCss.length ? [vendorCssFile] : []),
                         '<link href="/'
                         + cssUrl
                         + '%s" rel="stylesheet" type="text/css" />',
