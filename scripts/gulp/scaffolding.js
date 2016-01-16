@@ -83,7 +83,15 @@ gulp.task('copy-web-app', function () {
     return tasks.browserify({ entries : files })
     .bundle()
     .pipe(source(webAppDestinationFileName))
-    .pipe(gulp.dest(webAppDestinationFolder));
+    .pipe(gulp.dest(webAppDestinationFolder))
+    .on('error', error => {
+        console.log(
+            'Could not run browserify !',
+            error.message, error.stack
+        );
+
+        this.emit('end');
+    });
 });
 
 /* Adds the index HTML template. */

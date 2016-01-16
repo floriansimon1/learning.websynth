@@ -1,6 +1,7 @@
 /**
  * Tasks to generate docs.
  */
+
 const del   = require('del');
 const gulp  = require('gulp');
 const shell = require('gulp-shell');
