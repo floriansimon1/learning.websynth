@@ -13,7 +13,7 @@ const RaisedButton = require('material-ui').RaisedButton;
  * @class
  * @memberof module:client.views.pages
  */
-const Composer const const = React.createClass({
+const Composer = React.createClass({
     render () {
         return h(RaisedButton, { secondary: true }, 'Stuff');
     }
