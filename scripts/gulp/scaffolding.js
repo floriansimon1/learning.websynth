@@ -5,8 +5,9 @@ const source  = require('vinyl-source-stream');
 
 const tasks   = {
     replace     : require('gulp-replace-task'),
-    concat      : require('gulp-concat'),
     runSequence : require('run-sequence'),
+    notify      : require('gulp-notify'),
+    concat      : require('gulp-concat'),
     browserify  : require('browserify'),
     glob        : require('glob')
 };
@@ -90,6 +91,7 @@ gulp.task('copy-web-app', function () {
 
         this.emit('end');
     })
+    .on('error', tasks.notify.onError('Could not browserify your code !'))
     .pipe(source(webAppDestinationFileName))
     .pipe(gulp.dest(webAppDestinationFolder))
     .on('error', () => this.emit('end'));
