@@ -4,7 +4,7 @@
 
 const express = require('express');
 
-const getConfig = require('./getConfig')();
+const config = require('./get-config')();
 
 const app = express();
 
