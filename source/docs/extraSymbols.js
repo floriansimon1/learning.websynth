@@ -1,4 +1,4 @@
-/** @file Defines extra symbols to make them appear on the doc summary */
+/** Defines extra symbols to make them appear on the doc summary */
 
 /**
  * The client application
