@@ -1,6 +1,8 @@
 {
     "source": {
-        "include": ["./source/client/", "./source/server/", "source/docs/"]
+        "include": [
+            "source/client/", "source/server/", "source/docs/"
+        ]
     },
 
     "opts": {

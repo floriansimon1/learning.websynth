@@ -2,10 +2,11 @@
  * @file Page that allows an user to compose music
  */
 
-const di           = require('di4js');
-const React        = require('react');
-const h            = require('react-hyperscript');
-const RaisedButton = require('material-ui').RaisedButton;
+const React = require('react');
+const di    = require('di4js');
+const h     = require('react-hyperscript');
+
+const PlayButton = di.resolve('fs1-ws.client.views.components.PlayButton');
 
 /**
  * React component for the composer page
@@ -14,8 +15,8 @@ const RaisedButton = require('material-ui').RaisedButton;
  * @memberof module:client.views.pages
  */
 const Composer = React.createClass({
-    render () {
-        return h(RaisedButton, { secondary: true }, 'Stuff');
+    render() {
+        return h(PlayButton);
     }
 });
 
