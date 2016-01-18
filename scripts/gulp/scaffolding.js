@@ -17,8 +17,8 @@ const vendorCss = [
 
 /* Paths and file names. */
 const indexHtmlTemplate          = 'source/templates/index.html';
-const indexHtmlDestionationFile  = 'web/index.html';
 const sourceCssFolder            = 'source/assets/css/';
+const indexHtmlDestionationFile  = 'web/index.html';
 const sourceWebAppFolder         = 'source/client/';
 const vendorCssFile              = 'vendor.css';
 const cssDestinationFolder       = 'web/css';

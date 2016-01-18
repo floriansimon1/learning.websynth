@@ -14,5 +14,5 @@ app.use(express.static('./web'));
 
 /* Starts the web server. */
 app.listen(config.port, function () {
-    console.log('Webserver started on port ' + config.port + '.');
+    console.log(`Webserver started on port ${config.port}.`);
 });
