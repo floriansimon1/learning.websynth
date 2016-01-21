@@ -15,7 +15,7 @@ const PlayButton = di.resolve('fs1-ws.client.views.components.PlayButton');
  * @memberof module:client.views.pages
  */
 const Composer = React.createClass({
-    render() {
+    render () {
         return h(PlayButton);
     }
 });
