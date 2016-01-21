@@ -7,7 +7,8 @@ const React        = require('react');
 const h            = require('react-hyperscript');
 const RaisedButton = require('material-ui').RaisedButton;
 
-var Synth;
+/* The sound playing service */
+var Player;
 
 /**
  * React component for the play button
@@ -16,15 +17,15 @@ var Synth;
  * @memberof module:client.views.components
  */
 const PlayButton = React.createClass({
-    componentWillMount() {
-        Synth = di.resolve('fs1-ws.client.synth.Synth');
+    componentWillMount () {
+        Player = di.resolve('fs1-ws.client.synth.Player');
     },
 
-    render() {
+    render () {
         return h(RaisedButton, {
             secondary: true,
-            onMouseUp: Synth.noteOff,
-            onMouseDown: Synth.noteOn
+            onMouseUp: Player.stop,
+            onMouseDown: Player.play
         }, 'Play !');
     }
 });

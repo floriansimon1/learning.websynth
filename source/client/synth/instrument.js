@@ -1,39 +1,41 @@
-/** @file The synthesizer */
+/** @file A musical instrument that emits sounds when the player asks it to do so */
 
 const di = require('di4js');
 
 /**
- * Service for audio synthesis.
+ * Factory for building instruments.
  *
  * @class
  * @memberof module:client.synth
  */
-const Synth = function () {
+const Instrument = function () {
     return {
         /**
-         * Starts playing a note.
+         * Starts playing a note
          *
          * @method
          * @memberof module:client.synth.Synth
          *
          * @return {Void}
          */
-        noteOn() {
+        noteOn () {
             console.log('Note started playing !');
         },
 
         /**
-         * Stops playing notes.
+         * Stops playing notes
          *
          * @method
          * @memberof module:client.synth.Synth
          *
          * @return {Void}
          */
-        noteOff() {
+        noteOff () {
             console.log('Note stopped playing !');
         }
     }
 };
 
-di.register('fs1-ws.client.synth.Synth').as(Synth).asSingleton();
+di.register('fs1-ws.client.synth.Instrument')
+.as(Instrument)
+.setFactory(Instrument);
