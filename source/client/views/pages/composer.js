@@ -3,21 +3,26 @@
  */
 
 const React = require('react');
-const di    = require('di4js');
+const ioc   = require('micro-ioc');
 const h     = require('react-hyperscript');
 
-const PlayButton = di.resolve('fs1-ws.client.views.components.PlayButton');
+const Composer = function (PlayButton) {
+    /**
+     * React component for the composer page
+     *
+     * @name Composer
+     * @class
+     * @memberof module:client.views.pages
+     */
+    return React.createClass({
+        render () {
+            return h(PlayButton);
+        }
+    });
+}
 
-/**
- * React component for the composer page
- *
- * @class
- * @memberof module:client.views.pages
- */
-const Composer = React.createClass({
-    render () {
-        return h(PlayButton);
-    }
-});
-
-di.register('fs1-ws.client.views.pages.Composer').instance(Composer);
+ioc.define(
+    'fs1-ws.views.pages.Composer',
+    ['fs1-ws.views.components.PlayButton'],
+    Composer
+);
