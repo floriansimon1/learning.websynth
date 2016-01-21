@@ -1,7 +1,5 @@
 /** @file The sound player */
 
-const di = require('di4js');
-
 /**
  * Service that plays sounds.
  *
@@ -16,8 +14,6 @@ const Player = function (instrument) {
     (() => {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     })();
-
-    console.log(instrument);
 
     return {
         /**
@@ -47,11 +43,3 @@ const Player = function (instrument) {
         }
     };
 };
-
-di
-.register('fs1-ws.client.synth.Player')
-.as(Player)
-.asSingleton()
-.withConstructor()
-.param('instrument').val(3)
-.setFactory(Player);

@@ -1,10 +1,9 @@
 /** @file A musical instrument that emits sounds when the player asks it to do so */
 
-const di = require('di4js');
-
 /**
  * Factory for building instruments.
  *
+ * @name Instrument
  * @class
  * @memberof module:client.synth
  */
@@ -14,7 +13,7 @@ const Instrument = function () {
          * Starts playing a note
          *
          * @method
-         * @memberof module:client.synth.Synth
+         * @memberof module:client.synth.Instrument
          *
          * @return {Void}
          */
@@ -26,7 +25,7 @@ const Instrument = function () {
          * Stops playing notes
          *
          * @method
-         * @memberof module:client.synth.Synth
+         * @memberof module:client.synth.Instrument
          *
          * @return {Void}
          */
@@ -35,7 +34,3 @@ const Instrument = function () {
         }
     }
 };
-
-di.register('fs1-ws.client.synth.Instrument')
-.as(Instrument)
-.setFactory(Instrument);
