@@ -3,10 +3,9 @@
  */
 
 const React = require('react');
-const ioc   = require('micro-ioc');
 const h     = require('react-hyperscript');
 
-const Composer = function (PlayButton) {
+module.exports = function (PlayButton) {
     /**
      * React component for the composer page
      *
@@ -19,10 +18,4 @@ const Composer = function (PlayButton) {
             return h(PlayButton);
         }
     });
-}
-
-ioc.define(
-    'fs1-ws.views.pages.Composer',
-    ['fs1-ws.views.components.PlayButton'],
-    Composer
-);
+};
