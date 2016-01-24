@@ -43,3 +43,5 @@ const Player = function (instrument) {
         }
     };
 };
+
+module.exports = Player;

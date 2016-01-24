@@ -21,3 +21,5 @@ const PlayButton = React.createClass({
         }, 'Play !');
     }
 });
+
+module.exports = PlayButton;
