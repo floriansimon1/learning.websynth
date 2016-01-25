@@ -8,7 +8,9 @@ const Composer = require('./views/pages/composer');
 
 const sandal = require('./providers/providers');
 
-ReactDOM.render(
-    React.createElement(sandal.resolve('fs1-ws.client.views.pages.Composer')),
-    document.getElementsByTagName('body')[0]
-);
+sandal.resolve('fs1-ws.client.views.pages.Composer', (_, Composer) => {
+    ReactDOM.render(
+        React.createElement(Composer),
+        document.getElementsByTagName('websynth')[0]
+    );
+});
