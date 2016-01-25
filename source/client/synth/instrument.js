@@ -9,7 +9,8 @@
  */
 const Instrument = function () {
     var oscillator;
-    var audioContext;
+    var context;
+    var output;
 
     const minorHarmonicFrequencies = [
         138.59, /* C# 3 */
@@ -24,17 +25,19 @@ const Instrument = function () {
 
     return {
         /**
-         * Connects the instrument to the given audio context
+         * Connects the instrument to the given output
          *
-         * @param {AudioContext} context The destination audio context.
+         * @param {AudioContext} context The context from which we create audio nodes
+         * @param {AudioNode}    out     The destination audio node
          *
          * @return {Void}
          */
-        connect (context) {
-            /* Saves the audio context on the instrument. */
-            audioContext = context;
+        outputTo (audioContext, out) {
+            /* Saves the audio context on the instrument, as well as the output node */
+            context = audioContext
+            output  = out;
 
-            /* Initializes the oscillator. */
+            /* Initializes the oscillator */
             oscillator = audioContext.createOscillator();
             oscillator.type = 'square';
             oscillator.frequency.value = 440;
@@ -58,7 +61,7 @@ const Instrument = function () {
             oscillator.frequency.value = frequency;
 
             /* Connects the oscillator to the audio context. */
-            oscillator.connect(audioContext.destination);
+            oscillator.connect(output);
         },
 
         /**
@@ -70,7 +73,7 @@ const Instrument = function () {
          * @return {Void}
          */
         noteOff () {
-            oscillator.disconnect(audioContext.destination);
+            oscillator.disconnect(output);
         }
     }
 };
