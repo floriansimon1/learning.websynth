@@ -5,7 +5,7 @@
 const React = require('react');
 const h     = require('react-hyperscript');
 
-module.exports = function (PlayButton) {
+module.exports = function (Player, Note, PlayButton) {
     /**
      * React component for the composer page
      *

@@ -15,6 +15,11 @@ sandal.factory(
     true
 );
 
+sandal.object(
+    `${prefix}.views.components.Note`,
+    require('../views/components/note')
+);
+
 sandal.factory(
     `${prefix}.views.components.PlayButton`,
     [`${prefix}.synth.Player`],
@@ -24,7 +29,11 @@ sandal.factory(
 
 sandal.factory(
     `${prefix}.views.pages.Composer`,
-    [`${prefix}.views.components.PlayButton`],
+    [
+        `${prefix}.synth.Player`,
+        `${prefix}.views.components.Note`,
+        `${prefix}.views.components.PlayButton`
+    ],
     require('../views/pages/composer'),
     true
 );
