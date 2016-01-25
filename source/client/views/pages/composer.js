@@ -5,7 +5,7 @@
 const React = require('react');
 const h     = require('react-hyperscript');
 
-module.exports = function (PlayButton) {
+module.exports = function (Player, Note, Sequencer) {
     /**
      * React component for the composer page
      *
@@ -15,7 +15,7 @@ module.exports = function (PlayButton) {
      */
     return React.createClass({
         render () {
-            return h(PlayButton);
+            return h(Sequencer);
         }
     });
 };

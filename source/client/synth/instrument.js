@@ -9,7 +9,9 @@
  */
 const Instrument = function () {
     var oscillator;
-    var audioContext;
+    var context;
+    var output;
+    var notes;
 
     const minorHarmonicFrequencies = [
         138.59, /* C# 3 */
@@ -24,21 +26,35 @@ const Instrument = function () {
 
     return {
         /**
-         * Connects the instrument to the given audio context
+         * Connects the instrument to the given output
          *
-         * @param {AudioContext} context The destination audio context.
+         * @param {AudioContext} context The context from which we create audio nodes
+         * @param {AudioNode}    out     The destination audio node
          *
          * @return {Void}
          */
-        connect (context) {
-            /* Saves the audio context on the instrument. */
-            audioContext = context;
+        outputTo (audioContext, out) {
+            /* Saves the audio context on the instrument, as well as the output node */
+            context = audioContext
+            output  = out;
 
-            /* Initializes the oscillator. */
+            /* Initializes the oscillator */
             oscillator = audioContext.createOscillator();
             oscillator.type = 'square';
             oscillator.frequency.value = 440;
             oscillator.start();
+        },
+
+        /**
+         * (Un)schedules a note's played status
+         *
+         * @param {Integer} position The note position in the sequencer grid
+         *
+         * @return {Void}
+         */
+        togglePlayed (position) {
+            /* The undefined case in handled gracefully in that case. */
+            notes[position] = !notes[position];
         },
 
         /**
@@ -47,30 +63,36 @@ const Instrument = function () {
          * @method
          * @memberof module:client.synth.Instrument
          *
+         * @param {Integer} position The note position in the sequencer grid
+         *
          * @return {Void}
          */
-        noteOn () {
-            const frequency = minorHarmonicFrequencies[
-                Math.max(0, Math.round(Math.random() * minorHarmonicFrequencies.length) - 1)
-            ];
+        noteOn (position) {
+            if (notes[position]) {
+                const frequency = minorHarmonicFrequencies[
+                    Math.max(0, Math.round(Math.random() * minorHarmonicFrequencies.length) - 1)
+                ];
 
-            /* Chooses a random frequency in the minor harmonic scale. */
-            oscillator.frequency.value = frequency;
+                /* Chooses a random frequency in the minor harmonic scale. */
+                oscillator.frequency.value = frequency;
 
-            /* Connects the oscillator to the audio context. */
-            oscillator.connect(audioContext.destination);
+                /* Connects the oscillator to the audio context. */
+                oscillator.connect(output);
+            }
         },
 
         /**
-         * Stops playing notes
+         * Stops playing a note.
          *
          * @method
          * @memberof module:client.synth.Instrument
          *
          * @return {Void}
          */
-        noteOff () {
-            oscillator.disconnect(audioContext.destination);
+        noteOff (position) {
+            if (notes[position]) {
+                oscillator.disconnect(output);
+            }
         }
     }
 };
