@@ -26,7 +26,6 @@ const Player = function (instrument) {
          */
         play () {
             instrument.noteOn();
-            console.log('Note started playing !');
         },
 
         /**
@@ -39,7 +38,6 @@ const Player = function (instrument) {
          */
         stop () {
             instrument.noteOff();
-            console.log('Note stopped playing !');
         }
     };
 };
