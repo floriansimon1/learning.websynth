@@ -12,7 +12,11 @@ const Player = function (instrument) {
 
     /* Initialization of the service. */
     (() => {
+        /* Initialization of the audio context. */
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        /* Passes the audio context to the instrument so that it can initialize itself. */
+        instrument.connect(audioContext);
     })();
 
     return {
