@@ -21,9 +21,16 @@ sandal.object(
 );
 
 sandal.factory(
-    `${prefix}.views.components.PlayButton`,
-    [`${prefix}.synth.Player`],
-    require('../views/components/play-button'),
+    `${prefix}.views.components.Instrument`,
+    [`${prefix}.views.components.Note`],
+    require('../views/components/instrument'),
+    true
+);
+
+sandal.factory(
+    `${prefix}.views.components.Sequencer`,
+    [`${prefix}.synth.Player`, `${prefix}.views.components.Instrument`],
+    require('../views/components/sequencer'),
     true
 );
 
@@ -32,7 +39,7 @@ sandal.factory(
     [
         `${prefix}.synth.Player`,
         `${prefix}.views.components.Note`,
-        `${prefix}.views.components.PlayButton`
+        `${prefix}.views.components.Sequencer`
     ],
     require('../views/pages/composer'),
     true

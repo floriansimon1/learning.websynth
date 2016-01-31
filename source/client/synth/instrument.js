@@ -11,6 +11,7 @@ const Instrument = function () {
     var oscillator;
     var context;
     var output;
+    var notes;
 
     const minorHarmonicFrequencies = [
         138.59, /* C# 3 */
@@ -45,35 +46,53 @@ const Instrument = function () {
         },
 
         /**
+         * (Un)schedules a note's played status
+         *
+         * @param {Integer} position The note position in the sequencer grid
+         *
+         * @return {Void}
+         */
+        togglePlayed (position) {
+            /* The undefined case in handled gracefully in that case. */
+            notes[position] = !notes[position];
+        },
+
+        /**
          * Starts playing a note
          *
          * @method
          * @memberof module:client.synth.Instrument
          *
+         * @param {Integer} position The note position in the sequencer grid
+         *
          * @return {Void}
          */
-        noteOn () {
-            const frequency = minorHarmonicFrequencies[
-                Math.max(0, Math.round(Math.random() * minorHarmonicFrequencies.length) - 1)
-            ];
+        noteOn (position) {
+            if (notes[position]) {
+                const frequency = minorHarmonicFrequencies[
+                    Math.max(0, Math.round(Math.random() * minorHarmonicFrequencies.length) - 1)
+                ];
 
-            /* Chooses a random frequency in the minor harmonic scale. */
-            oscillator.frequency.value = frequency;
+                /* Chooses a random frequency in the minor harmonic scale. */
+                oscillator.frequency.value = frequency;
 
-            /* Connects the oscillator to the audio context. */
-            oscillator.connect(output);
+                /* Connects the oscillator to the audio context. */
+                oscillator.connect(output);
+            }
         },
 
         /**
-         * Stops playing notes
+         * Stops playing a note.
          *
          * @method
          * @memberof module:client.synth.Instrument
          *
          * @return {Void}
          */
-        noteOff () {
-            oscillator.disconnect(output);
+        noteOff (position) {
+            if (notes[position]) {
+                oscillator.disconnect(output);
+            }
         }
     }
 };

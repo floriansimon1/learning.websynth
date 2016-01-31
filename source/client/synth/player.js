@@ -29,6 +29,16 @@ const Player = function (instrument) {
     /* The public interface of the Player service. */
     return {
         /**
+         * The list of dispayed instruments
+         *
+         * @var
+         * @memberof module:client.synth.Synth
+         *
+         * @type {Array<Instrument>}
+         */
+        instruments: [instrument],
+
+        /**
          * Starts playing notes
          *
          * @method

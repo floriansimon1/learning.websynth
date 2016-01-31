@@ -6,12 +6,6 @@ const React    = require('react');
 const h        = require('react-hyperscript');
 const Checkbox = require('material-ui').Checkbox;
 
-/*return h(RaisedButton, {
-    secondary: true,
-    onMouseUp: Player.stop,
-    onMouseDown: Player.play
-}, 'Play !');*/
-
 /**
  * React component for a single note
  *
@@ -21,6 +15,9 @@ const Checkbox = require('material-ui').Checkbox;
  */
 module.exports = React.createClass({
     render () {
-        return h(Checkbox);
+        return h(Checkbox, {
+            checked: this.props.played,
+            onCheck: () => {}
+        });
     }
 });
