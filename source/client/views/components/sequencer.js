@@ -2,8 +2,9 @@
  * @file The sequencer component
  */
 
-const React = require('react');
-const h     = require('react-hyperscript');
+const React        = require('react');
+const h            = require('react-hyperscript');
+const RaisedButton = require('material-ui').RaisedButton;
 
 module.exports = function (Player, Instrument) {
     /**
@@ -15,11 +16,17 @@ module.exports = function (Player, Instrument) {
      */
     return React.createClass({
         render () {
-            return h('table', {}, h(
-                'tbody', {}, Player.instruments.map(
-                    instrument => h(Instrument(instrument))
-                )
-            ));
+            return h('div', {}, [
+                /* The play button. */
+                h(RaisedButton, { secondary: true }, 'Play !'),
+
+                /* The instruments table. */
+                h('table', {}, h(
+                    'tbody', {}, Player.instruments.map(
+                        instrument => h(Instrument(instrument))
+                    )
+                ))
+            ]);
         }
     });
 };

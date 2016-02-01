@@ -17,7 +17,11 @@ module.exports = function (Note) {
             render () {
                 return h(
                     'tr', {}, _.range(16).map(
-                        () => h('td', {}, h(Note, { played: true }))
+                        position => h(
+                            'td', {}, h(
+                                Note, { instrument, position }
+                            )
+                        )
                     )
                 )
             }
