@@ -1,21 +1,21 @@
 /** @file The instrument class */
 
+const Immutable = require('immutable');
+
 /**
  * Class that represents instruments
  *
+ * @name Instrument
  * @class
  * @memberof module:client.models
  */
-const Instrument = {};
-
-module.exports = () => {
-    /* Returns a new instance of the instrument class */
-    return Object.create(Instrument.prototype, {
-        /**
-         * A list of enabled notes for the instrument
-         *
-         * @var {Set<Position>}
-         */
-        notes: new Set()
-    });
-};
+module.exports = Immutable.Record({
+    /**
+     * A list of enabled notes for the instrument
+     *
+     * @name notes
+     * @memberof module:client.models.Instrument
+     * @var {Immutable.Set<Position>}
+     */
+    notes: new Immutable.Set()
+});

@@ -5,7 +5,7 @@
 const React = require('react');
 const h     = require('react-hyperscript');
 
-module.exports = function (Player, Note, Sequencer) {
+module.exports = function (Sequencer) {
     /**
      * React component for the composer page
      *
