@@ -7,13 +7,15 @@ module.exports = function (worker) {
     const tick = () => worker.postMessage('tick');
 
     worker.start = function () {
+        console.log('started');
         timerID = setInterval(tick, interval);
     };
 
     worker.stop = function () {
+        console.log('stopped');
         clearInterval(timerID);
         timerID = null;
     };
 
-    worker.addEventListener('message', message => worker[message.action](message.data));
+    worker.addEventListener('message', message => worker[message.data]());
 };

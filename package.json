@@ -17,7 +17,8 @@
     "react-router": "^1.0.3",
     "react-stampit": "^0.9.0",
     "react-tap-event-plugin": "^0.2.1",
-    "sandal": "^3.2.0"
+    "sandal": "^3.2.0",
+    "webworkify": "^1.1.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

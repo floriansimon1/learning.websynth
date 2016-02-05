@@ -15,10 +15,21 @@ module.exports = function (Player, Instrument) {
      * @memberof module:client.views.components
      */
     return React.createClass({
+        getInitialState () {
+            return { caption: 'Play' };
+        },
+
         render () {
             return h('div', {}, [
                 /* The play button. */
-                h(RaisedButton, { secondary: true }, 'Play !'),
+                h(
+                    RaisedButton, {
+                        secondary:   true,
+                        onMouseUp:   Player.stop,
+                        onMouseDown: Player.play
+                    },
+                    this.state.caption
+                ),
 
                 /* The instruments table. */
                 h('table', {}, h(

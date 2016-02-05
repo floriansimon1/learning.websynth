@@ -3,6 +3,11 @@ const prefix = 'fs1-ws.client';
 
 var sandal = new Sandal();
 
+sandal.object(
+    `${prefix}.synth.Clock`,
+    require('../synth/clock')
+);
+
 sandal.factory(
     `${prefix}.synth.Instrument`,
     require('../synth/instrument')
@@ -10,7 +15,7 @@ sandal.factory(
 
 sandal.factory(
     `${prefix}.synth.Player`,
-    [`${prefix}.synth.Instrument`],
+    [`${prefix}.synth.Clock`, `${prefix}.synth.Instrument`],
     require('../synth/player'),
     true
 );
