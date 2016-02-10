@@ -8,10 +8,10 @@
  * @memberof module:client.synth
  */
 const Instrument = function () {
+    var notes = {};
     var oscillator;
     var context;
     var output;
-    var notes;
 
     const minorHarmonicFrequencies = [
         138.59, /* C# 3 */
@@ -55,6 +55,17 @@ const Instrument = function () {
         togglePlayed (position) {
             /* The undefined case in handled gracefully in that case. */
             notes[position] = !notes[position];
+        },
+
+        /**
+         * Returns whether or not a note is supposed to be played
+         *
+         * @param {Integer} position The position of the note
+         *
+         * @return {Boolean}
+         */
+        played (position) {
+            return !!notes[position];
         },
 
         /**
