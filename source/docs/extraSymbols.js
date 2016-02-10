@@ -27,6 +27,20 @@
  * @memberof module:client
  */
 
+ /**
+  * Module containing only models
+  *
+  * @namespace models
+  * @memberof module:client
+  */
+
+/**
+ * Module containing redux related symbols
+ *
+ * @namespace redux
+ * @memberof module:client
+ */
+
 /**
  * Web components
  *
