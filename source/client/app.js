@@ -6,7 +6,7 @@ const React    = require('react');
 const ReactDOM = require('react-dom');
 const Composer = require('./views/pages/composer');
 
-const sandal = require('./providers/providers');
+const sandal = require('./providers');
 
 sandal.resolve('fs1-ws.client.views.pages.Composer', (error, Composer) => {
     if (error) {
