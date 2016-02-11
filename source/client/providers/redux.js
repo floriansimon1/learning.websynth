@@ -2,13 +2,20 @@
 
 module.exports = sandal => {
     sandal.factory(
-        'client.redux.RootReducer',
-        require('../redux/store')
+        'client.redux.initialState',
+        ['client.models.instrument'],
+        require('../redux/initial-state')
     );
 
     sandal.factory(
-        'client.redux.Store',
-        ['client.redux.RootReducer']
+        'client.redux.rootReducer',
+        ['client.redux.initialState'],
+        require('../redux/root-reducer')
+    );
+
+    sandal.factory(
+        'client.redux.store',
+        ['client.redux.rootReducer', 'client.redux.initialState'],
         require('../redux/store')
     );
 };

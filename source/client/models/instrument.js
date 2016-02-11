@@ -1,21 +1,28 @@
 /** @file The instrument class */
 
+const Immutable = require('immutable');
+
 /**
  * Class that represents instruments
  *
- * @class
  * @memberof module:client.models
  */
-const Instrument = {};
-
-module.exports = () => {
-    /* Returns a new instance of the instrument class */
-    return Object.create(Instrument.prototype, {
-        /**
-         * A list of enabled notes for the instrument
-         *
-         * @var {Set<Position>}
-         */
-        notes: new Set()
-    });
+class Instrument {
+    constructor () {
+        this.notes = new Set();
+    }
 };
+
+module.exports = Instrument;
+
+/******************************************/
+/* Documentation for members of the class */
+/******************************************/
+
+/**
+ * A list of enabled notes for the instrument
+ *
+ * @name notes
+ * @memberof module:client.models.Instrument
+ * @var {Set<Position>}
+ */

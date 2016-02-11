@@ -4,12 +4,13 @@ const readdir = require('recursive-readdir');
 const source  = require('vinyl-source-stream');
 
 const tasks   = {
-    replace     : require('gulp-replace-task'),
-    runSequence : require('run-sequence'),
-    notify      : require('gulp-notify'),
-    concat      : require('gulp-concat'),
-    browserify  : require('browserify'),
-    glob        : require('glob')
+    replace:     require('gulp-replace-task'),
+    runSequence: require('run-sequence'),
+    notify:      require('gulp-notify'),
+    concat:      require('gulp-concat'),
+    browserify:  require('browserify'),
+    babelify:    require('babelify'),
+    glob:        require('glob')
 };
 
 const vendorCss = [
@@ -82,6 +83,7 @@ gulp.task('copy-web-app', function () {
     const files = tasks.glob.sync(sourceWebAppFolder + '/**/*.js');
 
     return tasks.browserify({ entries : files })
+    .transform(tasks.babelify.configure({ presets: ['es2015'] }))
     .bundle()
     .on('error', error => {
         console.log(

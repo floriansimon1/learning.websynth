@@ -1,5 +1,12 @@
 /** @file Web worker that acts as the clock for the scheduler */
 
+/**
+ * The clock web worker for accurate note scheduling
+ *
+ * @name clock
+ * @var {WebWorker}
+ * @memberof module:client.synth
+ */
 module.exports = function (worker) {
     var interval = 25;
     var timerID  = null;

@@ -1,7 +1,11 @@
 /** @file The root reducer */
 
 /**
+ * The root reducer
+ *
+ * @function
+ * @memberof module:client.redux
  */
-module.exports = (state, action) => {
-    return state;
-};
+module.exports = initialState => (
+    (state, action) => state || initialState
+);

@@ -1,10 +1,10 @@
 /** @file The main redux store */
 
-const _ = require('lodash');
-
 /**
  * Main redux store
  *
+ * @name store
+ * @var {ReduxStore}
  * @memberof module:client.redux
  */
-module.exports = initialState => _.partialRight(require('redux').createStore, initialState);
+module.exports = require('redux').createStore;

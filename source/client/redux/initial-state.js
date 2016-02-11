@@ -1,14 +1,12 @@
 /** @file Holds the initial state of the application */
 
 /**
- * Factory that returns .
+ * The initial state of the app
  *
- * @name Instrument
- * @class
- * @memberof module:client.synth
+ * @name initialState
+ * @var
+ * @memberof module:client.redux
  */
 module.exports = instrument => ({
-    return {
-        instruments: [instrument]
-    }
+    instruments: [instrument]
 });

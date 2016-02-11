@@ -8,7 +8,13 @@ const Worker = require('webworkify');
  * @class
  * @memberof module:client.synth
  */
-const Player = function (Clock, instrument) {
+const Player = function (clock, instrument) {
+    return {
+        instruments: [],
+        start: () => {},
+        stop: () => {}
+    };
+
     /* Private audio context to play sounds */
     var audioContext;
 
@@ -16,7 +22,7 @@ const Player = function (Clock, instrument) {
     var masterVolume;
 
     /* The clock web worker */
-    var clock;
+    var tick;
 
     /* Initialization of the service */
     (() => {
@@ -31,7 +37,7 @@ const Player = function (Clock, instrument) {
         instrument.outputTo(audioContext, masterVolume);
 
         /* Initializes the clock web worker */
-        clock = Worker(Clock);
+        tick = Worker(clock);
     })();
 
     /* The public interface of the Player service. */
