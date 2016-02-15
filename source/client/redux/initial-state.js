@@ -1,5 +1,7 @@
 /** @file Holds the initial state of the application */
 
+const immutable = require('immutable');
+
 /**
  * The initial state of the app
  *
@@ -7,6 +9,6 @@
  * @var
  * @memberof module:client.redux
  */
-module.exports = instrument => ({
+module.exports = instrument => new immutable.Record({
     instruments: [instrument]
 });

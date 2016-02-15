@@ -13,6 +13,11 @@ module.exports = sandal => {
         require('../redux/root-reducer')
     );
 
+    sandal.object(
+        'client.redux.actions',
+        require('../redux/actions')
+    );
+
     sandal.factory(
         'client.redux.store',
         ['client.redux.rootReducer', 'client.redux.initialState'],

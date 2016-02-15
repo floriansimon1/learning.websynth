@@ -20,7 +20,8 @@ module.exports = sandal => {
         [
             'client.synth.Player',
             'client.views.components.Note',
-            'client.views.components.Sequencer'
+            'client.views.components.Sequencer',
+            'client.redux.actions'
         ],
         require('../views/pages/composer'),
         true
