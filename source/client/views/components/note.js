@@ -34,11 +34,15 @@ const highlightedContainerStyle = Object.assign(
  */
 module.exports = React.createClass({
     render () {
+        const position   = this.props.position;
+        const instrument = this.props.instrument;
+        const played     = instrument.notes.has(position);
+        const toggle     = _.partial(this.props.actions.toggleNote, instrument, position);
         return h(Paper, { style: normalContainerStyle }, h(
             Checkbox, {
-                /*defaultChecked: this.state.played,
-                onCheck: this.togglePlayed,*/
-                style: checkboxStyle
+                defaultChecked: played,
+                onCheck:        toggle,
+                style:          checkboxStyle
             }
         ));
     }
