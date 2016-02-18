@@ -29,8 +29,8 @@ module.exports = function (actions, Instrument) {
                     h(
                         RaisedButton, {
                             secondary: true,
-                            onMouseUp: actions.startPlaying(),
-                            onMouseDown: actions.stopPlaying()
+                            onMouseUp: actions.stopPlaying,
+                            onMouseDown: actions.startPlaying
                         },
                         'Play'
                     ),
