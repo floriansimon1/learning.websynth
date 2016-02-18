@@ -8,4 +8,6 @@ module.exports = sandal => {
         Instrument => new Instrument(),
         true
     );
+
+    sandal.object('client.models.State', require('../models/state'));
 };

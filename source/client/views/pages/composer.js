@@ -2,12 +2,10 @@
  * @file Page that allows an user to compose music
  */
 
-const redux      = require('redux');
-const React      = require('react');
-const ReactRedux = require('react-redux');
-const h          = require('react-hyperscript');
+const React = require('react');
+const h     = require('react-hyperscript');
 
-module.exports = function (Player, Note, Sequencer, actions) {
+module.exports = function (Sequencer) {
     /**
      * React component for the composer page
      *
@@ -15,14 +13,9 @@ module.exports = function (Player, Note, Sequencer, actions) {
      * @class
      * @memberof module:client.views.pages
      */
-    return ReactRedux.connect(
-        state => state,
-        dispatch => ({ actions: redux.bindActionCreators(actions, dispatch) })
-    )(
-        React.createClass({
-            render () {
-                return h(Sequencer);
-            }
-        })
-    );
+    return React.createClass({
+        render () {
+            return h(Sequencer);
+        }
+    });
 };

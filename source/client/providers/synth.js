@@ -17,9 +17,4 @@ module.exports = sandal => {
         require('../synth/player'),
         true
     );
-
-    sandal.object(
-        'client.views.components.Note',
-        require('../views/components/note')
-    );
 };
