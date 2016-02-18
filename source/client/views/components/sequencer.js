@@ -17,12 +17,16 @@ module.exports = function (actions, Instrument) {
      * @memberof module:client.views.components
      */
     return ReactRedux.connect(
-        state => ({ state }),
+        state    => ({ state }),
         dispatch => ({ actions: redux.bindActionCreators(actions, dispatch) })
     )(
         React.createClass({
             render () {
-                const { state, actions } = this.props;
+                const state   = this.props.state;
+                const actions = this.props.actions;
+
+                const playing       = state.playing;
+                const notesPerTrack = state.notesPerTrack;
 
                 return h('div', {}, [
                     /* The play button. */
@@ -32,14 +36,14 @@ module.exports = function (actions, Instrument) {
                             onMouseUp: actions.stopPlaying,
                             onMouseDown: actions.startPlaying
                         },
-                        'Play'
+                        playing ? 'Stop' : 'Play'
                     ),
 
                     /* The instruments table. */
                     h('table', {}, h(
                         'tbody', {}, state.instruments.map(
                             instrument => h(Instrument, {
-                                instrument, actions
+                                instrument, actions, notesPerTrack
                             })
                         )
                     ))

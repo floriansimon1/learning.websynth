@@ -11,6 +11,13 @@ const Immutable = require('immutable');
  */
 module.exports = Immutable.Record({
     /**
+     * The ID of the instrument.
+     *
+     * @var {Number}
+     */
+    id: null,
+
+    /**
      * A list of enabled notes for the instrument
      *
      * @name notes
