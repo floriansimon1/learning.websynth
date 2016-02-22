@@ -16,6 +16,13 @@ module.exports = function (Clock, store) {
     /***********/
 
     /**
+     * Last played notes, by instrument ID
+     *
+     * @type {Map<String, Number>}
+     */
+    var lastPlayedNotes;
+
+    /**
      * Private audio context to play sounds
      *
      * @type {AudioContext}
@@ -30,11 +37,11 @@ module.exports = function (Clock, store) {
     var clock;
 
     /**
-     * The instruments audio nodes
+     * The master volume node
      *
-     * @type {Array<module:client.synth.Instrument>}
+     * @type {GainNode}
      */
-    var instruments;
+    var masterVolume;
 
     /***********************/
     /* BaconJS observables */
@@ -49,18 +56,25 @@ module.exports = function (Clock, store) {
     var playing;
 
     /**
-     * Bacon stream that contains playing status updates.
+     * Bacon stream that contains playing status updates
      *
      * @type {Bacon.EventStream}
      */
     var playingStatusChangesStream;
 
     /**
-     * Bacon stream that contains clock ticks.
+     * Bacon stream that contains clock ticks
      *
      * @type {Bacon.EventStream}
      */
     var playbackTick;
+
+    /**
+     * The timestamp at which playback started
+     *
+     * @type {Number}
+     */
+    var startTime;
 
     /***********/
     /* Methods */
@@ -83,17 +97,42 @@ module.exports = function (Clock, store) {
     const play = () => {
         const state = store.getState();
 
+        /* Resets playback state */
+        startTime       = audioContext.currentTime;
+        lastPlayedNotes = {};
+
         clock.postMessage('start');
     };
 
-    /* @TODO */
-    const notUsedYet = () => {
-        /* Creates a master volume button and connects it to the output */
-        masterVolume = audioContext.createGain();
-        masterVolume.connect(audioContext.destination);
+    /**
+     * Schedules notes if they need to be scheduled.
+     */
+    const scheduleNotes = () => {
+        const tempo       = 120;
+        const noteLength  = 60 / (tempo * 2);
+        const state       = store.getState();
+        const currentNote = Math.floor((audioContext.currentTime - startTime) / noteLength);
 
-        /* Passes the destination audio node to the instrument */
-        instrument.outputTo(audioContext, masterVolume);
+        state.instruments.forEach(instrument => {
+            if (
+                instrument.notes.has(parseInt(currentNote / state.notesPerTrack)) && (
+                    !lastPlayedNotes[instrument.id] ||
+                    lastPlayedNotes[instrument.id] < currentNote
+                )
+            ) {
+                /* Saves the last played so that we don't schedule it twice */
+                lastPlayedNotes[instrument.id] = currentNote;
+
+                /* Configures the note */
+                var note = audioContext.createOscillator();
+                masterVolume.connect(note);
+                note.frequency.value = 440;
+
+                /* Actual scheduling */
+                note.start(currentNote * noteLength);
+                note.stop((currentNote + 1) * noteLength);
+            }
+        });
     };
 
     /***********************/
@@ -105,6 +144,10 @@ module.exports = function (Clock, store) {
 
     /* Initialization of the audio context */
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    /* Creates a master volume button and connects it to the output */
+    masterVolume = audioContext.createGain();
+    masterVolume.connect(audioContext.destination);
 
     /********************************/
     /* Setup of BaconJS observables */
@@ -124,7 +167,7 @@ module.exports = function (Clock, store) {
     /* Configures the control flow */
     /*******************************/
 
-    /* Playback start/interruption. */
+    /* Playback start/interruption */
     playingStatusChangesStream.onValue(playing => {
         if (playing) {
             play();
@@ -133,8 +176,9 @@ module.exports = function (Clock, store) {
         }
     });
 
+    /* Clock tick */
     playbackTick.onValue(() => {
-        console.log('adz');
+        scheduleNotes();
     });
 
     /* The currently empty public interface. */
