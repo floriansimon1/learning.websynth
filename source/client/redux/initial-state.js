@@ -8,5 +8,7 @@
  * @memberof module:client.redux
  */
 module.exports = (State, instrument) => new State({
-    instruments: [instrument]
+    instruments:   [instrument],
+    playing:       false,
+    notesPerTrack: 16
 });

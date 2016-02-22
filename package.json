@@ -4,6 +4,7 @@
   "repository": "https://github.com/floriansimon1/learning.websynth",
   "description": "Small synthesizer built using the Web Audio API.",
   "dependencies": {
+    "baconjs": "^0.7.83",
     "browserify": "^13.0.0",
     "express": "^4.13.3",
     "history": "^1.17.0",

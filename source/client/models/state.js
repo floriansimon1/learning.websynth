@@ -35,5 +35,5 @@ module.exports = Immutable.Record({
      * @memberof module:client.models.State
      * @var {Boolean}
      */
-     playing: false
+    playing: false
 });
