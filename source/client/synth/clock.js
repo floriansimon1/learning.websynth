@@ -3,7 +3,7 @@
 /**
  * The clock web worker for accurate note scheduling
  *
- * @name clock
+ * @name Clock
  * @var {WebWorker}
  * @memberof module:client.synth
  */
