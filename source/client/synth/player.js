@@ -125,12 +125,14 @@ module.exports = function (Clock, store) {
 
                 /* Configures the note */
                 var note = audioContext.createOscillator();
-                masterVolume.connect(note);
+                note.connect(masterVolume);
                 note.frequency.value = 440;
+                note.type = 'square';
 
                 /* Actual scheduling */
-                note.start(currentNote * noteLength);
-                note.stop((currentNote + 1) * noteLength);
+                console.log(audioContext.currentTime, startTime + currentNote * noteLength);
+                note.start(startTime + currentNote * noteLength);
+                note.stop(startTime + (currentNote + 1) * noteLength);
             }
         });
     };
