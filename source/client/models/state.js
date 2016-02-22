@@ -35,5 +35,14 @@ module.exports = Immutable.Record({
      * @memberof module:client.models.State
      * @var {Boolean}
      */
-    playing: false
+    playing: false,
+
+    /**
+     * The tempo
+     *
+     * @name tempo
+     * @memberof module:client.models.State
+     * @var {Number}
+     */
+    tempo: 120
 });
