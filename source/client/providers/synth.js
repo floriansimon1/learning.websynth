@@ -8,7 +8,7 @@ module.exports = sandal => {
 
     sandal.factory(
         'client.synth.player',
-        ['client.synth.Clock', 'client.redux.store'],
+        ['client.synth.Clock', 'client.redux.store', 'client.redux.getActions'],
         require('../synth/player')
     );
 };

@@ -8,7 +8,7 @@ const ReactRedux   = require('react-redux');
 const h            = require('react-hyperscript');
 const RaisedButton = require('material-ui').RaisedButton;
 
-module.exports = function (actions, Instrument) {
+module.exports = function (getActions, Instrument) {
     /**
      * React component for the sequencer
      *
@@ -18,7 +18,7 @@ module.exports = function (actions, Instrument) {
      */
     return ReactRedux.connect(
         state    => ({ state }),
-        dispatch => ({ actions: redux.bindActionCreators(actions, dispatch) })
+        dispatch => ({ actions: getActions(dispatch) })
     )(
         React.createClass({
             render () {
