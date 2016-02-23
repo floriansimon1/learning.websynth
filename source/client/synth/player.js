@@ -16,6 +16,14 @@ module.exports = function (Clock, store) {
     /***********/
 
     /**
+     * Mandatory delay before playback in number
+     * of notes
+     *
+     * @type {Number}
+     */
+    const playbackDelay = 2;
+
+    /**
      * Last played notes, by instrument ID
      *
      * @type {Map<String, Number>}
@@ -109,14 +117,17 @@ module.exports = function (Clock, store) {
      */
     const scheduleNotes = () => {
         const tempo       = 120;
-        const noteLength  = 60 / (tempo * 2);
+        const noteLength  = 60 / (tempo * 4);
         const state       = store.getState();
-        const currentNote = Math.floor((audioContext.currentTime - startTime) / noteLength);
+        const currentNote = (
+            Math.floor((audioContext.currentTime - startTime) / noteLength) -
+            playbackDelay
+        );
 
         state.instruments.forEach(instrument => {
             if (
-                instrument.notes.has(parseInt(currentNote / state.notesPerTrack)) && (
-                    !lastPlayedNotes[instrument.id] ||
+                instrument.notes.has(currentNote % state.notesPerTrack) && (
+                    lastPlayedNotes[instrument.id] === undefined ||
                     lastPlayedNotes[instrument.id] < currentNote
                 )
             ) {
@@ -130,9 +141,8 @@ module.exports = function (Clock, store) {
                 note.type = 'square';
 
                 /* Actual scheduling */
-                console.log(audioContext.currentTime, startTime + currentNote * noteLength);
-                note.start(startTime + currentNote * noteLength);
-                note.stop(startTime + (currentNote + 1) * noteLength);
+                note.start(startTime + (currentNote + playbackDelay) * noteLength);
+                note.stop(startTime + (currentNote + playbackDelay + 1) * noteLength);
             }
         });
     };
@@ -159,7 +169,8 @@ module.exports = function (Clock, store) {
     playing = Bacon.fromBinder(subscribe => store.subscribe(
         () => subscribe(store.getState().playing))
     )
-    .toProperty();
+    .toProperty(false)
+    .skip(1);
 
     playingStatusChangesStream = playing.skipDuplicates();
 
