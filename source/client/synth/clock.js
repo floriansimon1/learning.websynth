@@ -13,13 +13,9 @@ module.exports = function (worker) {
 
     const tick = () => worker.postMessage('tick');
 
-    worker.start = function () {
-        console.log('started');
-        timerID = setInterval(tick, interval);
-    };
+    worker.start = () => timerID = setInterval(tick, interval);
 
-    worker.stop = function () {
-        console.log('stopped');
+    worker.stop = () => {
         clearInterval(timerID);
         timerID = null;
     };
