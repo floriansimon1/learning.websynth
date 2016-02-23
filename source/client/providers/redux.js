@@ -3,7 +3,7 @@
 module.exports = sandal => {
     sandal.factory(
         'client.redux.initialState',
-        ['client.models.State', 'client.models.instrument'],
+        ['client.models.State', 'client.models.makeInstrument'],
         require('../redux/initial-state')
     );
 

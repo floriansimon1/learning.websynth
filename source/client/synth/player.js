@@ -135,10 +135,11 @@ module.exports = function (Clock, store) {
                 lastPlayedNotes[instrument.id] = currentNote;
 
                 /* Configures the note */
+                console.log(instrument.frequency);
                 var note = audioContext.createOscillator();
-                note.connect(masterVolume);
-                note.frequency.value = 440;
+                note.frequency.value = instrument.frequency;
                 note.type = 'square';
+                note.connect(masterVolume);
 
                 /* Actual scheduling */
                 note.start(startTime + (currentNote + playbackDelay) * noteLength);

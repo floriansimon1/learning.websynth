@@ -5,9 +5,9 @@ const uuid = require('node-uuid');
 module.exports = sandal => {
     sandal.object('client.models.Instrument', require('../models/instrument'));
     sandal.factory(
-        'client.models.instrument',
+        'client.models.makeInstrument',
         ['client.models.Instrument'],
-        Instrument => new Instrument({ id: uuid.v4() }),
+        Instrument => frequency => new Instrument({ id: uuid.v4(), frequency }),
         true
     );
 
