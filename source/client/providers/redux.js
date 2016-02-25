@@ -16,7 +16,7 @@ module.exports = sandal => {
 
     sandal.factory(
         'client.redux.actions',
-        ['client.redux.getActions', 'client.redux.store']
+        ['client.redux.getActions', 'client.redux.store'],
         (getActions, store) => getActions(store.dispatch)
     );
 

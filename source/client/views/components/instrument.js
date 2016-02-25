@@ -14,15 +14,26 @@ module.exports = function (Note) {
      */
     return React.createClass({
         render () {
-            const actions       = this.props.actions;
-            const instrument    = this.props.instrument;
-            const notesPerTrack = this.props.notesPerTrack;
+            const actions             = this.props.actions;
+            const instrument          = this.props.instrument;
+            const notesPerTrack       = this.props.notesPerTrack;
+            const currentlyPlayedNote = this.props.currentlyPlayedNote;
 
             return h(
                 'tr', {}, _.range(notesPerTrack).map(
                     position => h(
                         'td', {}, h(
-                            Note, { instrument, position, actions }
+                            Note, {
+                                instrument,
+                                position,
+                                actions,
+
+                                currentlyPlayed: (
+                                    currentlyPlayedNote
+                                    .map(note => note === position)
+                                    .getOrElse(false)
+                                ),
+                            }
                         )
                     )
                 )

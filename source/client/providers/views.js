@@ -14,7 +14,7 @@ module.exports = sandal => {
 
     sandal.factory(
         'client.views.components.Sequencer',
-        ['client.redux.actions', 'client.views.components.Instrument'],
+        ['client.redux.getActions', 'client.views.components.Instrument'],
         require('../views/components/sequencer')
     );
 

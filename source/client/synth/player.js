@@ -17,14 +17,6 @@ module.exports = function (Clock, store, actions) {
     /***********/
 
     /**
-     * Mandatory delay before playback in number
-     * of notes
-     *
-     * @type {Number}
-     */
-    const playbackDelay = 2;
-
-    /**
      * Last played notes, by instrument ID
      *
      * @type {Map<String, Number>}
@@ -115,12 +107,14 @@ module.exports = function (Clock, store, actions) {
      * Schedules notes if they need to be scheduled.
      */
     const scheduleNotes = () => {
-        const tempo       = 120;
-        const noteLength  = 60 / (tempo * 4);
-        const state       = store.getState();
-        const currentNote = (
+        const tempo         = 120;
+        const noteLength    = 60 / (tempo * 4);
+        const state         = store.getState();
+        const delay         = state.playbackDelay;
+        const notesPerTrack = state.notesPerTrack;
+        const currentNote   = (
             Math.floor((audioContext.currentTime - startTime) / noteLength) -
-            playbackDelay
+            delay
         );
 
         /*
@@ -131,10 +125,11 @@ module.exports = function (Clock, store, actions) {
             state
             .currentlyPlayedNote
             .map(note => currentNote !== note)
-            .orElse(true)
+            .getOrElse(true) &&
+            currentNote >= 0
         ) {
-            actions.setCurrentlyPlayedNote(currentNote);
-        };
+            actions.setCurrentlyPlayedNote(currentNote % notesPerTrack);
+        }
 
         state.instruments.forEach(instrument => {
             if (
@@ -153,8 +148,8 @@ module.exports = function (Clock, store, actions) {
                 note.connect(masterVolume);
 
                 /* Actual scheduling */
-                note.start(startTime + (currentNote + playbackDelay) * noteLength);
-                note.stop(startTime + (currentNote + playbackDelay + 1) * noteLength);
+                note.start(startTime + (currentNote + delay) * noteLength);
+                note.stop(startTime + (currentNote + delay + 1) * noteLength);
             }
         });
     };

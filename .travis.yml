@@ -1,0 +1,10 @@
+language: node_js
+nodejs:
+    - "4.0"
+branches:
+    only:
+        - development
+before_script:
+    npm install gulp -g
+    gulp create-root
+script: gulp test
