@@ -9,7 +9,21 @@ const makeActionCreator = (arity, apply) => (...args) => ({
     type:  Symbol()
 });
 
+const _     = require('lodash');
+const redux = require('redux');
+const Maybe = require('data.maybe');
+
 module.exports = function (initialState) {
+    /**
+     * Updates the currently played note
+     *
+     * @function
+     * @memberof module:client.redux.actions
+     */
+    const setCurrentlyPlayedNote = makeActionCreator(2, (note, state) => (
+        state.set('currentlyPlayedNote', Maybe.of(note))
+    ));
+
     /**
      * Starts playing sounds
      *
@@ -27,7 +41,7 @@ module.exports = function (initialState) {
      * @memberof module:client.redux.actions
      */
     const stopPlaying = makeActionCreator(1, state => (
-        state.set('playing', false)
+        state.set('playing', false).set('currentlyPlayedNote', Maybe.Nothing())
     ));
 
     /**
@@ -65,5 +79,7 @@ module.exports = function (initialState) {
      * @namespace actions
      * @memberof module:client.redux
      */
-    return { startPlaying, stopPlaying, toggleNote };
-}
+    return _.partial(redux.bindActionCreators, {
+        startPlaying, stopPlaying, toggleNote, setCurrentlyPlayedNote
+    });
+};

@@ -7,10 +7,17 @@ module.exports = sandal => {
         require('../redux/initial-state')
     );
 
+    /* Expects a dispatch function. */
     sandal.factory(
-        'client.redux.actions',
+        'client.redux.getActions',
         ['client.redux.initialState'],
         require('../redux/actions')
+    );
+
+    sandal.factory(
+        'client.redux.actions',
+        ['client.redux.getActions', 'client.redux.store']
+        (getActions, store) => getActions(store.dispatch)
     );
 
     sandal.factory(

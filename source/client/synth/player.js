@@ -2,6 +2,7 @@
 
 const Worker = require('webworkify');
 const Bacon  = require('baconjs');
+const _      = require('lodash');
 
 /**
  * Service that watches the application state and starts playing
@@ -10,7 +11,7 @@ const Bacon  = require('baconjs');
  * @member
  * @memberof module:client.synth
  */
-module.exports = function (Clock, store) {
+module.exports = function (Clock, store, actions) {
     /***********/
     /* Members */
     /***********/
@@ -51,6 +52,13 @@ module.exports = function (Clock, store) {
      */
     var masterVolume;
 
+    /**
+     * The timestamp at which playback started
+     *
+     * @type {Number}
+     */
+    var startTime;
+
     /***********************/
     /* BaconJS observables */
     /***********************/
@@ -77,13 +85,6 @@ module.exports = function (Clock, store) {
      */
     var playbackTick;
 
-    /**
-     * The timestamp at which playback started
-     *
-     * @type {Number}
-     */
-    var startTime;
-
     /***********/
     /* Methods */
     /***********/
@@ -93,9 +94,7 @@ module.exports = function (Clock, store) {
      *
      * @return {Void}
      */
-    const stop = () => {
-        clock.postMessage('stop');
-    };
+    const stop = () => clock.postMessage('stop');
 
     /**
      * Starts playback
@@ -124,6 +123,19 @@ module.exports = function (Clock, store) {
             playbackDelay
         );
 
+        /*
+        * Changes the currently played note if it's not
+        * already registered as the note being played.
+        */
+        if (
+            state
+            .currentlyPlayedNote
+            .map(note => currentNote !== note)
+            .orElse(true)
+        ) {
+            actions.setCurrentlyPlayedNote(currentNote);
+        };
+
         state.instruments.forEach(instrument => {
             if (
                 instrument.notes.has(currentNote % state.notesPerTrack) && (
@@ -135,7 +147,6 @@ module.exports = function (Clock, store) {
                 lastPlayedNotes[instrument.id] = currentNote;
 
                 /* Configures the note */
-                console.log(instrument.frequency);
                 var note = audioContext.createOscillator();
                 note.frequency.value = instrument.frequency;
                 note.type = 'square';
@@ -166,7 +177,6 @@ module.exports = function (Clock, store) {
     /* Setup of BaconJS observables */
     /********************************/
 
-    /* Setting up BaconJS observables. */
     playing = Bacon.fromBinder(subscribe => store.subscribe(
         () => subscribe(store.getState().playing))
     )
@@ -191,9 +201,7 @@ module.exports = function (Clock, store) {
     });
 
     /* Clock tick */
-    playbackTick.onValue(() => {
-        scheduleNotes();
-    });
+    playbackTick.onValue(scheduleNotes);
 
     /* The currently empty public interface. */
     return {};

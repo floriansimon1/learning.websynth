@@ -1,6 +1,7 @@
 /** @file Global state model */
 
 const Immutable = require('immutable');
+const Maybe     = require('data.maybe');
 
 /**
  * Class that represents global state
@@ -44,5 +45,14 @@ module.exports = Immutable.Record({
      * @memberof module:client.models.State
      * @var {Number}
      */
-    tempo: 120
+    tempo: 120,
+
+    /**
+     * The index of the currently played node
+     *
+     * @name tempo
+     * @memberof module:client.models.State
+     * @var {Maybe<Number>}
+     */
+    currentlyPlayedNote: Maybe.Nothing()
 });
