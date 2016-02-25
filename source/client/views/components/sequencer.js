@@ -25,16 +25,16 @@ module.exports = function (getActions, Instrument) {
                 const state   = this.props.state;
                 const actions = this.props.actions;
 
-                const playing       = state.playing;
-                const notesPerTrack = state.notesPerTrack;
+                const playing             = state.playing;
+                const notesPerTrack       = state.notesPerTrack;
+                const currentlyPlayedNote = state.currentlyPlayedNote;
 
                 return h('div', {}, [
                     /* The play button. */
                     h(
                         RaisedButton, {
-                            secondary: true,
-                            onMouseUp: actions.stopPlaying,
-                            onMouseDown: actions.startPlaying
+                            secondary:   true,
+                            onMouseDown: playing ? actions.stopPlaying : actions.startPlaying
                         },
                         playing ? 'Stop' : 'Play'
                     ),
@@ -43,7 +43,8 @@ module.exports = function (getActions, Instrument) {
                     h('table', {}, h(
                         'tbody', {}, state.instruments.map(
                             instrument => h(Instrument, {
-                                instrument, actions, notesPerTrack
+                                instrument, actions,
+                                notesPerTrack, currentlyPlayedNote
                             })
                         )
                     ))

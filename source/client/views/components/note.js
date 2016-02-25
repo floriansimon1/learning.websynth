@@ -2,28 +2,20 @@
  * @file Single sequencer note.
  */
 
-const React      = require('react');
-const _          = require('lodash');
-const MaterialUI = require('material-ui');
-const h          = require('react-hyperscript');
+const React = require('react');
+const _     = require('lodash');
+const h     = require('react-hyperscript');
 
-const Paper    = MaterialUI.Paper;
-const Checkbox = MaterialUI.Checkbox;
-
-const checkboxStyle = {
-    position: 'relative',
-    margin: '0px',
-    left: '-3px'
+const style = {
+    margin:    '5px',
+    padding:   '20px',
+    transform: 'scale(2)'
 };
 
-const normalContainerStyle = {
-    backgroundColor: '#E87B58',
-    textAlign: 'center'
+const backgroundColors = {
+    true:  '#66a',
+    false: '#338'
 };
-
-const highlightedContainerStyle = Object.assign(
-    {}, normalContainerStyle, { backgroundColor: '#F88B68' }
-);
 
 /**
  * React component for a single note
@@ -34,16 +26,27 @@ const highlightedContainerStyle = Object.assign(
  */
 module.exports = React.createClass({
     render () {
-        const position   = this.props.position;
-        const instrument = this.props.instrument;
-        const played     = instrument.notes.has(position);
-        const toggle     = _.partial(this.props.actions.toggleNote, instrument, position);
-        return h(Paper, { style: normalContainerStyle }, h(
-            Checkbox, {
-                defaultChecked: played,
-                onCheck:        toggle,
-                style:          checkboxStyle
-            }
-        ));
+        const position        = this.props.position;
+        const instrument      = this.props.instrument;
+        const currentlyPlayed = this.props.currentlyPlayed;
+        const played          = instrument.notes.has(position);
+        const toggle          = _.partial(this.props.actions.toggleNote, instrument, position);
+
+        return h(
+            'div', {
+                style: {
+                    backgroundColor: backgroundColors[currentlyPlayed],
+                    height:          '30px',
+                    width:           '30px'
+                }
+            },
+            h('input', {
+                style,
+
+                onClick: toggle,
+                checked: played,
+                type:    'checkbox'
+            })
+        );
     }
 });
