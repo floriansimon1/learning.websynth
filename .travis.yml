@@ -6,5 +6,5 @@ branches:
         - development
 before_script:
     npm install gulp -g
-    gulp create-root
+    gulp
 script: gulp test
