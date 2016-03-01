@@ -7,5 +7,5 @@ const jasmine = require('gulp-jasmine');
 
 gulp.task('test', function () {
     gulp.src('tests/jasmine/**/*.js')
-    .pipe(jasmine());
+    .pipe(jasmine({ verbose: true }));
 });
