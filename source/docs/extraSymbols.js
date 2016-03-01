@@ -34,7 +34,7 @@
  *
  * @namespace redux
  * @memberof module:client
- */@memberof module:client.views
+ */
 
  /**
  * The server application

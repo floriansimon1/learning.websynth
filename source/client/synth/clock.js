@@ -8,7 +8,7 @@
  * @memberof module:client.synth
  */
 module.exports = function (worker) {
-    var interval = 25;
+    var interval = 50;
     var timerID  = null;
 
     const tick = () => worker.postMessage('tick');

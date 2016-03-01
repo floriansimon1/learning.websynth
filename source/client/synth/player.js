@@ -56,26 +56,11 @@ module.exports = function (Clock, store, actions) {
     /*********************/
 
     /**
-     * kefir property that models the playing
-     * property.
-     *
-     * @type {kefir.Property<Boolean>}
-     */
-    var playing;
-
-    /**
      * kefir stream that contains playing status updates
      *
      * @type {kefir.EventStream}
      */
     var playingStatusChangesStream;
-
-    /**
-     * kefir stream that contains clock ticks
-     *
-     * @type {kefir.EventStream}
-     */
-    var playbackTick;
 
     /***********/
     /* Methods */
@@ -117,41 +102,44 @@ module.exports = function (Clock, store, actions) {
             delay
         );
 
+        /* Transforms the raw note to a grid position */
+        const currentGridNote = currentNote % state.notesPerTrack;
+
         /*
         * Changes the currently played note if it's not
-        * already registered as the note being played.
+        * already registered as the note being played
         */
         if (
             state
             .currentlyPlayedNote
-            .map(note => currentNote !== note)
+            .map(note => currentGridNote !== note)
             .getOrElse(true) &&
             currentNote >= 0
         ) {
-            actions.setCurrentlyPlayedNote(currentNote % notesPerTrack);
+            actions.setCurrentlyPlayedNote(currentGridNote);
+
+            state.instruments.forEach(instrument => {
+                if (
+                    instrument.notes.has(currentGridNote) && (
+                        lastPlayedNotes[instrument.id] === undefined ||
+                        lastPlayedNotes[instrument.id] < currentNote
+                    )
+                ) {
+                    /* Saves the last played so that we don't schedule it twice */
+                    lastPlayedNotes[instrument.id] = currentNote;
+
+                    /* Configures the note */
+                    var note = audioContext.createOscillator();
+                    note.frequency.value = instrument.frequency;
+                    note.type = 'square';
+                    note.connect(masterVolume);
+
+                    /* Actual scheduling */
+                    note.start(startTime + (currentNote + delay) * noteLength);
+                    note.stop(startTime + (currentNote + delay + 1) * noteLength);
+                }
+            });
         }
-
-        state.instruments.forEach(instrument => {
-            if (
-                instrument.notes.has(currentNote % state.notesPerTrack) && (
-                    lastPlayedNotes[instrument.id] === undefined ||
-                    lastPlayedNotes[instrument.id] < currentNote
-                )
-            ) {
-                /* Saves the last played so that we don't schedule it twice */
-                lastPlayedNotes[instrument.id] = currentNote;
-
-                /* Configures the note */
-                var note = audioContext.createOscillator();
-                note.frequency.value = instrument.frequency;
-                note.type = 'square';
-                note.connect(masterVolume);
-
-                /* Actual scheduling */
-                note.start(startTime + (currentNote + delay) * noteLength);
-                note.stop(startTime + (currentNote + delay + 1) * noteLength);
-            }
-        });
     };
 
     /***********************/
@@ -168,18 +156,15 @@ module.exports = function (Clock, store, actions) {
     masterVolume = audioContext.createGain();
     masterVolume.connect(audioContext.destination);
 
-    /********************************/
+    /******************************/
     /* Setup of kefir observables */
-    /********************************/
+    /******************************/
 
-    playing = kefir.stream(emitter => store.subscribe(
+    playingStatusChangesStream = kefir.stream(emitter => store.subscribe(
         () => emitter.emit(store.getState().playing))
     )
-    .toProperty();
-
-    playingStatusChangesStream = playing.skipDuplicates();
-
-    playbackTick = kefir.fromEvents(clock, 'message');
+    .toProperty()
+    .skipDuplicates();
 
     /*******************************/
     /* Configures the control flow */
@@ -195,7 +180,7 @@ module.exports = function (Clock, store, actions) {
     });
 
     /* Clock tick */
-    playbackTick.onValue(scheduleNotes);
+    clock.addEventListener('message', scheduleNotes);
 
     /* The currently empty public interface. */
     return {};
