@@ -13,16 +13,23 @@ const _     = require('lodash');
 const redux = require('redux');
 const Maybe = require('data.maybe');
 
-module.exports = function (initialState) {
+/**
+ * Redux action callbacks
+ *
+ * @name actions
+ * @namespace
+ * @memberof module:client.redux
+ */
+module.exports = _.partial(redux.bindActionCreators, {
     /**
      * Updates the currently played note
      *
      * @function
      * @memberof module:client.redux.actions
      */
-    const setCurrentlyPlayedNote = makeActionCreator(2, (note, state) => (
+    setCurrentlyPlayedNote: makeActionCreator(2, (note, state) => (
         state.set('currentlyPlayedNote', Maybe.of(note))
-    ));
+    )),
 
     /**
      * Starts playing sounds
@@ -30,9 +37,9 @@ module.exports = function (initialState) {
      * @function
      * @memberof module:client.redux.actions
      */
-    const startPlaying = makeActionCreator(1, state => (
+    startPlaying: makeActionCreator(1, state => (
         state.set('playing', true)
-    ));
+    )),
 
     /**
      * Starts playing sounds
@@ -40,9 +47,9 @@ module.exports = function (initialState) {
      * @function
      * @memberof module:client.redux.actions
      */
-    const stopPlaying = makeActionCreator(1, state => (
+    stopPlaying: makeActionCreator(1, state => (
         state.set('playing', false).set('currentlyPlayedNote', Maybe.Nothing())
-    ));
+    )),
 
     /**
      * Toggles a note of an instrument
@@ -53,7 +60,7 @@ module.exports = function (initialState) {
      * @function
      * @memberof module:client.redux.actions
      */
-    const toggleNote = makeActionCreator(3, (instrument, position, state) => (
+    toggleNote: makeActionCreator(3, (instrument, position, state) => (
         state.set(
             'instruments',
             state.instruments.map(
@@ -71,15 +78,5 @@ module.exports = function (initialState) {
                 }
             )
         )
-    ));
-
-    /**
-     * Redux actions
-     *
-     * @namespace actions
-     * @memberof module:client.redux
-     */
-    return _.partial(redux.bindActionCreators, {
-        startPlaying, stopPlaying, toggleNote, setCurrentlyPlayedNote
-    });
-};
+    ))
+});

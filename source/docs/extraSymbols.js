@@ -9,15 +9,10 @@
 /**
  * Client views
  *
+ * Some parameters might be curried away. See view providers for more info
+ *
  * @namespace views
  * @memberof module:client
- */
-
-/**
- * Client pages
- *
- * @namespace pages
- * @memberof module:client.views
  */
 
  /**
@@ -39,14 +34,7 @@
  *
  * @namespace redux
  * @memberof module:client
- */
-
-/**
- * Web components
- *
- * @namespace components
- * @memberof module:client.views
- */
+ */@memberof module:client.views
 
  /**
  * The server application
