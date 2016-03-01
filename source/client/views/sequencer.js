@@ -20,14 +20,14 @@ const h = require('virtual-dom/h');
  */
 module.exports = Instrument => (playing, instruments, stopPlaying, startPlaying) => (
     h('div', {}, [
-        /* The play button. */
+        /* The play button */
         h(
             'button',
             { onclick: playing ? stopPlaying : startPlaying },
             playing ? 'Stop' : 'Play'
         ),
 
-        /* The instruments table. */
+        /* The instruments table */
         h('table', {}, h(
             'tbody', {}, instruments.map(
                 instrument => Instrument(instrument)
