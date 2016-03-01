@@ -4,12 +4,12 @@
   "repository": "https://github.com/floriansimon1/learning.websynth",
   "description": "Small synthesizer built using the Web Audio API.",
   "dependencies": {
-    "baconjs": "^0.7.83",
     "browserify": "^13.0.0",
     "data.maybe": "^1.2.1",
     "express": "^4.13.3",
     "history": "^1.17.0",
     "immutable": "^3.7.6",
+    "kefir": "^3.2.1",
     "lodash": "~4.3.0",
     "material-ui": "^0.14.2",
     "materialize-css": "^0.97.5",

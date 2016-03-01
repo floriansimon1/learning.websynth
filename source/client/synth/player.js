@@ -1,7 +1,7 @@
 /** @file The sound player */
 
 const Worker = require('webworkify');
-const Bacon  = require('baconjs');
+const kefir  = require('kefir');
 const _      = require('lodash');
 
 /**
@@ -51,29 +51,29 @@ module.exports = function (Clock, store, actions) {
      */
     var startTime;
 
-    /***********************/
-    /* BaconJS observables */
-    /***********************/
+    /*********************/
+    /* kefir observables */
+    /*********************/
 
     /**
-     * Bacon property that models the playing
+     * kefir property that models the playing
      * property.
      *
-     * @type {Bacon.Property<Boolean>}
+     * @type {kefir.Property<Boolean>}
      */
     var playing;
 
     /**
-     * Bacon stream that contains playing status updates
+     * kefir stream that contains playing status updates
      *
-     * @type {Bacon.EventStream}
+     * @type {kefir.EventStream}
      */
     var playingStatusChangesStream;
 
     /**
-     * Bacon stream that contains clock ticks
+     * kefir stream that contains clock ticks
      *
-     * @type {Bacon.EventStream}
+     * @type {kefir.EventStream}
      */
     var playbackTick;
 
@@ -169,18 +169,17 @@ module.exports = function (Clock, store, actions) {
     masterVolume.connect(audioContext.destination);
 
     /********************************/
-    /* Setup of BaconJS observables */
+    /* Setup of kefir observables */
     /********************************/
 
-    playing = Bacon.fromBinder(subscribe => store.subscribe(
-        () => subscribe(store.getState().playing))
+    playing = kefir.stream(emitter => store.subscribe(
+        () => emitter.emit(store.getState().playing))
     )
-    .toProperty(false)
-    .skip(1);
+    .toProperty();
 
     playingStatusChangesStream = playing.skipDuplicates();
 
-    playbackTick = Bacon.fromEvent(clock, 'message');
+    playbackTick = kefir.fromEvents(clock, 'message');
 
     /*******************************/
     /* Configures the control flow */
