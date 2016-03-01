@@ -44,7 +44,5 @@ describe('The Note component', () => {
         expect(played[0].properties.style.backgroundColor).not.toEqual(
             notPlayed[0].properties.style.backgroundColor
         );
-
-        expect(played)
     })
 });
