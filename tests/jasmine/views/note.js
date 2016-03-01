@@ -2,15 +2,21 @@ const sandal = require('../../../source/client/providers');
 const Note   = require('../../../source/client/views/note');
 const Maybe  = require('data.maybe');
 
-const instrument = { notes: new Set() };
 const position   = 3;
 const spies      = {
     toggle: () => {}
 };
 
 describe('The Note component', () => {
-    beforeEach(() => {
+    var instrument;
+
+    beforeEach(done => {
         spyOn(spies, 'toggle');
+
+        sandal.resolve('client.models.makeInstrument', (error, makeInstrument) => {
+            instrument = makeInstrument();
+            done();
+        });
     });
 
     it('should tell the store when it is toggled', function () {
