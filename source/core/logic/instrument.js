@@ -11,6 +11,8 @@ module.exports = () => {
     /**
      * Toggles playback of the note of the given instrument
      *
+     * @memberof module:core.logic.instrumentFunctions
+     *
      * @param {module:core.models.Instrument} instrument The instrument to update
      * @param {Number}                        position   The note to toggle
      *
