@@ -8,12 +8,6 @@ module.exports = sandal => {
     );
 
     sandal.factory(
-        'client.redux.actions',
-        ['client.redux.store'],
-        store => require('../redux/actions')(store.dispatch)
-    );
-
-    sandal.factory(
         'client.redux.rootReducer',
         ['client.redux.initialState'],
         require('../redux/root-reducer')
@@ -24,4 +18,20 @@ module.exports = sandal => {
         ['client.redux.rootReducer', 'client.redux.initialState'],
         require('../redux/store')
     );
-};
+
+    sandal.factory(
+        'client.redux.dispatch',
+        ['client.redux.store'],
+        store => store.dispatch
+    );
+
+    sandal.factory(
+        'client.redux.actionReducers',
+        require('../redux/action-reducers')
+    );
+
+    sandal.factory(
+        'client.redux.actions',
+        ['client.redux.dispatch', 'client.redux.actionReducers'],
+        require('../redux/action-creators')
+    );};

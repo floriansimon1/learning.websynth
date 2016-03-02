@@ -1,35 +1,22 @@
-/** @file Redux actions */
+/**
+ * @file Redux actions
+ *
+ * The state parameter for all actions can not be passed.
+ * It is passed automatically by action creators.
+ */
 
-/*
-* Helper to define new actions.
-* Note: The arity includes the state argument.
-*/
-const makeActionCreator = (arity, apply) => (...args) => ({
-    apply: _.partial.apply(null, [apply].concat(args.slice(0, arity - 1))),
-    type:  Symbol()
-});
-
-const _     = require('lodash');
-const redux = require('redux');
 const Maybe = require('data.maybe');
 
-/**
- * Redux action callbacks
- *
- * @name actions
- * @namespace
- * @memberof module:client.redux
- */
-module.exports = _.partial(redux.bindActionCreators, {
+module.exports = () => ({
     /**
      * Updates the currently played note
      *
      * @function
      * @memberof module:client.redux.actions
      */
-    setCurrentlyPlayedNote: makeActionCreator(2, (note, state) => (
+    setCurrentlyPlayedNote: (note, state) => (
         state.set('currentlyPlayedNote', Maybe.of(note))
-    )),
+    ),
 
     /**
      * Starts playing sounds
@@ -37,9 +24,7 @@ module.exports = _.partial(redux.bindActionCreators, {
      * @function
      * @memberof module:client.redux.actions
      */
-    startPlaying: makeActionCreator(1, state => (
-        state.set('playing', true)
-    )),
+    startPlaying: state => state.set('playing', true),
 
     /**
      * Starts playing sounds
@@ -47,9 +32,9 @@ module.exports = _.partial(redux.bindActionCreators, {
      * @function
      * @memberof module:client.redux.actions
      */
-    stopPlaying: makeActionCreator(1, state => (
+    stopPlaying: state => (
         state.set('playing', false).set('currentlyPlayedNote', Maybe.Nothing())
-    )),
+    ),
 
     /**
      * Toggles a note of an instrument
@@ -60,7 +45,7 @@ module.exports = _.partial(redux.bindActionCreators, {
      * @function
      * @memberof module:client.redux.actions
      */
-    toggleNote: makeActionCreator(3, (instrument, position, state) => (
+    toggleNote: (instrument, position, state) => (
         state.set(
             'instruments',
             state.instruments.map(
@@ -78,5 +63,5 @@ module.exports = _.partial(redux.bindActionCreators, {
                 }
             )
         )
-    ))
+    )
 });
