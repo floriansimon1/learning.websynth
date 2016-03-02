@@ -12,7 +12,7 @@ const diff          = require('virtual-dom/diff');
 const patch         = require('virtual-dom/patch');
 const createElement = require('virtual-dom/create-element');
 
-const sandal = require('../core/providers');
+const sandal = require('./providers');
 
 sandal.resolve(
     ['client.views.Sequencer', 'client.redux.store', 'client.synth.player'],

@@ -32,7 +32,9 @@ module.exports = (dispatch, stateFunctions) => redux.bindActionCreators(
     _.transform(
         Object.keys(stateFunctions.commands),
         (actionCreators, actionName) => (
-            actionCreators[actionName] = makeActionCreator(actions[actionName])
+            actionCreators[actionName] = makeActionCreator(
+                stateFunctions.commands[actionName]
+            )
         ),
         {}
     ),
