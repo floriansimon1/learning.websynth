@@ -36,6 +36,8 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
     /**
      * Returns a list of played notes
      *
+     * @memberof module:core.logic.stateFunctions
+     *
      * @param {module:core.models.State} state The state instance to operate on
      *
      * @return {Array<module:core.models.InstrumentNote>} Played notes
