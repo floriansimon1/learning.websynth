@@ -4,7 +4,9 @@ const redux = require('redux');
 const _     = require('lodash');
 
 /*
-* Helper to define new actions
+* Helper to define new actions. Passes the state as the
+* first parameter to actions, then all other arguments
+* the action actually needs.
 *
 * Uses a function () {} because istanbul chokes
 * on the (...args) notation.
@@ -14,7 +16,7 @@ const makeActionCreator = action => function () {
         type:  Symbol(),
         apply: state => action.apply(
             null,
-            [].slice.call(arguments, 0, Math.max(0, action.length - 1)).concat([state])
+            [state].concat([].slice.call(arguments, 0, Math.max(0, action.length - 1)))
         )
     };
 };
@@ -26,9 +28,9 @@ const makeActionCreator = action => function () {
  * @namespace
  * @memberof module:client.redux
  */
-module.exports = (dispatch, actions) => redux.bindActionCreators(
+module.exports = (dispatch, stateFunctions) => redux.bindActionCreators(
     _.transform(
-        Object.keys(actions),
+        Object.keys(stateFunctions.commands),
         (actionCreators, actionName) => (
             actionCreators[actionName] = makeActionCreator(actions[actionName])
         ),

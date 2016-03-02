@@ -28,8 +28,8 @@ const backgroundColors = {
  *                                                              argument, and the position of the
  *                                                              note as its second argument.
  *
- * @name Sequencer
- * @function
+ * @name Note
+ * @class
  * @memberof module:client.views
  */
 module.exports = (currentlyPlayedNote, toggleNote, instrument, position) => {

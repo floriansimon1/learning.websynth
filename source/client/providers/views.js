@@ -2,6 +2,13 @@
 
 const _ = require('lodash');
 
+/**
+ * Client views
+ *
+ * @namespace views
+ * @memberof module:client
+ */
+
 module.exports = sandal => {
     /* Binary that expects an instrument and a note position */
     sandal.factory(

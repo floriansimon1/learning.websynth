@@ -1,7 +1,7 @@
 {
     "source": {
         "include": [
-            "source/client/", "source/server/", "source/docs/"
+            "source/client/", "source/server/", "source/core/"
         ]
     },
 

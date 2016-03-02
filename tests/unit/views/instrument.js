@@ -1,13 +1,18 @@
 const Instrument = require('../../../source/client/views/instrument')(() => '');
 const sandal     = require('../../../source/client/providers');
 
-const notesPerTrack = 5;
-
 describe('The Instrument component', () => {
+    const notesPerTrack = 5;
+
     var instrument;
 
-    beforeEach(done => sandal.resolve('client.models.makeInstrument', (error, makeInstrument) => {
+    beforeEach(done => sandal.resolve('core.models.makeInstrument', (error, makeInstrument) => {
         instrument = makeInstrument();
+
+        if (error) {
+            fail(error);
+        }
+
         done();
     }));
 

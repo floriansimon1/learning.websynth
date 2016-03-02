@@ -2,10 +2,17 @@
  * @file Entry point of the client application
  */
 
-const sandal        = require('./providers');
+/**
+ * The client application
+ *
+ * @module client
+ */
+
 const diff          = require('virtual-dom/diff');
 const patch         = require('virtual-dom/patch');
 const createElement = require('virtual-dom/create-element');
+
+const sandal = require('../core/providers');
 
 sandal.resolve(
     ['client.views.Sequencer', 'client.redux.store', 'client.synth.player'],

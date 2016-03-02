@@ -1,21 +1,26 @@
-const sandal = require('../../../source/client/providers');
 const Note   = require('../../../source/client/views/note');
+const sandal = require('../../../source/client/providers');
 const Maybe  = require('data.maybe');
 const _      = require('lodash');
 
-const position   = 3;
-const spies      = {
-    toggle: () => {}
-};
-
 describe('The Note component', () => {
+    const position   = 3;
+    const spies      = {
+        toggle: () => {}
+    };
+
     var instrument;
 
     beforeEach(done => {
         spyOn(spies, 'toggle');
 
-        sandal.resolve('client.models.makeInstrument', (error, makeInstrument) => {
+        sandal.resolve('core.models.makeInstrument', (error, makeInstrument) => {
             instrument = makeInstrument();
+
+            if (error) {
+                fail(error);
+            }
+
             done();
         });
     });

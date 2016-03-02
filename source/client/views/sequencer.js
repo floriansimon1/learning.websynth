@@ -15,7 +15,7 @@ const h = require('virtual-dom/h');
  *                                                              sounds
  *
  * @name Sequencer
- * @function
+ * @class
  * @memberof module:client.views
  */
 module.exports = Instrument => (playing, instruments, stopPlaying, startPlaying) => (

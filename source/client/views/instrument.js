@@ -10,7 +10,7 @@ const h = require('virtual-dom/h');
  * @param {module:client.models.Instrument} instrument    The displayed instrument
  *
  * @name Instrument
- * @function
+ * @class
  *
  * @memberof module:client.views
  */

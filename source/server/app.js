@@ -2,6 +2,12 @@
  * @file Entry-point of the server that just delivers the web content for now
  */
 
+/**
+ * The server application
+ *
+ * @module server
+ */
+
 const express = require('express');
 
 const config = require('./get-config')();

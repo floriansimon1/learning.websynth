@@ -1,5 +1,12 @@
 /** @file Registers synth components inside the sandal container */
 
+/**
+ * Audio synthesis
+ *
+ * @namespace synth
+ * @memberof module:client
+ */
+
 module.exports = sandal => {
     sandal.object(
         'client.synth.Clock',

@@ -1,8 +1,5 @@
-const Sandal = require('sandal');
+var sandal = require('../../core/providers');
 
-var sandal = new Sandal();
-
-require('./models')(sandal);
 require('./synth')(sandal);
 require('./views')(sandal);
 require('./redux')(sandal);

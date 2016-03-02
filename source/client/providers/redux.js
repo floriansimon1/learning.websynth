@@ -1,9 +1,16 @@
 /** @file Registers redux related components into the main sandal container */
 
+/**
+ * Redux related symbols
+ *
+ * @namespace redux
+ * @memberof module:client
+ */
+
 module.exports = sandal => {
     sandal.factory(
         'client.redux.initialState',
-        ['client.models.State', 'client.models.makeInstrument'],
+        ['core.models.State', 'core.models.makeInstrument'],
         require('../redux/initial-state')
     );
 
@@ -26,12 +33,7 @@ module.exports = sandal => {
     );
 
     sandal.factory(
-        'client.redux.actionReducers',
-        require('../redux/action-reducers')
-    );
-
-    sandal.factory(
         'client.redux.actions',
-        ['client.redux.dispatch', 'client.redux.actionReducers'],
-        require('../redux/action-creators')
+        ['client.redux.dispatch', 'core.logic.stateFunctions'],
+        require('../redux/actions')
     );};
