@@ -3,14 +3,21 @@
 const redux = require('redux');
 const _     = require('lodash');
 
-/* Helper to define new actions */
-const makeActionCreator = action => (...args) => ({
-    type:  Symbol(),
-    apply: state => action.apply(
-        null,
-        args.slice(0, Math.max(0, action.length - 1)).concat([state])
-    ),
-});
+/*
+* Helper to define new actions
+*
+* Uses a function () {} because istanbul chokes
+* on the (...args) notation.
+*/
+const makeActionCreator = action => function () {
+    return {
+        type:  Symbol(),
+        apply: state => action.apply(
+            null,
+            [].slice.call(arguments, 0, Math.max(0, action.length - 1)).concat([state])
+        )
+    };
+};
 
 /**
  * Redux action callbacks

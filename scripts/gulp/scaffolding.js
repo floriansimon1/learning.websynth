@@ -54,7 +54,7 @@ const getFiles = function (directory) {
 /* Gulp helper to replace a string in a file. */
 const replaceInFile = function (file, destination, what, replacement) {
     return gulp
-    .src(file, { base : parent(file) })
+    .src(file, { base: parent(file) })
     .pipe(tasks.replace(what, replacement))
     .pipe(gulp.dest(destination));
 };
@@ -74,7 +74,7 @@ gulp.task('copy-vendor-css', function (vendorFiles, outputFileName, destinationF
 /* Copies all of our own css files to the web folder. */
 gulp.task('copy-css', function (vendorFiles, outputFileName, destinationFolder) {
     return gulp
-    .src(sourceCssFolder + '/**/*.css', { base : sourceCssFolder })
+    .src(sourceCssFolder + '/**/*.css', { base: sourceCssFolder })
     .pipe(gulp.dest(cssDestinationFolder));
 });
 
@@ -82,7 +82,7 @@ gulp.task('copy-css', function (vendorFiles, outputFileName, destinationFolder) 
 gulp.task('copy-web-app', function () {
     const files = tasks.glob.sync(sourceWebAppFolder + '/**/*.js');
 
-    return tasks.browserify({ entries : files })
+    return tasks.browserify({ entries: files })
     .transform(tasks.babelify.configure({ presets: ['es2015'] }))
     .bundle()
     .on('error', error => {
@@ -102,7 +102,7 @@ gulp.task('copy-web-app', function () {
 /* Adds the index HTML template. */
 gulp.task('copy-templates', function () {
     return gulp
-    .src(indexHtmlTemplate, { base : parent(indexHtmlTemplate) })
+    .src(indexHtmlTemplate, { base: parent(indexHtmlTemplate) })
     .pipe(gulp.dest(indexHtmlDestinationFolder));
 });
 
@@ -112,10 +112,10 @@ gulp.task('insert-app', function () {
     .then(function (files) {
         replaceInFile(
             indexHtmlDestionationFile,
-            indexHtmlDestinationFolder, { patterns : [
+            indexHtmlDestinationFolder, { patterns: [
                 {
-                    match       : /--STYLES--/,
-                    replacement : filesListToString(
+                    match:       /--STYLES--/,
+                    replacement: filesListToString(
                         files.map(file => path.basename(file)).concat(vendorCss.length ? [vendorCssFile] : []),
                         '<link href="/'
                         + cssUrl
@@ -124,8 +124,8 @@ gulp.task('insert-app', function () {
                     )
                 },
                 {
-                    match       : /--SCRIPTS--/,
-                    replacement : (
+                    match:       /--SCRIPTS--/,
+                    replacement: (
                         '<script type="text/javascript" src="'
                         + webAppDestinationFileName + '">'
                         + '</script>'
