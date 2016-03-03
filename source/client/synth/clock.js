@@ -1,13 +1,6 @@
 /** @file Web worker that acts as the clock for the scheduler */
 
-/**
- * The clock web worker for accurate note scheduling
- *
- * @name Clock
- * @var {WebWorker}
- * @memberof module:client.synth
- */
-module.exports = function (worker) {
+const workerFunction = worker => {
     var interval = 50;
     var timerID  = null;
 
@@ -21,4 +14,50 @@ module.exports = function (worker) {
     };
 
     worker.addEventListener('message', message => worker[message.data]());
+};
+
+/**
+ * The clock web worker for accurate note scheduling
+ *
+ * @class
+ * @name     Clock
+ * @memberof module:client.synth
+ */
+module.exports = Worker => {
+    const clockWorker = Worker(function () {} || workerFunction);
+
+    return {
+        /**
+         * Adds a callback to the list of listeners to call
+         * when the clock ticks
+         *
+         * @function
+         * @memberof module:client.synth.Clock
+         *
+         * @param {Function} listener
+         *
+         * @return {Any}
+         */
+        onTick: listener => clockWorker.addEventListener('message', listener),
+
+        /**
+         * Asks the clock to start ticking
+         *
+         * @function
+         * @memberof module:client.synth.Clock
+         *
+         * @return {Any}
+         */
+        start: () => clockWorker.postMessage('start'),
+
+        /**
+         * Asks the clock to stop ticking
+         *
+         * @function
+         * @memberof module:client.synth.Clock
+         *
+         * @return {Any}
+         */
+        stop: () => clockWorker.postMessage('stop')
+    };
 };

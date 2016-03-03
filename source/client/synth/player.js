@@ -1,6 +1,5 @@
 /** @file The sound player */
 
-const Worker = require('webworkify');
 const _      = require('lodash');
 const kefir  = require('kefir');
 
@@ -11,7 +10,7 @@ const kefir  = require('kefir');
  * @member
  * @memberof module:client.synth
  */
-module.exports = function (Clock, store, actions, AudioContext) {
+module.exports = function (clock, store, actions, AudioContext) {
     /***********/
     /* Members */
     /***********/
@@ -29,13 +28,6 @@ module.exports = function (Clock, store, actions, AudioContext) {
      * @type {AudioContext}
      */
     var audioContext;
-
-    /**
-     * The clock web worker
-     *
-     * @type {WebWorker}
-     */
-    var clock;
 
     /**
      * The master volume node
@@ -74,7 +66,7 @@ module.exports = function (Clock, store, actions, AudioContext) {
      *
      * @return {Void}
      */
-    const stop = () => clock.postMessage('stop');
+    const stop = clock.stop;
 
     /**
      * Starts playback
@@ -88,7 +80,7 @@ module.exports = function (Clock, store, actions, AudioContext) {
         startTime       = audioContext.currentTime;
         lastPlayedNotes = {};
 
-        clock.postMessage('start');
+        clock.start();
     };
 
     /**
@@ -151,10 +143,6 @@ module.exports = function (Clock, store, actions, AudioContext) {
 
     var initialState = store.getState();
 
-    /* Initializes the clock web worker */
-    console.log(Clock.toString());
-    clock = Worker(Clock);
-
     /* Initialization of the audio context */
     audioContext = new AudioContext();
 
@@ -187,7 +175,7 @@ module.exports = function (Clock, store, actions, AudioContext) {
     });
 
     /* Clock tick */
-    clock.addEventListener('message', scheduleNotes);
+    clock.onTick(scheduleNotes);
 
     /* Master volume/tempo updates */
     store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));

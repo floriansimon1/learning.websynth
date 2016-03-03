@@ -27,7 +27,16 @@ const sandal = require('./providers');
  * @name     AudioContext
  * @memberof module:environment
  */
-sandal.object('synth.AudioContext', window.AudioContext || window.webkitAudioContext);
+sandal.object('environment.AudioContext', window.AudioContext || window.webkitAudioContext);
+
+/*
+ * The WebWorker implementation to use
+ *
+ * @class
+ * @name     Worker
+ * @memberof module:environment
+ */
+sandal.object('environment.Worker', require('webworkify'));
 
 sandal.resolve(
     ['client.views.Sequencer', 'client.redux.store', 'client.synth.player'],

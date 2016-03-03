@@ -8,14 +8,15 @@
  */
 
 module.exports = sandal => {
-    sandal.object(
-        'client.synth.Clock',
+    sandal.factory(
+        'client.synth.clock',
+        ['environment.Worker'],
         require('../synth/clock')
     );
 
     sandal.factory(
         'client.synth.player', [
-            'client.synth.Clock', 'client.redux.store',
+            'client.synth.clock', 'client.redux.store',
             'client.redux.actions', 'environment.AudioContext'
         ],
         require('../synth/player')
