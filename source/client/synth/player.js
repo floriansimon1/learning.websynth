@@ -149,7 +149,7 @@ module.exports = function (Clock, store, actions) {
     /* Initialization code */
     /***********************/
 
-    let initialState = store.getState();
+    var initialState = store.getState();
 
     /* Initializes the clock web worker */
     clock = Worker(Clock);
