@@ -3,7 +3,6 @@
  */
 
 const h = require('virtual-dom/h');
-
 /**
  * Web component for the sequencer
  *
@@ -18,20 +17,26 @@ const h = require('virtual-dom/h');
  * @class
  * @memberof module:client.views
  */
-module.exports = Instrument => (playing, instruments, stopPlaying, startPlaying) => (
-    h('div', {}, [
-        /* The play button */
-        h(
-            'button',
-            { onclick: playing ? stopPlaying : startPlaying },
-            playing ? 'Stop' : 'Play'
-        ),
+module.exports = (Instrument, MasterVolumeKnob, TempoKnob) => (
+    (playing, instruments, stopPlaying, startPlaying) => (
+        h('div', {}, [
+            /* The play button */
+            h(
+                'button',
+                { onclick: playing ? stopPlaying : startPlaying },
+                playing ? 'Stop' : 'Play'
+            ),
 
-        /* The instruments table */
-        h('table', {}, h(
-            'tbody', {}, instruments.map(
-                instrument => Instrument(instrument)
-            )
-        ))
-    ])
+            /* Tempo & master volume knobs */
+            h('span', new TempoKnob()),
+            h('span', new MasterVolumeKnob()),
+
+            /* The instruments table */
+            h('table', {}, h(
+                'tbody', {}, instruments.map(
+                    instrument => Instrument(instrument)
+                )
+            ))
+        ])
+    )
 );

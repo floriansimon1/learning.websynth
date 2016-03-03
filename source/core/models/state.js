@@ -12,6 +12,16 @@ const Maybe     = require('data.maybe');
  */
 module.exports = Immutable.Record({
     /**
+     * The master volume, on a scale of 0 to 100
+     *
+     * @memberof module:core.models.State
+     * @var      {Number}
+     */
+    masterVolume: 0,
+    minimalMasterVolume: 0,
+    maximalMasterVolume: 11,
+
+    /**
      * A list of defined instruments
      *
      * @memberof module:core.models.State
@@ -42,6 +52,8 @@ module.exports = Immutable.Record({
      * @var      {Number}
      */
     tempo: 120,
+    minimalTempo: 60,
+    maximalTempo: 160,
 
     /**
      * The index of the currently played node

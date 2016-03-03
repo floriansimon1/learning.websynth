@@ -1,8 +1,8 @@
 /** @file The sound player */
 
 const Worker = require('webworkify');
-const kefir  = require('kefir');
 const _      = require('lodash');
+const kefir  = require('kefir');
 
 /**
  * Service that watches the application state and starts playing
@@ -65,6 +65,9 @@ module.exports = function (Clock, store, actions) {
     /***********/
     /* Methods */
     /***********/
+
+    /** @todo Move somewhere else */
+    const scaleVolume = volume => volume / store.getState().maximalMasterVolume;
 
     /**
      * Stops playback
@@ -146,6 +149,8 @@ module.exports = function (Clock, store, actions) {
     /* Initialization code */
     /***********************/
 
+    let initialState = store.getState();
+
     /* Initializes the clock web worker */
     clock = Worker(Clock);
 
@@ -154,6 +159,7 @@ module.exports = function (Clock, store, actions) {
 
     /* Creates a master volume button and connects it to the output */
     masterVolume = audioContext.createGain();
+    masterVolume.gain.value = scaleVolume(initialState.masterVolume);
     masterVolume.connect(audioContext.destination);
 
     /******************************/
@@ -181,6 +187,9 @@ module.exports = function (Clock, store, actions) {
 
     /* Clock tick */
     clock.addEventListener('message', scheduleNotes);
+
+    /* Master volume/tempo updates */
+    store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));
 
     /* The currently empty public interface. */
     return {};

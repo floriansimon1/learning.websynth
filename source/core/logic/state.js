@@ -56,7 +56,7 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
     /**
      * Updates the currently played note
      * We have to be in playing mode in order
-     * to set the currently played note.
+     * to set the currently played note
      *
      * @memberof module:core.logic.stateFunctions
      *
@@ -118,13 +118,35 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
         }
     };
 
-    return {
-        setCurrentlyPlayedNote, startPlaying,
-        stopPlaying, toggleNote, getPlayedNotes,
+    /**
+     * Updates the tempo
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State} state The state instance to operate on
+     * @param {Number}                   tempo The new temo
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const setTempo = (state, tempo) => state.set('tempo', tempo);
 
-        commands: {
-            setCurrentlyPlayedNote, startPlaying,
-            stopPlaying, toggleNote
-        }
+    /**
+     * Updates the master volume
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State} state  The state instance to operate on
+     * @param {Number}                   volume The new master volume
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const setMasterVolume = (state, volume) => state.set('masterVolume', volume);
+
+    const commands = {
+        setCurrentlyPlayedNote, startPlaying,
+        stopPlaying, toggleNote, setTempo,
+        setMasterVolume
     };
+
+    return Object.assign({ commands, getPlayedNotes }, commands);
 };

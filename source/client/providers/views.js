@@ -10,6 +10,56 @@ const _ = require('lodash');
  */
 
 module.exports = sandal => {
+    sandal.factory(
+        'client.views.Knob',
+        ['client.redux.store'],
+        require('../views/knob')
+    );
+
+    /**
+     * Tempo knob
+     *
+     * @class
+     * @name     TempoKnob
+     * @memberof module:client.views
+     */
+    sandal.factory(
+        'client.views.TempoKnob',
+        ['client.redux.store', 'client.redux.actions', 'client.views.Knob'],
+        (store, actions, Knob) => {
+            const state = store.getState();
+
+            return Knob(
+                state.minimalTempo,
+                state.maximalTempo,
+                () => store.getState().tempo,
+                actions.setTempo
+            );
+        }
+    );
+
+    /**
+     * Tempo knob
+     *
+     * @class
+     * @name     MasterVolumeKnob
+     * @memberof module:client.views
+     */
+    sandal.factory(
+        'client.views.MasterVolumeKnob',
+        ['client.redux.store', 'client.redux.actions', 'client.views.Knob'],
+        (store, actions, Knob) => {
+            const state = store.getState();
+
+            return Knob(
+                state.minimalMasterVolume,
+                state.maximalMasterVolume,
+                () => store.getState().masterVolume,
+                actions.setMasterVolume
+            );
+        }
+    );
+
     /* Binary that expects an instrument and a note position */
     sandal.factory(
         'client.views.Note',
@@ -33,12 +83,15 @@ module.exports = sandal => {
 
     /* Nullary that renders the whole sequencer */
     sandal.factory(
-        'client.views.Sequencer',
-        ['client.views.Instrument', 'client.redux.actions', 'client.redux.store'],
-        (Instrument, actions, store) => () => {
+        'client.views.Sequencer', [
+            'client.views.Instrument', 'client.views.MasterVolumeKnob',
+            'client.views.TempoKnob', 'client.redux.actions',
+            'client.redux.store'
+        ],
+        (Instrument, MasterVolumeKnob, TempoKnob, actions, store) => () => {
             const state = store.getState();
 
-            return require('../views/sequencer')(Instrument())(
+            return require('../views/sequencer')(Instrument(), MasterVolumeKnob, TempoKnob)(
                 state.playing, state.instruments,
                 actions.stopPlaying, actions.startPlaying
             );

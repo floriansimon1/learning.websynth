@@ -25,5 +25,7 @@ const frequencies = [
 module.exports = (State, makeInstrument) => new State({
     instruments:   frequencies.map(makeInstrument),
     playing:       false,
+    tempo:         120,
+    masterVolume:  10,
     notesPerTrack: 16
 });
