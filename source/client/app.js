@@ -3,6 +3,12 @@
  */
 
 /**
+ * Environment-of-execution specific symbols
+ *
+ * @module environment
+ */
+
+/**
  * The client application
  *
  * @module client
@@ -13,6 +19,15 @@ const patch         = require('virtual-dom/patch');
 const createElement = require('virtual-dom/create-element');
 
 const sandal = require('./providers');
+
+/*
+ * The WebAudio API implementation to use
+ *
+ * @class
+ * @name     AudioContext
+ * @memberof module:environment
+ */
+sandal.object('synth.AudioContext', window.AudioContext || window.webkitAudioContext);
 
 sandal.resolve(
     ['client.views.Sequencer', 'client.redux.store', 'client.synth.player'],

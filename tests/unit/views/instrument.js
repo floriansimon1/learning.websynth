@@ -1,5 +1,5 @@
 const Instrument = require('../../../source/client/views/instrument')(() => '');
-const sandal     = require('../../../source/client/providers');
+const sandal     = require('../../providers');
 
 describe('The Instrument component', () => {
     const notesPerTrack = 5;

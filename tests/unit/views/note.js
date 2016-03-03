@@ -1,5 +1,5 @@
 const Note   = require('../../../source/client/views/note');
-const sandal = require('../../../source/client/providers');
+const sandal = require('../../providers');
 const Maybe  = require('data.maybe');
 const _      = require('lodash');
 

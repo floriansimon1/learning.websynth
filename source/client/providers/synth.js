@@ -14,8 +14,10 @@ module.exports = sandal => {
     );
 
     sandal.factory(
-        'client.synth.player',
-        ['client.synth.Clock', 'client.redux.store', 'client.redux.actions'],
+        'client.synth.player', [
+            'client.synth.Clock', 'client.redux.store',
+            'client.redux.actions', 'environment.AudioContext'
+        ],
         require('../synth/player')
     );
 };

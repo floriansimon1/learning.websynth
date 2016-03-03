@@ -3,7 +3,7 @@
 
 # WebSynth
 
-*Simple music program using the the Web Audio API*
+*Simple music program using the Web Audio API*
 
 This app displays a grid of notes that you can toggle by checking their associated checkboxes. Each row
 corresponds to a frequency. Once you've completed your grid, press the "Play" button to start playing your

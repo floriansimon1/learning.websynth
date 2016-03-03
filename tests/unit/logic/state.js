@@ -1,4 +1,4 @@
-const sandal = require('../../../source/client/providers');
+const sandal = require('../../providers');
 
 describe('State functions', () => {
     var NoSuchInstrumentError;

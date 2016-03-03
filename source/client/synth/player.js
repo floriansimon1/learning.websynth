@@ -11,7 +11,7 @@ const kefir  = require('kefir');
  * @member
  * @memberof module:client.synth
  */
-module.exports = function (Clock, store, actions) {
+module.exports = function (Clock, store, actions, AudioContext) {
     /***********/
     /* Members */
     /***********/
@@ -152,10 +152,11 @@ module.exports = function (Clock, store, actions) {
     var initialState = store.getState();
 
     /* Initializes the clock web worker */
+    console.log(Clock.toString());
     clock = Worker(Clock);
 
     /* Initialization of the audio context */
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    audioContext = new AudioContext();
 
     /* Creates a master volume button and connects it to the output */
     masterVolume = audioContext.createGain();

@@ -9,7 +9,7 @@ const istanbul = require('gulp-istanbul');
 gulp.task('test', ['coverage'], function () {
     return gulp
     .src(['tests/integration/**/*.js', 'tests/unit/**/*.js'])
-    .pipe(jasmine({ verbose: true }))
+    .pipe(jasmine({ verbose: true, includeStackTrace: true }))
     .pipe(istanbul.writeReports({
         reportOpts: { dir: 'reports/coverage' },
     }))
