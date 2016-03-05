@@ -76,7 +76,7 @@ describe('State functions', () => {
         expect(playedNotes.length).toBe(1);
         expect(playedNotes[0].position).toBe(note);
         expect(noteOn.instruments[0].notes.has(note)).toBe(true);
-        expect(playedNotes[0].instrumentId).toBe(noteOn.instruments[0].id);
+        expect(playedNotes[0].instrument.id).toBe(noteOn.instruments[0].id);
 
         expect(noteOff.instruments[0].notes.has(note)).toBe(false);
         expect(stateFunctions.getPlayedNotes(noteOff).length).toBe(0);

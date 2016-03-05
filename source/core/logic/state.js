@@ -48,7 +48,7 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
                 instrument
                 .notes
                 .toArray()
-                .map(position => ({ instrumentId: instrument.id, position }))
+                .map(position => ({ instrument, position }))
             )
         )
     );
@@ -94,7 +94,12 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
      * @return {module:core.models.State} A new instance of the state with the change
      */
     const stopPlaying = state => (
-        state.set('playing', false).set('currentlyPlayedNote', Maybe.Nothing())
+        state
+        .set('playing', false)
+        .set('currentlyPlayedNote', Maybe.Nothing())
+        .set('instruments', state.instruments.map(
+            instrument => instrument.set('lastPlayedNote', Maybe.Nothing())
+        ))
     );
 
     /**

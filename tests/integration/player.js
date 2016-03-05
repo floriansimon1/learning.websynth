@@ -24,12 +24,15 @@ describe('The synthesis engine', () => {
         );
     });
 
-    it('should periodically update the currently played note', done => {
+    it('should periodically update currently played notes', done => {
         actions.startPlaying();
+        actions.toggleNote(store.getState().instruments[0], 0);
+
         player.audioContext.$processTo('00:10.000');
 
         store.subscribe(_.once(() => {
             expect(store.getState().currentlyPlayedNote.isNothing).toBe(false);
+            expect(store.getState().instruments[0].lastPlayedNote.isNothing).toBe(false);
             done();
         }));
     });

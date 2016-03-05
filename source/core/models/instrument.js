@@ -1,6 +1,7 @@
 /** @file The instrument class */
 
 const Immutable = require('immutable');
+const Maybe     = require('data.maybe');
 
 /**
  * The instrument model
@@ -33,5 +34,14 @@ module.exports = Immutable.Record({
      * @memberof module:core.models.Instrument
      * @var      {Number}
      */
-    frequency: 440
+    frequency: 440,
+
+    /**
+     * The last played in the instrument, not on a
+     * scale of 0 to notesPerTrack - 1.
+     *
+     * @memberof module:core.models.Instrument
+     * @var      {Number}
+     */
+    lastPlayedNote: Maybe.Nothing()
 });

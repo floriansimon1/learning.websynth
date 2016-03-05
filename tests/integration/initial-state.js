@@ -20,6 +20,11 @@ describe('Initially,', () => {
         );
     });
 
+    it('there should be no last played notes for any instrument', () => {
+        expect(state.instruments.find(instrument => instrument.lastPlayedNote.isJust))
+        .toBe(undefined);
+    });
+
     it('we should not be in playing mode', () => {
         expect(state.playing).toBe(false);
     });

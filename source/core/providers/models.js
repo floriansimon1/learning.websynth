@@ -10,13 +10,30 @@ const uuid = require('node-uuid');
  */
 
 /**
- * Pointer to the note of a specific instrument.
+ * Pointer to the note of a specific instrument
  *
- * @typedef  {Object} InstrumentNote
+ * @typedef  InstrumentNote
  * @memberof module:core.models
  *
- * @property {String} instrumentId The ID of the instrument
- * @property {Number} position     The position of the note
+ * @property {String} instrument The instrument
+ * @property {Number} position   The position of the note
+ */
+
+ /**
+  * Type that describes updates to played notes
+  *
+  * @typedef  PlayedNoteUpdates
+  * @memberof module:core.models
+  *
+  * @property {Maybe<Number>}                            currentlyPlayedNote The note that's currently being
+                                                                             played on the grid
+  * @property {Array<module:core.models.InstrumentNote>} lastPlayedNotes     Last played notes of instruments
+  */
+
+/**
+ * An object describing updates to apply to the currently/last played notes
+ *
+ * @typedef {Object}
  */
 
 module.exports = sandal => {

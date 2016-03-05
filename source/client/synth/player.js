@@ -10,7 +10,7 @@ const kefir  = require('kefir');
  * @member
  * @memberof module:client.synth
  */
-module.exports = function (clock, store, actions, AudioContext) {
+module.exports = function (clock, scheduler, store, actions, AudioContext) {
     /***********/
     /* Members */
     /***********/
@@ -84,57 +84,23 @@ module.exports = function (clock, store, actions, AudioContext) {
     };
 
     /**
-     * Schedules notes if they need to be scheduled.
+     * Takes the updates to bring to the played notes
+     * and prepares them for playback
      */
-    const scheduleNotes = () => {
-        const tempo         = 120;
-        const noteLength    = 60 / (tempo * 4);
-        const state         = store.getState();
-        const delay         = state.playbackDelay;
-        const notesPerTrack = state.notesPerTrack;
-        const currentNote   = (
-            Math.floor((audioContext.currentTime - startTime) / noteLength) -
-            delay
-        );
+    const prepareNotes = updates => {
+        updates.lastPlayedNotes.forEach(note => {
+            /* Configures the note */
+            var note = audioContext.createOscillator();
+            note.frequency.value = instrument.frequency;
+            note.type = 'square';
+            note.connect(masterVolume);
 
-        /* Transforms the raw note to a grid position */
-        const currentGridNote = currentNote % state.notesPerTrack;
+            /* Actual scheduling */
+            note.start(startTime + (currentNote + delay) * noteLength);
+            note.stop(startTime + (currentNote + delay + 1) * noteLength);
+        });
 
-        /*
-        * Changes the currently played note if it's not
-        * already registered as the note being played
-        */
-        if (
-            state
-            .currentlyPlayedNote
-            .map(note => currentGridNote !== note)
-            .getOrElse(true) &&
-            currentNote >= 0
-        ) {
-            actions.setCurrentlyPlayedNote(currentGridNote);
-
-            state.instruments.forEach(instrument => {
-                if (
-                    instrument.notes.has(currentGridNote) && (
-                        lastPlayedNotes[instrument.id] === undefined ||
-                        lastPlayedNotes[instrument.id] < currentNote
-                    )
-                ) {
-                    /* Saves the last played so that we don't schedule it twice */
-                    lastPlayedNotes[instrument.id] = currentNote;
-
-                    /* Configures the note */
-                    var note = audioContext.createOscillator();
-                    note.frequency.value = instrument.frequency;
-                    note.type = 'square';
-                    note.connect(masterVolume);
-
-                    /* Actual scheduling */
-                    note.start(startTime + (currentNote + delay) * noteLength);
-                    note.stop(startTime + (currentNote + delay + 1) * noteLength);
-                }
-            });
-        }
+        actions.playedNoteUpdates(updates);
     };
 
     /***********************/
@@ -175,7 +141,7 @@ module.exports = function (clock, store, actions, AudioContext) {
     });
 
     /* Clock tick */
-    clock.onTick(scheduleNotes);
+    clock.onTick(prepareNotes(scheduler.scheduleNotes(audioContext.currentTime)));
 
     /* Master volume/tempo updates */
     store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));
