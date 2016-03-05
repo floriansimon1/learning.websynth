@@ -180,6 +180,6 @@ module.exports = function (clock, store, actions, AudioContext) {
     /* Master volume/tempo updates */
     store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));
 
-    /* The currently empty public interface. */
-    return {};
+    /* The public interface */
+    return { audioContext };
 };

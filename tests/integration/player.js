@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const sandal = require('../providers');
 
 describe('The synthesis engine', () => {
@@ -24,11 +26,23 @@ describe('The synthesis engine', () => {
 
     it('should periodically update the currently played note', done => {
         actions.startPlaying();
+        player.audioContext.$processTo('00:10.000');
 
-        store.subscribe(() => {
-            console.log('test');
+        store.subscribe(_.once(() => {
             expect(store.getState().currentlyPlayedNote.isNothing).toBe(false);
             done();
-        });
+        }));
+    });
+
+    it('should reset the currently played note when it is asked to stop playback', done => {
+        actions.startPlaying();
+        player.audioContext.$processTo('00:10.000');
+
+        store.subscribe(_.once(() => {
+            expect(store.getState().currentlyPlayedNote.isNothing).toBe(true);
+            done();
+        }));
+
+        actions.stopPlaying();
     });
 });

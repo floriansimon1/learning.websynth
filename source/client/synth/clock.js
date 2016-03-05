@@ -1,21 +1,5 @@
 /** @file Web worker that acts as the clock for the scheduler */
 
-const workerFunction = worker => {
-    var interval = 50;
-    var timerID  = null;
-
-    const tick = () => worker.postMessage('tick');
-
-    worker.start = () => timerID = setInterval(tick, interval);
-
-    worker.stop = () => {
-        clearInterval(timerID);
-        timerID = null;
-    };
-
-    worker.addEventListener('message', message => worker[message.data]());
-};
-
 /**
  * The clock web worker for accurate note scheduling
  *
@@ -24,7 +8,21 @@ const workerFunction = worker => {
  * @memberof module:client.synth
  */
 module.exports = Worker => {
-    const clockWorker = Worker(function () {} || workerFunction);
+    const clockWorker = Worker(worker => {
+        var interval = 50;
+        var timerID  = null;
+
+        const tick = () => worker.postMessage('tick');
+
+        worker.start = () => timerID = setInterval(tick, interval);
+
+        worker.stop = () => {
+            clearInterval(timerID);
+            timerID = null;
+        };
+
+        worker.addEventListener('message', message => worker[message.data]());
+    });
 
     return {
         /**
