@@ -26,9 +26,14 @@ describe('The synthesis engine', () => {
 
     it('should periodically update currently played notes', done => {
         actions.startPlaying();
-        actions.toggleNote(store.getState().instruments[0], 0);
 
-        player.audioContext.$processTo('00:10.000');
+        /* Enables all notes */
+        const state = store.getState();
+        actions.updateInstrument(state.instruments[0].set('notes', new Set(
+            _.range(state.notesPerTrack)
+        )));
+
+        player.audioContext.$processTo('00:01.000');
 
         store.subscribe(_.once(() => {
             expect(store.getState().currentlyPlayedNote.isNothing).toBe(false);

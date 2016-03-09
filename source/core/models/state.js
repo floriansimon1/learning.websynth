@@ -64,11 +64,10 @@ module.exports = Immutable.Record({
     currentlyPlayedNote: Maybe.Nothing(),
 
     /**
-     * Mandatory delay before playback in number
-     * of notes
+     * Mandatory delay before playback in seconds
      *
      * @memberof module:core.models.State
      * @var {Number}
      */
-    playbackDelay: 1
+    playbackDelay: 0.2
 });

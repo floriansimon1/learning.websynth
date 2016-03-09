@@ -1,5 +1,7 @@
 /** @file Service to schedule notes at the appropriate time */
 
+const Maybe = require('data.maybe');
+
 /**
  * Service that schedules notes at the appropriate time
  *
@@ -7,7 +9,7 @@
  * @name     scheduler
  * @memberof module:client.synth
  */
-module.exports = PlayedNoteUpdates => {
+module.exports = () => {
     /**
      * Schedules notes if they need to be scheduled.
      *
@@ -21,13 +23,9 @@ module.exports = PlayedNoteUpdates => {
      *                                                       a nothing
      */
     const scheduleNotes = (state, currentTime) => {
-        const noteLength    = 60 / (state.tempo * 4);
-        const delay         = state.playbackDelay;
         const notesPerTrack = state.notesPerTrack;
-        const currentNote   = (
-            Math.floor((currentTime - startTime) / noteLength) -
-            delay
-        );
+        const noteLength    = 60 / (state.tempo * 4);
+        const currentNote   = Math.floor(currentTime / noteLength);
 
         /* If we have not advanced to a new note, we leave early on */
         if (
@@ -52,19 +50,24 @@ module.exports = PlayedNoteUpdates => {
                 instrument.notes.has(currentGridNote) &&
                 instrument
                 .lastPlayedNote
-                .map(note => note !== currentGridNote)
+                .map(note => note < currentNote)
                 .getOrElse(true)
             ) {
-                return updates.concat({ instrument, position: currentGridNote });
+                return updates.concat({
+                    instrument,
+
+                    length:   noteLength,
+                    position: currentNote
+                });
             } else {
                 return updates;
             }
-        });
+        }, []);
 
-        return {
-            currentlyPlayedNote: currentGridNote,
-            lastPlayedNotes:     instrumentUpdates
-        };
+        return Maybe.Just({
+            gridNote:    currentGridNote,
+            playedNotes: instrumentUpdates
+        });
     };
 
     return { scheduleNotes };

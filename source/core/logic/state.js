@@ -147,10 +147,37 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
      */
     const setMasterVolume = (state, volume) => state.set('masterVolume', volume);
 
+    /**
+     * Applies currently played note updates atomically.
+     *
+     * @param {module:core.models.State}             state   The state instance to operate on
+     * @param {module:core.models.PlayedNoteUpdates} updates Object describing changes to bring to
+     *                                                       currently played notes
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const updatePlayedNotes = (state, updates) => {
+        const updatesByInstrument  = _.once(
+            () => _(updates.playedNotes).keyBy(note => note.instrument.id).value()
+        );
+
+        return setCurrentlyPlayedNote(state, updates.gridNote)
+        .set('instruments', updates.playedNotes.length === 0 ? state.instruments : (
+            state.instruments.map(instrument => (
+                updatesByInstrument()[instrument.id] ?
+                instrument.set('lastPlayedNote', Maybe.Just(
+                    updatesByInstrument()[instrument.id].position
+                )) :
+                instrument
+            ))
+        ));
+    };
+
     const commands = {
         setCurrentlyPlayedNote, startPlaying,
         stopPlaying, toggleNote, setTempo,
-        setMasterVolume
+        setMasterVolume, updatePlayedNotes,
+        updateInstrument
     };
 
     return Object.assign({ commands, getPlayedNotes }, commands);

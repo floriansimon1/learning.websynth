@@ -25,9 +25,9 @@ const uuid = require('node-uuid');
   * @typedef  PlayedNoteUpdates
   * @memberof module:core.models
   *
-  * @property {Maybe<Number>}                            currentlyPlayedNote The note that's currently being
-                                                                             played on the grid
-  * @property {Array<module:core.models.InstrumentNote>} lastPlayedNotes     Last played notes of instruments
+  * @property {Number}                         gridNote    The note that's currently being
+                                                           played on the grid
+  * @property {Array<module:core.models.Note>} playedNotes Newly played notes of instruments
   */
 
 /**
@@ -43,6 +43,7 @@ module.exports = sandal => {
 
     sandal.object('core.models.Instrument', require('../models/instrument'));
     sandal.object('core.models.State', require('../models/state'));
+    sandal.object('core.models.Note', require('../models/note'));
 
     /*************/
     /* Factories */

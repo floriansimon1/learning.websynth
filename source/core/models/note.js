@@ -1,7 +1,6 @@
 /** @file The Note class */
 
 const Immutable = require('immutable');
-const Maybe     = require('data.maybe');
 
 /**
  * The note model
@@ -26,4 +25,12 @@ module.exports = Immutable.Record({
      * @var      {Number}
      */
     length: null,
+
+    /**
+     * The instrument playing the note
+     *
+     * @memberof module:core.models.Note
+     * @var      {module:core.models.Instrument}
+     */
+    instrument: null
 });

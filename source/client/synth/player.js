@@ -74,11 +74,7 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
      * @return {Void}
      */
     const play = () => {
-        const state = store.getState();
-
-        /* Resets playback state */
-        startTime       = audioContext.currentTime;
-        lastPlayedNotes = {};
+        startTime = audioContext.currentTime + store.getState().playbackDelay;
 
         clock.start();
     };
@@ -87,20 +83,22 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
      * Takes the updates to bring to the played notes
      * and prepares them for playback
      */
-    const prepareNotes = updates => {
-        updates.lastPlayedNotes.forEach(note => {
-            /* Configures the note */
-            var note = audioContext.createOscillator();
-            note.frequency.value = instrument.frequency;
-            note.type = 'square';
-            note.connect(masterVolume);
+    const prepareNotes = potentialUpdates => {
+        potentialUpdates.map(updates => {
+            updates.playedNotes.forEach(note => {
+                /* Configures the note */
+                var preparedNote = audioContext.createOscillator();
+                preparedNote.frequency.value = note.instrument.frequency;
+                preparedNote.type = 'square';
+                preparedNote.connect(masterVolume);
 
-            /* Actual scheduling */
-            note.start(startTime + (currentNote + delay) * noteLength);
-            note.stop(startTime + (currentNote + delay + 1) * noteLength);
+                /* Actual scheduling */
+                preparedNote.start(startTime + (note.position) * note.length);
+                preparedNote.stop(startTime + (note.position + 1) * note.length);
+            });
+
+            actions.updatePlayedNotes(updates);
         });
-
-        actions.playedNoteUpdates(updates);
     };
 
     /***********************/
@@ -141,7 +139,10 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
     });
 
     /* Clock tick */
-    clock.onTick(prepareNotes(scheduler.scheduleNotes(audioContext.currentTime)));
+    clock.onTick(() => prepareNotes(scheduler.scheduleNotes(
+        store.getState(),
+        audioContext.currentTime - startTime)
+    ));
 
     /* Master volume/tempo updates */
     store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));
