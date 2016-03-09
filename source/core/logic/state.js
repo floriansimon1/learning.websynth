@@ -11,7 +11,16 @@ const _     = require('lodash');
  * @memberof  module:core.logic
  */
 module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchInstrumentError) => {
-    /* Helper to apply an update on an instrument looked up by ID */
+    /**
+     * Applies an update on an instrument looked up by ID
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}      state      The state instance to operate on
+     * @param {module:core.models.Instrument} instrument The updated instrument
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
     const updateInstrument = (state, instrument) => {
         var found = false;
 
@@ -32,6 +41,25 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
             throw new NoSuchInstrumentError(instrument._id);
         }
     };
+
+    /**
+     * Enables/disables all notes of an instrument
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}      state      The state instance to operate on
+     * @param {module:core.models.Instrument} instrument The instrument to change
+     * @param {Boolean}                       enable     (Optional) Whether we should enable all
+     *                                                   notes (true) or disable (false, default)
+     *                                                   them
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const toggleAllNotes = (state, instrument, enable) => (
+        updateInstrument(state, instrument.set('notes', new Set(
+            enable ? _.range(state.notesPerTrack) : []
+        )))
+    );
 
     /**
      * Returns a list of played notes
@@ -175,9 +203,9 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
 
     const commands = {
         setCurrentlyPlayedNote, startPlaying,
-        stopPlaying, toggleNote, setTempo,
         setMasterVolume, updatePlayedNotes,
-        updateInstrument
+        stopPlaying, toggleNote, setTempo,
+        updateInstrument, toggleAllNotes
     };
 
     return Object.assign({ commands, getPlayedNotes }, commands);
