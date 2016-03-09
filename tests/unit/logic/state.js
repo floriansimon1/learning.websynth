@@ -33,6 +33,22 @@ describe('State functions', () => {
         }
     ));
 
+    it('should allow to apply updates to currently played notes of selected instruments', () => {
+        const note    = 3;
+        const updated = stateFunctions.updatePlayedNotes(
+            stateFunctions.startPlaying(state), {
+                gridNote:    0,
+                playedNotes: [
+                    { instrument: state.instruments[1], position: note }
+                ]
+            }
+        );
+
+        expect(updated.instruments[0]).toBe(state.instruments[0]);
+        expect(updated.instruments[1]).not.toBe(state.instruments[0]);
+        expect(updated.instruments[1].lastPlayedNote.getOrElse(note + 1)).toBe(note);
+    });
+
     it('should allow to set the playing state', () => {
         const playingState = stateFunctions.startPlaying(state);
         const stoppedState = stateFunctions.stopPlaying(playingState);
