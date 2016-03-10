@@ -31,7 +31,7 @@ module.exports = (ParameterChange) => {
         } else {
             return matching;
         }
-    }, map[0].value);
+    }, map.get(0).value);
 
     /**
      * Inserts a tempo change inside tempo maps
@@ -51,7 +51,7 @@ module.exports = (ParameterChange) => {
         const currentTempo = (
             playing ?
             getCurrentTempo(playback, currentNote) :
-            template[0].value
+            template.get(0).value
         );
 
         /* We're already at the desired value */
