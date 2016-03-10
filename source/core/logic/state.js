@@ -182,7 +182,18 @@ module.exports = (
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const setTempo = (state, tempo) => state.set('tempo', tempo);
+    const setTempo = (state, tempo) => (
+        tempoFunctions.changeTempo(
+            state.playing, state.currentlyPlayedNote.getOrElse(0),
+            tempo, state.tempoMap, state.playbackTempoMap
+        )
+        .map(update => (
+            state
+            .set('tempoMap', update.template)
+            .set('playbackTempoMap', update.playback)
+        ))
+        .getOrElse(state)
+    );
 
     /**
      * Updates the master volume
