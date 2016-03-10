@@ -8,6 +8,7 @@ const kefir  = require('kefir');
  * sounds when it's told to.
  *
  * @member
+ * @name     player
  * @memberof module:client.synth
  */
 module.exports = function (clock, scheduler, store, actions, AudioContext) {

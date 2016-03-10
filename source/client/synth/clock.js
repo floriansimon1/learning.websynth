@@ -3,9 +3,9 @@
 /**
  * The clock web worker for accurate note scheduling
  *
- * @class
- * @name     Clock
- * @memberof module:client.synth
+ * @member
+ * @name      clock
+ * @memberof  module:client.synth
  */
 module.exports = Worker => {
     const clockWorker = Worker(worker => {

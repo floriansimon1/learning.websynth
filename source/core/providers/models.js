@@ -25,25 +25,23 @@ const uuid = require('node-uuid');
   * @typedef  PlayedNoteUpdates
   * @memberof module:core.models
   *
-  * @property {Number}                         gridNote    The note that's currently being
-                                                           played on the grid
+  * @property {Number}                         songNote    The note that's currently being
+                                                           played in the song
   * @property {Array<module:core.models.Note>} playedNotes Newly played notes of instruments
   */
-
-/**
- * An object describing updates to apply to the currently/last played notes
- *
- * @typedef {Object}
- */
 
 module.exports = sandal => {
     /**********/
     /* Models */
     /**********/
 
+    sandal.object('core.models.ParameterChange', require('../models/parameter-change'));
     sandal.object('core.models.Instrument', require('../models/instrument'));
-    sandal.object('core.models.State', require('../models/state'));
     sandal.object('core.models.Note', require('../models/note'));
+
+    sandal.factory(
+        'core.models.State', ['core.models.ParameterChange'], require('../models/state')
+    );
 
     /*************/
     /* Factories */

@@ -3,12 +3,18 @@
 /**
  * "Business" logic model
  *
- * @namespace 
+ * @namespace
  * @name      logic
  * @memberof  module:core
  */
 
 module.exports = sandal => {
+    sandal.factory(
+        'core.logic.tempoFunctions',
+        ['core.models.ParameterChange'],
+        require('../logic/tempo')
+    );
+
     sandal.factory(
         'core.logic.instrumentFunctions',
         require('../logic/instrument')
@@ -17,6 +23,7 @@ module.exports = sandal => {
     sandal.factory(
         'core.logic.stateFunctions',
         [
+            'core.logic.tempoFunctions',
             'core.logic.instrumentFunctions', 'core.errors.NotPlayingError',
             'core.errors.NotInGridError', 'core.errors.NoSuchInstrumentError'
         ],

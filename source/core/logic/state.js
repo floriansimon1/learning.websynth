@@ -1,7 +1,8 @@
 /** @file Functions to work with State instances */
 
-const Maybe = require('data.maybe');
-const _     = require('lodash');
+const Immutable = require('immutable');
+const Maybe     = require('data.maybe');
+const _         = require('lodash');
 
 /**
  * Functions to work with State instances
@@ -10,7 +11,22 @@ const _     = require('lodash');
  * @name      stateFunctions
  * @memberof  module:core.logic
  */
-module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchInstrumentError) => {
+module.exports = (
+    tempoFunctions, instrumentFunctions,
+    NotPlayingError, NotInGridError,
+    NoSuchInstrumentError
+) => {
+    /**
+     * Returns the song note converted to a grid note
+     *
+     * @param {module:core.models.State} state
+     *
+     * @return {Number}
+     */
+    const currentGridNote = state => state.currentlyPlayedNote.map(
+        note => note % state.notesPerTrack
+    );
+
     /**
      * Applies an update on an instrument looked up by ID
      *
@@ -110,7 +126,11 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const startPlaying = state => state.set('playing', true);
+    const startPlaying = state => (
+        state
+        .set('playing', true)
+        .set('playbackTempoMap', state.tempoMap)
+    );
 
     /**
      * Stops playing sounds
@@ -124,6 +144,7 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
     const stopPlaying = state => (
         state
         .set('playing', false)
+        .set('playbackTempoMap', Immutable.List([]))
         .set('currentlyPlayedNote', Maybe.Nothing())
         .set('instruments', state.instruments.map(
             instrument => instrument.set('lastPlayedNote', Maybe.Nothing())
@@ -189,7 +210,7 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
             () => _(updates.playedNotes).keyBy(note => note.instrument.id).value()
         );
 
-        return setCurrentlyPlayedNote(state, updates.gridNote)
+        return setCurrentlyPlayedNote(state, updates.songNote)
         .set('instruments', updates.playedNotes.length === 0 ? state.instruments : (
             state.instruments.map(instrument => (
                 updatesByInstrument()[instrument.id] ?
@@ -208,5 +229,5 @@ module.exports = (instrumentFunctions, NotPlayingError, NotInGridError, NoSuchIn
         updateInstrument, toggleAllNotes
     };
 
-    return Object.assign({ commands, getPlayedNotes }, commands);
+    return Object.assign({ commands, getPlayedNotes, currentGridNote }, commands);
 };

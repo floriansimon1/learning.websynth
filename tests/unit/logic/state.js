@@ -37,7 +37,7 @@ describe('State functions', () => {
         const note    = 3;
         const updated = stateFunctions.updatePlayedNotes(
             stateFunctions.startPlaying(state), {
-                gridNote:    0,
+                songNote:    0,
                 playedNotes: [
                     { instrument: state.instruments[1], position: note }
                 ]
@@ -48,6 +48,17 @@ describe('State functions', () => {
         expect(updated.instruments[1]).not.toBe(state.instruments[0]);
         expect(updated.instruments[1].lastPlayedNote.getOrElse(note + 1)).toBe(note);
     });
+
+    it(
+        'should initialize the playback tempo map with the template tempo map when playback starts',
+        () => expect(stateFunctions.startPlaying(state).playbackTempoMap).toBe(state.tempoMap)
+    );
+
+    it('should clear the playback tempo map when playback stops', () => (
+        expect(
+            stateFunctions.stopPlaying(stateFunctions.startPlaying(state)).playbackTempoMap.size
+        ).toBe(0)
+    ));
 
     it('should allow to set the playing state', () => {
         const playingState = stateFunctions.startPlaying(state);

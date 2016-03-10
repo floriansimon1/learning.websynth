@@ -20,7 +20,7 @@ const createElement = require('virtual-dom/create-element');
 
 const sandal = require('./providers');
 
-/*
+/**
  * The WebAudio API implementation to use
  *
  * @class
@@ -29,7 +29,7 @@ const sandal = require('./providers');
  */
 sandal.object('environment.AudioContext', window.AudioContext || window.webkitAudioContext);
 
-/*
+/**
  * The WebWorker implementation to use
  *
  * @class

@@ -5,7 +5,7 @@ const Maybe = require('data.maybe');
 /**
  * Service that schedules notes at the appropriate time
  *
- * @class
+ * @member
  * @name     scheduler
  * @memberof module:client.synth
  */
@@ -24,7 +24,7 @@ module.exports = () => {
      */
     const scheduleNotes = (state, currentTime) => {
         const notesPerTrack = state.notesPerTrack;
-        const noteLength    = 60 / (state.tempo * 4);
+        const noteLength    = 60 / ((state.tempo || 120) * 4);
         const currentNote   = Math.floor(currentTime / noteLength);
 
         /* If we have not advanced to a new note, we leave early on */
@@ -65,7 +65,7 @@ module.exports = () => {
         }, []);
 
         return Maybe.Just({
-            gridNote:    currentGridNote,
+            songNote:    currentNote,
             playedNotes: instrumentUpdates
         });
     };

@@ -25,8 +25,13 @@ describe('Initially,', () => {
         .toBe(undefined);
     });
 
+    it('we should have a default tempo', () => {
+        expect(state.tempoMap.size).toBe(1);
+    })
+
     it('we should not be in playing mode', () => {
         expect(state.playing).toBe(false);
+        expect(state.playbackTempoMap.size).toBe(0);
     });
 
     it('there should not be a currently played note', () => {

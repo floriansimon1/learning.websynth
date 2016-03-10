@@ -32,8 +32,8 @@ module.exports = sandal => {
             return Knob(
                 state.minimalTempo,
                 state.maximalTempo,
-                () => store.getState().tempo,
-                actions.setTempo
+                () => store.getState().tempo || 120,
+                _.debounce(_.noop || actions.setTempo, 200)
             );
         }
     );
@@ -63,10 +63,10 @@ module.exports = sandal => {
     /* Binary that expects an instrument and a note position */
     sandal.factory(
         'client.views.Note',
-        ['client.redux.actions', 'client.redux.store'],
-        (actions, store) => () => _.partial(
+        ['client.redux.actions', 'client.redux.store', 'core.logic.stateFunctions'],
+        (actions, store, stateFunctions) => () => _.partial(
             require('../views/note'),
-            store.getState().currentlyPlayedNote,
+            stateFunctions.currentGridNote(store.getState()),
             actions.toggleNote
         )
     );

@@ -10,7 +10,13 @@ const Maybe     = require('data.maybe');
  * @class
  * @memberof module:core.models
  */
-module.exports = Immutable.Record({
+module.exports = ParameterChange => Immutable.Record({
+    /* Some constants */
+    maximalTempo:        160,
+    minimalTempo:        60,
+    maximalMasterVolume: 11,
+    minimalMasterVolume: 0,
+
     /**
      * The master volume, on a scale of 0 to 100
      *
@@ -18,8 +24,6 @@ module.exports = Immutable.Record({
      * @var      {Number}
      */
     masterVolume: 0,
-    minimalMasterVolume: 0,
-    maximalMasterVolume: 11,
 
     /**
      * A list of defined instruments
@@ -46,14 +50,20 @@ module.exports = Immutable.Record({
     playing: false,
 
     /**
-     * The tempo
+     * A sequencer list of tempo changes
      *
      * @memberof module:core.models.State
      * @var      {Number}
      */
-    tempo: 120,
-    minimalTempo: 60,
-    maximalTempo: 160,
+    tempoMap: Immutable.List([ParameterChange({ position: 0, value: 120 })]),
+
+    /**
+     * The tempo map for the current playback
+     *
+     * @memberof module:core.models.State
+     * @var      {Number}
+     */
+    playbackTempoMap: Immutable.List([]),
 
     /**
      * The index of the currently played node
