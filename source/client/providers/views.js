@@ -32,8 +32,8 @@ module.exports = sandal => {
             return Knob(
                 state.minimalTempo,
                 state.maximalTempo,
-                () => store.getState().tempo || 120,
-                _.debounce(_.noop || actions.setTempo, 200)
+                () => 120 * store.getState().tempo,
+                _.debounce(actions.setTempo, 200)
             );
         }
     );

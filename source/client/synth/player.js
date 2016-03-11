@@ -1,7 +1,7 @@
 /** @file The sound player */
 
-const _      = require('lodash');
-const kefir  = require('kefir');
+const _     = require('lodash');
+const kefir = require('kefir');
 
 /**
  * Service that watches the application state and starts playing
@@ -54,6 +54,14 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
      * @type {kefir.EventStream}
      */
     var playingStatusChangesStream;
+
+    /**
+     * kefir stream that emits values when the
+     * clock ticks
+     *
+     * @type {kefir.EventStream}
+     */
+    var clockTicksStream;
 
     /***********/
     /* Methods */
@@ -126,6 +134,12 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
     .toProperty()
     .skipDuplicates();
 
+    clockTicksStream = playingStatusChangesStream
+    .sampledBy(
+        kefir
+        .stream(emitter => clock.onTick(() => emitter.emit()))
+    );
+
     /*******************************/
     /* Configures the control flow */
     /*******************************/
@@ -140,9 +154,11 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
     });
 
     /* Clock tick */
-    clock.onTick(() => prepareNotes(scheduler.scheduleNotes(
-        store.getState(),
-        audioContext.currentTime - startTime)
+    clockTicksStream.onValue(() => prepareNotes(
+        scheduler.scheduleNotes(
+            store.getState(),
+            audioContext.currentTime - startTime
+        )
     ));
 
     /* Master volume/tempo updates */
