@@ -10,6 +10,6 @@ gulp.task('live-rebuild', ['create-root'], function () {
     gulp.watch([
         'package.json',       'source/client/**/*',
         'source/assets/**/*', 'source/templates/*',
-        'source/docs/**/*'
+        'source/core/**/*'
     ], ['create-root', 'docs']);
 });
