@@ -16,6 +16,7 @@ module.exports = sandal => {
 
     sandal.factory(
         'client.synth.scheduler',
+        ['core.models.Note'],
         require('../synth/scheduler')
     );
 

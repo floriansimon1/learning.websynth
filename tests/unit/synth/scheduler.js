@@ -50,24 +50,25 @@ describe('The synthesis scheduler', () => {
             ParameterChange({ position: 32, value: 240 })
         ]);
 
-        const inspect = (time, expectedTempo, expectedNote, expectedLength) => {
+        const inspect = (time, expectedTempo, expectedNote, expectedLength, expectedTime) => {
             const info = scheduler.currentNoteAndTempo(
                 map,
                 time
             );
 
+            expect(info.get().time).toBe(expectedTime);
             expect(info.get().note).toBe(expectedNote);
             expect(info.get().tempo).toBe(expectedTempo);
             expect(info.get().noteLength).toBe(expectedLength);
         };
 
-        inspect(0,    120, 0, 0.125);
-        inspect(0.25, 120, 2, 0.125);
+        inspect(0,    120, 0, 0.125, 0);
+        inspect(0.25, 120, 2, 0.125, 0.25);
 
-        inspect(2, 60, 16, 0.25);
-        inspect(3, 60, 20, 0.25);
+        inspect(2, 60, 16, 0.25, 2);
+        inspect(3, 60, 20, 0.25, 3);
 
-        inspect(6, 240, 32, 0.0625);
+        inspect(6, 240, 32, 0.0625, 6);
     });
 
     it('should schedule notes of the appropriate insrument at the right time', () => {

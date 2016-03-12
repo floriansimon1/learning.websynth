@@ -10,7 +10,7 @@ const _     = require('lodash');
  * @name     scheduler
  * @memberof module:client.synth
  */
-module.exports = () => {
+module.exports = Note => {
     /* Returns the duration in seconds of a 16th note */
     const noteLength = tempo => 60 / (tempo * 4);
 
@@ -65,12 +65,18 @@ module.exports = () => {
                 makeInfoObject(map.get(0).toJSON(), 0)
             );
 
+            const relativeNote = Math.floor(
+                (time - currentTempoChangeInfo.offset)
+                / currentTempoChangeInfo.noteLength
+            );
+
             return Maybe.Just({
                 tempo:      currentTempoChangeInfo.value,
                 noteLength: currentTempoChangeInfo.noteLength,
-                note:       currentTempoChangeInfo.position + Math.floor(
-                    (time - currentTempoChangeInfo.offset)
-                    / currentTempoChangeInfo.noteLength
+                note:       currentTempoChangeInfo.position + relativeNote,
+                time:       (
+                    currentTempoChangeInfo.offset +
+                    relativeNote * currentTempoChangeInfo.noteLength
                 )
             });
         }
@@ -119,12 +125,13 @@ module.exports = () => {
                     .map(note => note < currentNote)
                     .getOrElse(true)
                 ) {
-                    return updates.concat({
+                    return updates.concat(Note({
                         instrument,
 
                         length:   noteLength,
-                        position: currentNote
-                    });
+                        position: currentNote,
+                        time:     currentTempoChangeInfo.time
+                    }));
                 } else {
                     return updates;
                 }

@@ -27,6 +27,15 @@ module.exports = Immutable.Record({
     length: null,
 
     /**
+     * The place in time where the note is supposed to start,
+     * in seconds
+     *
+     * @memberof module:core.models.Note
+     * @var      {Number}
+     */
+    time: null,
+
+    /**
      * The instrument playing the note
      *
      * @memberof module:core.models.Note

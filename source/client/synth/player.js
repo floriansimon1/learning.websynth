@@ -102,8 +102,8 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
                 preparedNote.connect(masterVolume);
 
                 /* Actual scheduling */
-                preparedNote.start(startTime + (note.position) * note.length);
-                preparedNote.stop(startTime + (note.position + 1) * note.length);
+                preparedNote.start(startTime + note.time);
+                preparedNote.stop(startTime + note.time + note.length);
             });
 
             actions.updatePlayedNotes(updates);
@@ -135,10 +135,8 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
     .skipDuplicates();
 
     clockTicksStream = playingStatusChangesStream
-    .sampledBy(
-        kefir
-        .stream(emitter => clock.onTick(() => emitter.emit()))
-    );
+    .filter(_.identity)
+    .sampledBy(kefir.stream(emitter => clock.onTick(() => emitter.emit())));
 
     /*******************************/
     /* Configures the control flow */
