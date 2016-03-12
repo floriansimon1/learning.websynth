@@ -58,6 +58,14 @@ module.exports = ParameterChange => Immutable.Record({
     tempoMap: Immutable.List([ParameterChange({ position: 0, value: 120 })]),
 
     /**
+     * The currently displayed tempo
+     *
+     * @memberof module:core.models.State
+     * @var      {Number}
+     */
+    displayedTempo: 120,
+
+    /**
      * The tempo map for the current playback
      *
      * @memberof module:core.models.State

@@ -146,6 +146,7 @@ module.exports = (
         .set('playing', false)
         .set('playbackTempoMap', Immutable.List([]))
         .set('currentlyPlayedNote', Maybe.Nothing())
+        .set('displayedTempo', state.tempoMap.get(0).value)
         .set('instruments', state.instruments.map(
             instrument => instrument.set('lastPlayedNote', Maybe.Nothing())
         ))
@@ -191,6 +192,7 @@ module.exports = (
             state
             .set('tempoMap', update.template)
             .set('playbackTempoMap', update.playback)
+            .set('displayedTempo', update.displayedTempo)
         ))
         .getOrElse(state)
     );
@@ -230,7 +232,8 @@ module.exports = (
                 )) :
                 instrument
             ))
-        ));
+        ))
+        .set('displayedTempo', updates.tempo);
     };
 
     const commands = {

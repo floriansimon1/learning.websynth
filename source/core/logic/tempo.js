@@ -60,6 +60,7 @@ module.exports = (ParameterChange) => {
         } else if (playing) {
             return Maybe.Just({
                 template,
+                displayedTempo: tempo,
                 playback: (
                     playback
                     .push({ position: currentNote, value: tempo })
@@ -68,6 +69,7 @@ module.exports = (ParameterChange) => {
             });
         } else {
             return Maybe.Just({
+                displayedTempo: tempo,
                 template: Immutable.List([ParameterChange({ position: 0, value: tempo })]),
                 playback
             });

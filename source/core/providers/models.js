@@ -20,14 +20,15 @@ const uuid = require('node-uuid');
  */
 
  /**
-  * Type that describes updates to played notes
+  * Type that describes updates to the playback state
   *
-  * @typedef  PlayedNoteUpdates
+  * @typedef  PlaybackStateUpdate
   * @memberof module:core.models
   *
-  * @property {Number}                         songNote    The note that's currently being
-                                                           played in the song
-  * @property {Array<module:core.models.Note>} playedNotes Newly played notes of instruments
+  * @property {Number}                         songNote     The note that's currently being
+  *                                                         played in the song
+  * @property {Array<module:core.models.Note>} playedNotes  Newly played notes of instruments
+  * @property {Number}                         currentTempo The tempo for the current song note
   */
 
 module.exports = sandal => {

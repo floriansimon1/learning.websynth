@@ -132,7 +132,8 @@ module.exports = () => {
 
             return Maybe.Just({
                 songNote:    currentNote,
-                playedNotes: instrumentUpdates
+                playedNotes: instrumentUpdates,
+                tempo:       currentTempoChangeInfo.tempo
             });
         })
     );
