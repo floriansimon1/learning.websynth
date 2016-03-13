@@ -40,7 +40,7 @@ module.exports = Note => {
         } else {
             const makeInfoObject = (change, offset) => Object.assign(
                 { offset, noteLength: noteLength(change.value) },
-                change
+                change.toJSON()
             );
 
             /*
@@ -62,7 +62,7 @@ module.exports = Note => {
                         return makeInfoObject(change, offset);
                     }
                 },
-                makeInfoObject(map.get(0).toJSON(), 0)
+                makeInfoObject(map.get(0), 0)
             );
 
             const relativeNote = Math.floor(
