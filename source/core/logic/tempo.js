@@ -63,7 +63,7 @@ module.exports = (ParameterChange) => {
                 displayedTempo: tempo,
                 playback: (
                     playback
-                    .push({ position: currentNote, value: tempo })
+                    .push(ParameterChange({ position: currentNote, value: tempo }))
                     .sortBy(change => change.position)
                 )
             });
