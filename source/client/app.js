@@ -39,20 +39,20 @@ sandal.object('environment.AudioContext', window.AudioContext || window.webkitAu
 sandal.object('environment.Worker', require('webworkify'));
 
 sandal.resolve(
-    ['client.views.Sequencer', 'client.redux.store', 'client.synth.player'],
-    (error, Sequencer, store) => {
+    ['client.views.Webseq', 'client.redux.store', 'client.synth.player'],
+    (error, Webseq, store) => {
         if (error) {
             console.log(error, error.stack);
         } else {
             /* Initial rendering */
-            var tree = Sequencer();
+            var tree = Webseq();
             var root = createElement(tree);
             document.body.appendChild(root);
 
             /* Rerender on action */
             store.subscribe(() => {
                 /* Computes the diff */
-                const newTree = Sequencer();
+                const newTree = Webseq();
                 const changes = diff(tree, newTree);
 
                 /* Patches the real DOM */

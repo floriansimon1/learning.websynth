@@ -20,7 +20,7 @@ const Immutable = require('immutable');
  * @name      tempoFunctions
  * @memberof  module:core.logic
  */
-module.exports = (ParameterChange) => {
+module.exports = ParameterChange => {
     /**
      * Helper that returns the current tempo map value
      * @todo This is interesting for all parameters change in general, not just for tempo

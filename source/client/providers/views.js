@@ -97,4 +97,16 @@ module.exports = sandal => {
             );
         }
     );
+
+    sandal.factory(
+        'client.views.MenuBar',
+        ['core.i18n.tr'],
+        require('../views/menu-bar')
+    );
+
+    sandal.factory(
+        'client.views.Webseq',
+        ['client.views.MenuBar', 'client.views.Sequencer'],
+        require('../views/webseq')
+    );
 };

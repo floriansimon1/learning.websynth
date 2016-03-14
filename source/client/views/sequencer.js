@@ -1,8 +1,7 @@
-/**
- * @file The sequencer page
- */
+/** @file The sequencer page */
 
 const h = require('virtual-dom/h');
+
 /**
  * Web component for the sequencer
  *

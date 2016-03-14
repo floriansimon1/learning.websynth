@@ -72,11 +72,17 @@ gulp.task('copy-vendor-css', function (vendorFiles, outputFileName, destinationF
 });
 
 /* Copies all of our own css files to the web folder. */
-gulp.task('copy-css', function (vendorFiles, outputFileName, destinationFolder) {
+gulp.task('copy-css', () => {
     return gulp
     .src(sourceCssFolder + '/**/*.css', { base: sourceCssFolder })
     .pipe(gulp.dest(cssDestinationFolder));
 });
+
+gulp.task('copy-fonts', () => (
+    gulp
+    .src('source/assets/fonts/*', { base: 'source/assets/fonts' })
+    .pipe(gulp.dest('web/assets/fonts/'))
+));
 
 /* Takes all assets files and places them into the web root. */
 gulp.task('copy-web-app', function () {
@@ -142,4 +148,6 @@ gulp.task('process-templates', function () {
 });
 
 /* Task that puts assets in the web folder and transforms them. */
-gulp.task('create-root', ['copy-vendor-css', 'copy-css', 'copy-web-app', 'process-templates']);
+gulp.task('create-root', [
+    'copy-vendor-css', 'copy-css', 'copy-web-app', 'process-templates', 'copy-fonts'
+]);
