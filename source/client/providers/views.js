@@ -83,25 +83,24 @@ module.exports = sandal => {
 
     /* Nullary that renders the whole sequencer */
     sandal.factory(
-        'client.views.Sequencer', [
-            'client.views.Instrument', 'client.views.MasterVolumeKnob',
-            'client.views.TempoKnob', 'client.redux.actions',
-            'client.redux.store'
-        ],
-        (Instrument, MasterVolumeKnob, TempoKnob, actions, store) => () => {
-            const state = store.getState();
-
-            return require('../views/sequencer')(Instrument(), MasterVolumeKnob, TempoKnob)(
-                state.playing, state.instruments,
-                actions.stopPlaying, actions.startPlaying
-            );
-        }
+        'client.views.Sequencer',
+        ['client.views.Instrument', 'client.redux.store'],
+        (Instrument, store) => () => (
+            require('../views/sequencer')(Instrument())(store.getState().instruments)
+        )
     );
 
     sandal.factory(
-        'client.views.MenuBar',
-        ['core.i18n.tr'],
-        require('../views/menu-bar')
+        'client.views.MenuBar', [
+            'core.i18n.tr', 'client.views.MasterVolumeKnob',
+            'client.views.TempoKnob', 'client.redux.actions',
+            'client.redux.store'
+        ],
+        (tr, MasterVolumeKnob, TempoKnob, actions, store) => () => (
+            require('../views/menu-bar')(tr, MasterVolumeKnob, TempoKnob)(
+                store.getState().playing, actions.stopPlaying, actions.startPlaying
+            )
+        )
     );
 
     sandal.factory(

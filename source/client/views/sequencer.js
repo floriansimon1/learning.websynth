@@ -16,26 +16,13 @@ const h = require('virtual-dom/h');
  * @class
  * @memberof module:client.views
  */
-module.exports = (Instrument, MasterVolumeKnob, TempoKnob) => (
-    (playing, instruments, stopPlaying, startPlaying) => (
-        h('div', {}, [
-            /* The play button */
-            h(
-                'button',
-                { onclick: playing ? stopPlaying : startPlaying },
-                playing ? 'Stop' : 'Play'
-            ),
-
-            /* Tempo & master volume knobs */
-            h('span', new TempoKnob()),
-            h('span', new MasterVolumeKnob()),
-
-            /* The instruments table */
-            h('table', {}, h(
-                'tbody', {}, instruments.map(
-                    instrument => Instrument(instrument)
-                )
-            ))
-        ])
-    )
+module.exports = Instrument => instruments => (
+    h('div', {}, [
+        /* The instruments table */
+        h('table', {}, h(
+            'tbody', {}, instruments.map(
+                instrument => Instrument(instrument)
+            )
+        ))
+    ])
 );
