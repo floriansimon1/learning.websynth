@@ -37,7 +37,7 @@ html, body {
     line-height: 40px;
 }
 
-navbar {
+nav {
     padding:          20px 40px;
     background-color: #47D2E9;
     height:           40px;
@@ -47,11 +47,7 @@ navbar {
     display:          block;
 }
 
-nav {
-    display: inline;
-}
-
-nav.menu-entry {
+span.menu-entry {
     padding-left: 60px;
     position:     relative;
     top:          -1px;

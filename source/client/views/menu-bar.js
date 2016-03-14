@@ -3,8 +3,8 @@
 const h = require('virtual-dom/h');
 
 module.exports = tr => () => (
-    h('navbar', [
-        h('nav', { className: 'title' }, 'WebSeq'),
-        h('nav', { className: 'menu-entry'}, tr('Song'))
+    h('nav', [
+        h('span', { className: 'title' }, 'WebSeq'),
+        h('span', { className: 'menu-entry'}, tr('Song'))
     ])
 );
