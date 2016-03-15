@@ -23,8 +23,7 @@ describe('The Sequencer component', () => {
     it('should contain the correct number of instruments', function () {
         const tree = Sequencer();
 
-        /* Toggles the note's checkbox */
-        expect(tree.children.slice(-1)[0].children[0].children.length).toBe(
+        expect(tree.children.length).toBe(
             state.instruments.length
         );
     });

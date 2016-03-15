@@ -19,6 +19,6 @@ describe('The Instrument component', () => {
     it('should contain the right number of notes', function () {
         const tree = Instrument(notesPerTrack, instrument);
 
-        expect(tree.children.length).toEqual(notesPerTrack);
+        expect(tree.children.length).toEqual(notesPerTrack + 1);
     });
 });
