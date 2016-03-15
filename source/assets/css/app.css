@@ -26,7 +26,7 @@
 
 html, body {
     font-family:      'Inconsolata';
-    background-color: #3F3F3F;
+    background-color: #454545;
     padding:          0;
     margin:           0;
 }
@@ -45,6 +45,8 @@ nav {
     line-height:      33px;
     color:            white;
     display:          block;
+    border-bottom:    4px solid silver;
+    box-shadow:       0px 3px 5px -3px #222 inset;
 }
 
 span.menu-entry {
@@ -53,10 +55,20 @@ span.menu-entry {
     top:          -1px;
 }
 
-#playback-controls span {
-    cursor: pointer;
+span.button-like {
+    cursor:   pointer;
     position: relative;
-    top: -5px;
+    top:      -5px;
+}
+
+span.knobs-container {
+    margin-left: 35px;
+    position:    relative;
+    top:         8px;
+}
+
+span.knobs-container > div {
+    margin-right: 10px;
 }
 
 #playback-controls {

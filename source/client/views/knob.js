@@ -25,16 +25,21 @@ module.exports = store => (minimum, maximum, getter, setter) => (
 
             init: () => Object.assign(
                 Knob({
-                    fgColor:   '#26a65b',
+                    bgColor:   '#888',
+                    fgColor:   'white',
                     value:     getter(),
                     min:       minimum,
                     max:       maximum,
                     lineCap:   'round',
-                    thickness: 0.1,
+                    thickness: 0.2,
                     width:     50
                 }), {
                     onchange: function () {
-                        setter(this.value);
+                        if (!isNaN(this.value)) {
+                            setter(this.value);
+                        } else {
+                            setter(120);
+                        }
                     }
                 }
             ),

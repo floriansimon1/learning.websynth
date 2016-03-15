@@ -5,24 +5,19 @@ const h = require('virtual-dom/h');
 module.exports = (tr, MasterVolumeKnob, TempoKnob) => (
     (playing, stopPlaying, startPlaying) => (
         h('nav', [
-            h('span', { className: 'title' }, 'WebSeq'),
+            h('span.title', {}, 'WebSeq'),
 
-            h('span', { id: 'playback-controls' }, [
+            h('span#playback-controls', [
                 /* The play button */
                 h(
-                    'span', {
-                        onclick: playing ? stopPlaying : startPlaying,
-                        className: 'button-like'
-                    },
+                    'span.button-like',
+                    { onclick: playing ? stopPlaying : startPlaying },
                     playing ? '■' : '▶'
                 ),
 
                 /* Tempo & master volume knobs */
-                h('span', new TempoKnob()),
-                h('span', new MasterVolumeKnob())
-            ]),
-
-            h('span', { className: 'menu-entry'}, tr('Song'))
+                h('span.knobs-container', [new TempoKnob(), new MasterVolumeKnob()]),
+            ])
         ])
     )
 );
