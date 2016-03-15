@@ -14,7 +14,11 @@ const h = require('virtual-dom/h');
  *
  * @memberof module:client.views
  */
-module.exports = Note => (notesPerTrack, instrument) => h('tr', {}, (
-    _.range(notesPerTrack)
-    .map(position => h('td', {}, Note(instrument, position)))
+module.exports = Note => (notesPerTrack, instrument) => h('tr.instrument', {}, (
+    [
+        h('td', {}, h('i.ion.ion-md-musical-note'))
+    ].concat(
+        _.range(notesPerTrack)
+        .map((position, i) => h('td', Note(instrument, position)))
+    )
 ));

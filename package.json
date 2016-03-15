@@ -8,6 +8,7 @@
     "express": "^4.13.3",
     "history": "^1.17.0",
     "immutable": "^3.7.6",
+    "ionicons": "^3.0.0-alpha.3",
     "kefir": "^3.2.1",
     "knob": "^0.3.0",
     "lodash": "~4.3.0",

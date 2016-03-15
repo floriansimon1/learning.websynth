@@ -14,6 +14,7 @@ const tasks   = {
 };
 
 const vendorCss = [
+    './node_modules/ionicons/dist/css/ionicons.css'
 ];
 
 /* Paths and file names. */
@@ -65,18 +66,27 @@ gulp.task('copy-vendor-css', function (vendorFiles, outputFileName, destinationF
 	    return gulp
 	    .src(vendorCss)
 	    .pipe(tasks.concat(vendorCssFile))
+        .pipe(tasks.replace({ patterns: [{
+            match:       /\.\.\/fonts\//g,
+            replacement: '../assets/fonts/'
+        }] }))
 	    .pipe(gulp.dest(cssDestinationFolder));
 	} else {
 		return Promise.resolve();
 	}
 });
 
-/* Copies all of our own css files to the web folder. */
-gulp.task('copy-css', () => {
-    return gulp
+gulp.task('copy-css', () => (
+    gulp
     .src(sourceCssFolder + '/**/*.css', { base: sourceCssFolder })
-    .pipe(gulp.dest(cssDestinationFolder));
-});
+    .pipe(gulp.dest(cssDestinationFolder))
+));
+
+gulp.task('copy-vendor-fonts', () => (
+    gulp
+    .src('./node_modules/ionicons/dist/fonts/*')
+    .pipe(gulp.dest('web/assets/fonts/'))
+))
 
 gulp.task('copy-fonts', () => (
     gulp
@@ -149,5 +159,7 @@ gulp.task('process-templates', function () {
 
 /* Task that puts assets in the web folder and transforms them. */
 gulp.task('create-root', [
-    'copy-vendor-css', 'copy-css', 'copy-web-app', 'process-templates', 'copy-fonts'
+    'copy-vendor-fonts', 'copy-vendor-css',
+    'copy-css', 'copy-web-app',
+    'process-templates', 'copy-fonts'
 ]);
