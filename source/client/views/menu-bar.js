@@ -2,6 +2,18 @@
 
 const h = require('virtual-dom/h');
 
+/**
+ * The app-wide menu bar
+ *
+ * @param {Boolean}  playing      Whether or not sound is being played
+ * @param {Function} stopPlaying  Callback to call to stop playing
+ *                                sounds
+ * @param {Function} startPlaying Callback to call to start playing
+ *
+ * @function
+ * @name     MenuBar
+ * @memberof module:client.views
+ */
 module.exports = (tr, MasterVolumeKnob, TempoKnob) => (
     (playing, stopPlaying, startPlaying) => (
         h('nav', [

@@ -26,8 +26,8 @@
 
 html, body {
     font-family:      'Inconsolata';
-    background-color: #454545;
     padding:          0;
+    background-color: #222;
     margin:           0;
 }
 
@@ -39,7 +39,7 @@ html, body {
 
 nav {
     padding:          20px 40px;
-    background-color: #47D2E9;
+    background-color: #47d2e9;
     height:           70px;
     font-size:        33px;
     line-height:      33px;
@@ -73,4 +73,53 @@ span.knobs-container > div {
 
 #playback-controls {
     margin-left: 40px;
+}
+
+.instrument {
+    height:     40px;
+    box-shadow: 0px 5px 5px -5px black;
+}
+
+.instrument.odd {
+    background-color: #454545;
+}
+
+.instrument.even {
+    background-color: #656565;
+}
+
+span.instrument-header {
+    color:        white;
+    margin-right: 25px;
+    margin-left:  20px;
+    position:     relative;
+    top:          -13px;
+}
+
+span.note-container {
+    cursor:           pointer;
+    border-radius:    3px;
+    border:           2px solid #888;
+    display:          inline-block;
+    margin-top:       7px;
+    margin-right:     20px;
+    background-color: white;
+    width:            22px;
+    height:           22px;
+    font-size:        35px;
+}
+
+span.note-container span.note {
+    position:   relative;
+    visibility: hidden;
+    top:        -9px;
+    left:       2px;
+}
+
+span.note-container.played span.note {
+    visibility: visible;
+}
+
+span.note-container.current {
+    background-color: rgba(190, 255, 255, 0.9);
 }

@@ -5,17 +5,6 @@
 const _ = require('lodash');
 const h = require('virtual-dom/h');
 
-const style = {
-    margin:    '5px',
-    padding:   '20px',
-    transform: 'scale(2)'
-};
-
-const backgroundColors = {
-    true:  '#66a',
-    false: '#338'
-};
-
 /**
  * Web component for a note in the grid of a single instrument
  *
@@ -37,20 +26,12 @@ module.exports = (currentlyPlayedNote, toggleNote, instrument, position) => {
     const toggle        = _.partial(toggleNote, instrument, position);
     const played        = instrument.notes.has(position);
 
-    return h(
-        'div', {
-            style: {
-                backgroundColor: backgroundColors[isCurrentNote],
-                height:          '30px',
-                width:           '30px'
-            }
-        },
-        h('input', {
-            style,
+    const classes = ['']
+    .concat(
+        isCurrentNote ? ['current'] : [],
+        played        ? ['played']  : []
+    )
+    .join('.');
 
-            onchange: toggle,
-            checked:  played,
-            type:     'checkbox'
-        })
-    );
+    return h(`span.note-container${classes}`, { onclick: toggle }, h(`span.note`, {}, '•'));
 };
