@@ -20,8 +20,10 @@ const vendorCss = [
 /* Paths and file names. */
 const indexHtmlTemplate          = 'source/templates/index.html';
 const sourceCssFolder            = 'source/assets/css/';
+const sourceImgFolder            = 'source/assets/img/';
 const indexHtmlDestionationFile  = 'web/index.html';
 const sourceWebAppFolder         = 'source/client/';
+const imgDestinationFolder       = 'web/assets/img';
 const vendorCssFile              = 'vendor.css';
 const cssDestinationFolder       = 'web/css';
 const webAppDestinationFileName  = 'app.js';
@@ -62,19 +64,25 @@ const replaceInFile = function (file, destination, what, replacement) {
 
 /* Copies all vendor css files to the web folder. */
 gulp.task('copy-vendor-css', function (vendorFiles, outputFileName, destinationFolder) {
-	if (vendorCss.length) {
-	    return gulp
-	    .src(vendorCss)
-	    .pipe(tasks.concat(vendorCssFile))
+    if (vendorCss.length) {
+        return gulp
+        .src(vendorCss)
+        .pipe(tasks.concat(vendorCssFile))
         .pipe(tasks.replace({ patterns: [{
             match:       /\.\.\/fonts\//g,
             replacement: '../assets/fonts/'
         }] }))
-	    .pipe(gulp.dest(cssDestinationFolder));
-	} else {
-		return Promise.resolve();
-	}
+        .pipe(gulp.dest(cssDestinationFolder));
+    } else {
+        return Promise.resolve();
+    }
 });
+
+gulp.task('copy-images', () => (
+    gulp
+    .src(sourceImgFolder + '/**/*', { base: sourceImgFolder })
+    .pipe(gulp.dest(imgDestinationFolder))
+));
 
 gulp.task('copy-css', () => (
     gulp
@@ -161,5 +169,6 @@ gulp.task('process-templates', function () {
 gulp.task('create-root', [
     'copy-vendor-fonts', 'copy-vendor-css',
     'copy-css', 'copy-web-app',
-    'process-templates', 'copy-fonts'
+    'process-templates', 'copy-fonts',
+    'copy-images'
 ]);
