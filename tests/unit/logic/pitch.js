@@ -22,7 +22,7 @@ describe('Pitch functions', () => {
 
     it('should return the same frequencies for enharmonically equivalent notes', () => {
         expect(pitchFunctions.getFrequency(
-            NoteName({ letter: 'B', octave: 3, modifier: '#' }))
+            NoteName({ letter: 'B', octave: 2, modifier: '#' }))
         )
         .toEqual(pitchFunctions.getFrequency(
             NoteName({ letter: 'C', octave: 3, modifier: '' })
@@ -48,7 +48,7 @@ describe('Pitch functions', () => {
             pitchFunctions
             .getFrequency(NoteName({ letter: 'D', octave: 3, modifier: '#' }))
         )
-        .toEqual('311.13');
+        .toEqual('155.56');
     });
 
     it('should return correct frequencies for notes at the end of an octave', () => {
@@ -56,7 +56,7 @@ describe('Pitch functions', () => {
             pitchFunctions
             .getFrequency(NoteName({ letter: 'G', octave: 2, modifier: '#' }))
         )
-        .toEqual('207.65');
+        .toEqual('103.83');
     });
 
     it('should return correct frequencies for notes at the beginning of an octave', () => {

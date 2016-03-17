@@ -11,7 +11,7 @@ const Immutable = require('immutable');
  * @name     NoteName
  * @memberof module:core.models
  */
-module.exports = Immutable.Record({
+var NoteName = Immutable.Record({
     /**
      * The note's anglo-saxon system name
      *
@@ -23,6 +23,9 @@ module.exports = Immutable.Record({
 
     /**
      * The octave of the note, from 0 to 8
+     * in the scientific name of the note
+     *
+     * @see https://en.wikipedia.org/wiki/Piano_key_frequencies
      *
      * @memberof module:core.models.NoteName
      *
@@ -40,3 +43,14 @@ module.exports = Immutable.Record({
      */
     modifier: ''
 });
+
+/**
+ * Returns the string representation of a note name
+ *
+ * @return {String}
+ */
+NoteName.toString = function () {
+    return this.letter + this.modifier + this.octave;
+};
+
+module.exports = NoteName;

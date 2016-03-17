@@ -60,30 +60,44 @@ module.exports = () => {
     * none
     */
     const normalizeNoteName = noteName => {
-        if (modifiersImpact[noteName.modifier] === -1) {
+        /*
+        * Scientific notation starts counting octaves from Cs. We
+        * need to count starting from As for our algorithm to work
+        */
+        const correctOctave = (
+            noteLettersMap[noteName.letter] > noteLettersMap['B']
+            ? noteName.set('octave', noteName.octave - 1)
+            : noteName
+        );
+
+        if (modifiersImpact[correctOctave.modifier] === -1) {
             return (
-                noteName
-                .set('letter', previousLetter(noteName.letter))
-                .set('octave', noteName.letter === 'A' ? noteName.octave - 1 : noteName.octave)
+                correctOctave
+                .set('letter', previousLetter(correctOctave.letter))
+                .set('octave', (
+                    correctOctave.letter === 'A'
+                    ? correctOctave.octave - 1
+                    : correctOctave.octave
+                ))
 
                 /* B#, E# do exist, but they're enharmonically equivalent to C and F */
                 .set('modifier', (
-                    flattedIsEquivalentToNaturalPrevious(noteName.letter)
+                    flattedIsEquivalentToNaturalPrevious(correctOctave.letter)
                     ? ''
                     : '#'
                 ))
             );
         } else if (
-            sharpedIsEquivalentToNaturalNext(noteName.letter)
-            && modifiersImpact[noteName.modifier] === 1
+            sharpedIsEquivalentToNaturalNext(correctOctave.letter)
+            && modifiersImpact[correctOctave.modifier] === 1
         ) {
             return (
-                noteName
+                correctOctave
                 .set('modifier', '')
-                .set('letter', nextLetter(noteName.letter))
+                .set('letter', nextLetter(correctOctave.letter))
             );
         } else {
-            return noteName;
+            return correctOctave;
         }
     };
 
@@ -139,7 +153,9 @@ module.exports = () => {
         .minBy('distance')
 
         return (
-            Big(27.5).times(Math.pow(2, reference.octave))[reference.method](
+            Big(27.5)
+            .times(Math.pow(2, reference.octave))
+            [reference.method](
                 Big('1.059463').pow(reference.distance)
             )
             .toFixed(2)
