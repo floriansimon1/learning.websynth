@@ -1,0 +1,46 @@
+.title {
+    font-family: 'Indie Flower', cursive;
+    text-shadow: rgb(122, 122, 122) 4px 3px 0px;
+    font-size:   50px;
+    line-height: 50px;
+}
+
+nav {
+    padding:          20px 40px;
+    background-color: #47d2e9;
+    height:           70px;
+    font-size:        33px;
+    line-height:      33px;
+    color:            white;
+    display:          block;
+    border-bottom:    4px solid silver;
+    box-shadow:       0px 3px 5px -3px #222 inset;
+}
+
+span.menu-entry {
+    padding-left: 60px;
+    position:     relative;
+    top:          -1px;
+}
+
+span.button-like {
+    cursor:   pointer;
+    position: relative;
+    top:      -5px;
+}
+
+span.knobs-container {
+    margin-left: 35px;
+    position:    relative;
+    top:         8px;
+}
+
+span.knobs-container > div {
+    margin-right: 10px;
+    top:          3px;
+    position:     relative;
+}
+
+#playback-controls {
+    margin-left: 40px;
+}
