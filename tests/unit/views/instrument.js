@@ -6,15 +6,18 @@ describe('The Instrument component', () => {
 
     var instrument;
 
-    beforeEach(done => sandal.resolve('core.models.makeInstrument', (error, makeInstrument) => {
-        instrument = makeInstrument(440);
+    beforeEach(done => sandal.resolve(
+        ['core.models.makeInstrument', 'core.models.NoteName'],
+        (error, makeInstrument, NoteName) => {
+            instrument = makeInstrument(NoteName());
 
-        if (error) {
-            fail(error);
+            if (error) {
+                fail(error);
+            }
+
+            done();
         }
-
-        done();
-    }));
+    ));
 
     it('should contain the right number of notes', function () {
         const tree = Instrument(notesPerTrack, instrument);

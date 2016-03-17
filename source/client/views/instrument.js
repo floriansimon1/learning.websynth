@@ -20,7 +20,7 @@ module.exports = Note => (notesPerTrack, instrument, even) => h(
     `div.instrument.${even ? 'even' : 'odd'}`, {}, (
         [h('span.instrument-header', {}, [
             h('i.ion.ion-md-musical-note'),
-            h('span.frequency', {}, instrument.frequency.toFixed(2)),
+            h('span.note-name', {}, instrument.noteName.toString()),
         ])]
         .concat(
             _.range(notesPerTrack)

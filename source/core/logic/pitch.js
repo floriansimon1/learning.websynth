@@ -13,7 +13,7 @@ const Big   = require('big.js');
  * @memberof module:core.logic
  */
 module.exports = () => {
-    const modifiersImpact = { '♭': -1, '#': 1, '♮': 0 };
+    const modifiersImpact = { '♭': -1, '#': 1, '♮': 0, '': 0 };
     const noteLetters     = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     const noteLettersMap  = _.zipObject(noteLetters, _.range(noteLetters.length));
 

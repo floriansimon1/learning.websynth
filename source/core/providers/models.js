@@ -52,7 +52,7 @@ module.exports = sandal => {
     sandal.factory(
         'core.models.makeInstrument',
         ['core.models.Instrument'],
-        Instrument => frequency => new Instrument({ id: uuid.v4(), frequency }),
+        Instrument => noteName => new Instrument({ id: uuid.v4(), noteName }),
         true
     );
 };

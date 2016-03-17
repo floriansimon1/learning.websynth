@@ -29,12 +29,12 @@ module.exports = Immutable.Record({
     notes: new Immutable.Set(),
 
     /**
-     * The frequency of the actual played note
+     * The name of the played note
      *
      * @memberof module:core.models.Instrument
-     * @var      {Number}
+     * @var      {module:core.models.NoteName}
      */
-    frequency: 440,
+    noteName: null,
 
     /**
      * The last played in the instrument, not on a

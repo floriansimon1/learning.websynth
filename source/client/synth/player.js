@@ -11,7 +11,7 @@ const kefir = require('kefir');
  * @name     player
  * @memberof module:client.synth
  */
-module.exports = function (clock, scheduler, store, actions, AudioContext) {
+module.exports = function (clock, scheduler, store, actions, AudioContext, pitchFunctions) {
     /***********/
     /* Members */
     /***********/
@@ -97,11 +97,13 @@ module.exports = function (clock, scheduler, store, actions, AudioContext) {
             updates.playedNotes.forEach(note => {
                 /* Configures the note */
                 var preparedNote = audioContext.createOscillator();
-                preparedNote.frequency.value = note.instrument.frequency;
                 preparedNote.type = 'square';
-                preparedNote.connect(masterVolume);
+                preparedNote.frequency.value = parseFloat(
+                    pitchFunctions.getFrequency(note.instrument.noteName)
+                );
 
                 /* Actual scheduling */
+                preparedNote.connect(masterVolume);
                 preparedNote.start(startTime + note.time);
                 preparedNote.stop(startTime + note.time + note.length);
             });

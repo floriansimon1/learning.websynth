@@ -49,7 +49,7 @@ var NoteName = Immutable.Record({
  *
  * @return {String}
  */
-NoteName.toString = function () {
+NoteName.prototype.toString = function () {
     return this.letter + this.modifier + this.octave;
 };
 

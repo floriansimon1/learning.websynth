@@ -24,7 +24,7 @@ module.exports = sandal => {
         'client.synth.player', [
             'client.synth.clock', 'client.synth.scheduler',
             'client.redux.store', 'client.redux.actions',
-            'environment.AudioContext'
+            'environment.AudioContext', 'core.logic.pitchFunctions'
         ],
         require('../synth/player')
     );

@@ -44,21 +44,24 @@ sandal.resolve(
         if (error) {
             console.log(error, error.stack);
         } else {
-            /* Initial rendering */
-            var tree = Webseq();
-            var root = createElement(tree);
-            document.body.appendChild(root);
+            try {
+                /* Initial rendering */
+                var tree = Webseq();
+                var root = createElement(tree);
+                document.body.appendChild(root);
 
-            /* Rerender on action */
-            store.subscribe(() => {
-                /* Computes the diff */
-                const newTree = Webseq();
-                const changes = diff(tree, newTree);
+                /* Rerender on action */
+                store.subscribe(() => {
+                    /* Computes the diff */
+                    const newTree = Webseq();
+                    const changes = diff(tree, newTree);
 
-                /* Patches the real DOM */
-                root = patch(root, changes);
-                tree = newTree;
-            });
+                    /* Patches the real DOM */
+                    root = patch(root, changes);
+                    tree = newTree;
+                });
+            }
+            catch (e) { console.log(e, e.stack);}
         }
     }
 );
