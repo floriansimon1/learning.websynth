@@ -38,6 +38,7 @@ module.exports = sandal => {
 
     sandal.object('core.models.ParameterChange', require('../models/parameter-change'));
     sandal.object('core.models.Instrument', require('../models/instrument'));
+    sandal.object('core.models.NoteName', require('../models/note-name'));
     sandal.object('core.models.Note', require('../models/note'));
 
     sandal.factory(

@@ -7,7 +7,7 @@ describe('The Instrument component', () => {
     var instrument;
 
     beforeEach(done => sandal.resolve('core.models.makeInstrument', (error, makeInstrument) => {
-        instrument = makeInstrument();
+        instrument = makeInstrument(440);
 
         if (error) {
             fail(error);

@@ -17,7 +17,7 @@ gulp.task('test', ['coverage'], function () {
 
 gulp.task('coverage', function () {
     return gulp
-    .src('source/client/**/*.js ')
+    .src(['source/client/**/*.js', 'source/core/**/*.js'])
     .pipe(istanbul())
     .pipe(istanbul.hookRequire())
 });

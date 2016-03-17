@@ -10,6 +10,11 @@
 
 module.exports = sandal => {
     sandal.factory(
+        'core.logic.pitchFunctions',
+        require('../logic/pitch')
+    );
+
+    sandal.factory(
         'core.logic.tempoFunctions',
         ['core.models.ParameterChange'],
         require('../logic/tempo')
