@@ -33,6 +33,7 @@ html, body {
 
 .title {
     font-family: 'Indie Flower', cursive;
+    text-shadow: rgb(122, 122, 122) 4px 3px 0px;
     font-size:   50px;
     line-height: 50px;
 }
@@ -69,6 +70,8 @@ span.knobs-container {
 
 span.knobs-container > div {
     margin-right: 10px;
+    top:          3px;
+    position:     relative;
 }
 
 #playback-controls {
@@ -94,6 +97,15 @@ span.instrument-header {
     margin-left:  20px;
     position:     relative;
     top:          -13px;
+}
+
+span.instrument-header > i {
+    position: relative;
+    top:      1px;
+}
+
+span.frequency {
+    margin-left: 10px;
 }
 
 span.note-container {

@@ -18,7 +18,10 @@ const h = require('virtual-dom/h');
  */
 module.exports = Note => (notesPerTrack, instrument, even) => h(
     `div.instrument.${even ? 'even' : 'odd'}`, {}, (
-        [h('span.instrument-header', {}, h('i.ion.ion-md-musical-note'))]
+        [h('span.instrument-header', {}, [
+            h('i.ion.ion-md-musical-note'),
+            h('span.frequency', {}, instrument.frequency.toFixed(2)),
+        ])]
         .concat(
             _.range(notesPerTrack)
             .map((position, i) => Note(instrument, position))
