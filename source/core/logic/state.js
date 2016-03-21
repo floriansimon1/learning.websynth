@@ -59,6 +59,31 @@ module.exports = (
     };
 
     /**
+     * Sets information on an instrument about the note, if any, it's currently playing
+     *
+     * @param {module:core.models.State}      state      The state instance to operate on
+     * @param {module:core.models.Instrument} instrument The instrument to update
+     * @param {Unspecified}                   note       The opaque note data used by the synthesis engine
+     *
+     * @return {[type]}            [description]
+     */
+    const setOffScheduleNote = (state, instrument, note) => (
+        updateInstrument(state, instrument.set('offScheduleNote', Maybe.Just(note)))
+    );
+
+    /**
+     * Clears information on an instrument about the note, if any, it's currently playing
+     *
+     * @param {module:core.models.State}      state      The state instance to operate on
+     * @param {module:core.models.Instrument} instrument The instrument to update
+     *
+     * @return {[type]}            [description]
+     */
+    const clearOffScheduleNote = (state, instrument) => (
+        updateInstrument(state, instrument.set('offScheduleNote', Maybe.Nothing()))
+    );
+
+    /**
      * Enables/disables all notes of an instrument
      *
      * @memberof module:core.logic.stateFunctions
@@ -237,10 +262,11 @@ module.exports = (
     };
 
     const commands = {
+        setOffScheduleNote, clearOffScheduleNote,
         setCurrentlyPlayedNote, startPlaying,
         setMasterVolume, updatePlayedNotes,
         stopPlaying, toggleNote, setTempo,
-        updateInstrument, toggleAllNotes
+        updateInstrument, toggleAllNotes,
     };
 
     return Object.assign({ commands, getPlayedNotes, currentGridNote }, commands);

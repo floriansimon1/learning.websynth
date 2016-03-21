@@ -71,6 +71,27 @@ module.exports = function (clock, scheduler, store, actions, AudioContext, pitch
     const scaleVolume = volume => volume / store.getState().maximalMasterVolume;
 
     /**
+     * Configures an oscillator corresponding to the given
+     * instrument
+     *
+     * @param {module:core.models.Instrument} instrument The instrument we wish to play
+     *
+     * @return {AudioContex.OscillatorNode}
+     */
+    const configureNote = instrument => {
+        var note = audioContext.createOscillator();
+
+        note.type = 'square';
+        note.frequency.value = parseFloat(
+            pitchFunctions.getFrequency(instrument.noteName)
+        );
+
+        note.connect(masterVolume);
+
+        return note;
+    };
+
+    /**
      * Stops playback
      *
      * @return {Void}
@@ -89,6 +110,34 @@ module.exports = function (clock, scheduler, store, actions, AudioContext, pitch
     };
 
     /**
+     * Starts playing single notes manually
+     *
+     * @param {module:core.models.Instrument} instrument The instrument we wish to play
+     *
+     * @return {Void}
+     */
+    const manualNoteOn = instrument => {
+        const note = configureNote(instrument);
+
+        note.start();
+
+        actions.setOffScheduleNote(instrument, note);
+    };
+
+    /**
+     * Stops playing a manually played note
+     *
+     * @param {module:core.models.Instrument} instrument The instrument we wish to stop playing
+     *
+     * @return {Void}
+     */
+    const manualNoteOff = instrument => {
+        instrument.offScheduleNote.get().stop();
+
+        actions.clearOffScheduleNote(instrument);
+    };
+
+    /**
      * Takes the updates to bring to the played notes
      * and prepares them for playback
      */
@@ -96,14 +145,9 @@ module.exports = function (clock, scheduler, store, actions, AudioContext, pitch
         potentialUpdates.map(updates => {
             updates.playedNotes.forEach(note => {
                 /* Configures the note */
-                var preparedNote = audioContext.createOscillator();
-                preparedNote.type = 'square';
-                preparedNote.frequency.value = parseFloat(
-                    pitchFunctions.getFrequency(note.instrument.noteName)
-                );
+                const preparedNote = configureNote(note.instrument);
 
                 /* Actual scheduling */
-                preparedNote.connect(masterVolume);
                 preparedNote.start(startTime + note.time);
                 preparedNote.stop(startTime + note.time + note.length);
             });

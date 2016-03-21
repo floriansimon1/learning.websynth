@@ -43,5 +43,19 @@ module.exports = Immutable.Record({
      * @memberof module:core.models.Instrument
      * @var      {Number}
      */
-    lastPlayedNote: Maybe.Nothing()
+    lastPlayedNote: Maybe.Nothing(),
+
+    /**
+     * When not in playing mode, you can
+     * trigger notes by using a controller
+     * (MIDI or keyboard). This contains a
+     * reference to an opaque data structure
+     * that the synthesis engine requires
+     * in order to stop playing a note when
+     * you release the controller button.
+     *
+     * @memberof module:core.models.Instrument
+     * @var      {Unspecified}
+     */
+    offScheduleNote: Maybe.Nothing()
 });
