@@ -19,6 +19,8 @@ module.exports = (
     /**
      * Returns the song note converted to a grid note
      *
+     * @memberof module:core.logic.stateFunctions
+     *
      * @param {module:core.models.State} state
      *
      * @return {Number}
@@ -65,7 +67,7 @@ module.exports = (
      * @param {module:core.models.Instrument} instrument The instrument to update
      * @param {Unspecified}                   note       The opaque note data used by the synthesis engine
      *
-     * @return {[type]}            [description]
+     * @return {module:core.models.State} A new instance of the state with the change
      */
     const setOffScheduleNote = (state, instrument, note) => (
         updateInstrument(state, instrument.set('offScheduleNote', Maybe.Just(note)))
@@ -77,7 +79,7 @@ module.exports = (
      * @param {module:core.models.State}      state      The state instance to operate on
      * @param {module:core.models.Instrument} instrument The instrument to update
      *
-     * @return {[type]}            [description]
+     * @return {module:core.models.State} A new instance of the state with the change
      */
     const clearOffScheduleNote = (state, instrument) => (
         updateInstrument(state, instrument.set('offScheduleNote', Maybe.Nothing()))
@@ -187,8 +189,6 @@ module.exports = (
      * @param {Number}                        position   The position of the note to toggle
      *
      * @return {module:core.models.State} A new instance of the state with the change
-     *
-     * @memberof module:core.logic.stateFunctions
      */
     const toggleNote = (state, instrument, position) => {
         if (position < 0 || position >= state.notesPerTrack) {
@@ -266,7 +266,7 @@ module.exports = (
         setCurrentlyPlayedNote, startPlaying,
         setMasterVolume, updatePlayedNotes,
         stopPlaying, toggleNote, setTempo,
-        updateInstrument, toggleAllNotes,
+        updateInstrument, toggleAllNotes
     };
 
     return Object.assign({ commands, getPlayedNotes, currentGridNote }, commands);
