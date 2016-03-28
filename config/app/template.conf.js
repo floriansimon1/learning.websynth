@@ -1,3 +1,9 @@
 module.exports = {
-    port : 8080
+    server: {
+        port: 8080
+    },
+
+    client: {
+        defaultController: 'client.synth.keyboardController'
+    }
 };
