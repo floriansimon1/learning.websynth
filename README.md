@@ -37,7 +37,7 @@ Every source code change, except config files changes, will be picked up, and yo
 be able to test your new code without restarting the server app, just by pressing the
 reload button in your browser tab.
 
-### Runtime environments
+## Runtime environments
 
 The program can run under different runtime environments. To create an environment,
 create a config file in the config/app folder, named `${environment}.conf.js`. To
