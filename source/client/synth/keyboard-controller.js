@@ -9,9 +9,8 @@ module.exports = (Controller, player, document, store) => {
         keyup:   player.manualNoteOff,
         keydown: player.manualNoteOn
     };
-console.log(lettersMap);
+
     const translateNoteEvent = event => Maybe.fromNullable(
-        console.log(store.getState().instruments[lettersMap[event.key]]) ||
         store.getState().instruments[lettersMap[event.key]]
     );
 
