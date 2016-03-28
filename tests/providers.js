@@ -1,6 +1,8 @@
 var sandal = require('../source/client/providers');
 
+sandal.object('environment.document', {});
 sandal.object('environment.AudioContext', require('web-audio-test-api').AudioContext);
+
 sandal.object('environment.Worker', workerFunction => {
     var internal = [];
     var external = [];

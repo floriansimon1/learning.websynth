@@ -3,12 +3,17 @@
 /**
  * Application error types
  *
- * @namespace 
+ * @namespace
  * @name      errors
  * @memberof  module:core
  */
 
 module.exports = sandal => {
+    sandal.object(
+        'core.errors.NotImplementedError',
+        require('../errors/not-implemented')
+    );
+
     sandal.object(
         'core.errors.NoSuchInstrumentError',
         require('../errors/no-such-instrument')

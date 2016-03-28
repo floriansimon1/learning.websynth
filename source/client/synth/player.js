@@ -209,5 +209,5 @@ module.exports = function (clock, scheduler, store, actions, AudioContext, pitch
     store.subscribe(() => masterVolume.gain.value = scaleVolume(store.getState().masterVolume));
 
     /* The public interface */
-    return { audioContext };
+    return { audioContext, manualNoteOn, manualNoteOff };
 };

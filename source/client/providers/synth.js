@@ -28,4 +28,18 @@ module.exports = sandal => {
         ],
         require('../synth/player')
     );
+
+    sandal.factory(
+        'client.synth.Controller',
+        ['core.errors.NotImplementedError'],
+        require('../synth/controller')
+    );
+
+    sandal.factory(
+        'client.synth.keyboardController', [
+            'client.synth.Controller', 'client.synth.player',
+            'environment.document', 'client.redux.store'
+        ],
+        require('../synth/keyboard-controller')
+    );
 };

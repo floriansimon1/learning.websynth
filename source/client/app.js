@@ -38,13 +38,27 @@ sandal.object('environment.AudioContext', window.AudioContext || window.webkitAu
  */
 sandal.object('environment.Worker', require('webworkify'));
 
-sandal.resolve(
-    ['client.views.Webseq', 'client.redux.store', 'client.synth.player'],
-    (error, Webseq, store) => {
-        if (error) {
-            console.log(error, error.stack);
+/**
+ * The browser's document
+ *
+ * @namespace
+ * @name      document
+ * @memberof  module:environment
+ */
+sandal.object('environment.document', document);
+
+sandal.resolve('client.config', (configError, config) => sandal.resolve(
+    [
+        'client.views.Webseq', 'client.redux.store',
+        'client.synth.player', config.defaultController
+    ],
+    (error, Webseq, store, _, controller) => {
+        const anyError = configError || error;
+
+        if (anyError) {
+            console.log(anyError, anyError.stack);
         } else {
-            try {
+            controller.attach().then(() => {
                 /* Initial rendering */
                 var tree = Webseq();
                 var root = createElement(tree);
@@ -60,8 +74,7 @@ sandal.resolve(
                     root = patch(root, changes);
                     tree = newTree;
                 });
-            }
-            catch (e) { console.log(e, e.stack);}
+            });
         }
     }
-);
+));
