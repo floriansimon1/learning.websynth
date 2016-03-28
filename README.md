@@ -27,6 +27,27 @@ Finally, to launch the app, just type:
 
 `$ gulp run`
 
+## Live-rebuild
+
+To rebuild the app at every change, run:
+
+`$ gulp live-rebuild`
+
+Every source code change, except config files changes, will be picked up, and you will
+be able to test your new code without restarting the server app, just by pressing the
+reload button in your browser tab.
+
+### Runtime environments
+
+The program can run under different runtime environments. To create an environment,
+create a config file in the config/app folder, named `${environment}.conf.js`. To
+specify the environment when you run the server application, do:
+
+`$ NODE_ENV=your-env gulp run`
+
+Your config files will be `_.merge()` with the config defined in template.conf.js. So
+you don't have to repeat variables already defined there.
+
 ## Testing
 
 Just run `$ gulp test`
