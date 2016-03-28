@@ -42,7 +42,8 @@ module.exports = (Controller, player, document, store) => {
      * @var
      */
     return Object.create(Controller.prototype, {
-        attach: { get: () => attach },
-        detach: { get: () => detach }
+        attach:    { get: () => attach },
+        detach:    { get: () => detach },
+        listeners: { get: () => listeners, enumerable: false }
     });
 };
