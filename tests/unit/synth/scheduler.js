@@ -7,7 +7,7 @@ const sandal = require('../../providers');
 describe('The synthesis scheduler', () => {
     var ParameterChange;
     var stateFunctions;
-    var scheduler
+    var scheduler;
     var state;
 
     beforeEach(done => sandal.resolve(
