@@ -45,7 +45,7 @@ specify the environment when you run the server application, do:
 
 `$ NODE_ENV=your-env gulp run`
 
-Your config files will be `_.merge()` with the config defined in template.conf.js. So
+Your config files will be `_.merge()`'d with the config defined in template.conf.js. So
 you don't have to repeat variables already defined there.
 
 ## Testing
