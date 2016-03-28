@@ -8,9 +8,8 @@
  * @module server
  */
 
-const fs          = require('fs');
-const express     = require('express');
-const transformJs = require('connect-static-transform');
+const fs      = require('fs');
+const express = require('express');
 
 const config = require('./get-config')();
 const app    = express();
