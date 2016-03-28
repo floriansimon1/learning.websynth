@@ -10,10 +10,9 @@ const Sandal = require('sandal');
 
 var sandal = new Sandal();
 
-require('../i18n')(sandal);
-
 require('./errors')(sandal);
 require('./models')(sandal);
 require('./logic')(sandal);
+require('./i18n')(sandal);
 
 module.exports = sandal;
