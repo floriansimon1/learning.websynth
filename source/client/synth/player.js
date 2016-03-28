@@ -117,11 +117,13 @@ module.exports = function (clock, scheduler, store, actions, AudioContext, pitch
      * @return {Void}
      */
     const manualNoteOn = instrument => {
-        const note = configureNote(instrument);
+        if (instrument.offScheduleNote.isNothing) {
+            const note = configureNote(instrument);
 
-        note.start();
+            note.start();
 
-        actions.setOffScheduleNote(instrument, note);
+            actions.setOffScheduleNote(instrument, note);
+        }
     };
 
     /**
