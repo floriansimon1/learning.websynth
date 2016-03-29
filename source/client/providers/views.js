@@ -90,14 +90,16 @@ module.exports = sandal => {
         )
     );
 
+    sandal.object('client.views.MenuEntry', require('../views/menu-entry'));
+
     sandal.factory(
         'client.views.MenuBar', [
             'core.i18n.tr', 'client.views.MasterVolumeKnob',
             'client.views.TempoKnob', 'client.redux.actions',
-            'client.redux.store'
+            'client.redux.store', 'client.views.MenuEntry'
         ],
-        (tr, MasterVolumeKnob, TempoKnob, actions, store) => () => (
-            require('../views/menu-bar')(tr, MasterVolumeKnob, TempoKnob)(
+        (tr, MasterVolumeKnob, TempoKnob, actions, store, MenuEntry) => () => (
+            require('../views/menu-bar')(tr, MasterVolumeKnob, TempoKnob, MenuEntry)(
                 store.getState().playing, actions.stopPlaying, actions.startPlaying
             )
         )

@@ -19,6 +19,9 @@ const patch         = require('virtual-dom/patch');
 const createElement = require('virtual-dom/create-element');
 
 const sandal = require('./providers');
+const router = require('./routing');
+
+sandal.object('client.router', router);
 
 /**
  * The WebAudio API implementation to use
@@ -64,8 +67,9 @@ sandal.resolve('client.config', (configError, config) => sandal.resolve(
                 var root = createElement(tree);
                 document.body.appendChild(root);
 
-                /* Rerender on action */
-                store.subscribe(() => {
+                /* Rerender function */
+                const rerender = (f, t) => {
+                    console.log(f, t);
                     /* Computes the diff */
                     const newTree = Webseq();
                     const changes = diff(tree, newTree);
@@ -73,7 +77,11 @@ sandal.resolve('client.config', (configError, config) => sandal.resolve(
                     /* Patches the real DOM */
                     root = patch(root, changes);
                     tree = newTree;
-                });
+                };
+
+                /* Rerender on action */
+                store.subscribe(rerender);
+                router.addListener(rerender);
             });
         }
     }

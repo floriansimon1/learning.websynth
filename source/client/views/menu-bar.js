@@ -1,6 +1,7 @@
 /** @file The app-wide menu bar */
 
-const h = require('virtual-dom/h');
+const h     = require('virtual-dom/h');
+const Maybe = require('data.maybe');
 
 /**
  * The app-wide menu bar
@@ -14,7 +15,7 @@ const h = require('virtual-dom/h');
  * @name     MenuBar
  * @memberof module:client.views
  */
-module.exports = (tr, MasterVolumeKnob, TempoKnob) => (
+module.exports = (tr, MasterVolumeKnob, TempoKnob, MenuBar) => (
     (playing, stopPlaying, startPlaying) => (
         h('nav', [
             h('span.title', {}, 'WebSeq'),
@@ -29,6 +30,10 @@ module.exports = (tr, MasterVolumeKnob, TempoKnob) => (
 
                 /* Tempo & master volume knobs */
                 h('span.knobs-container', [new TempoKnob(), new MasterVolumeKnob()]),
+
+                /* Menu links */
+                MenuBar({ title: tr('Sequencer'), path: Maybe.Just('#/'), subEntries: [] }),
+                MenuBar({ title: tr('Samples'), path: Maybe.Just('#/samples'), subEntries: [] })
             ])
         ])
     )
