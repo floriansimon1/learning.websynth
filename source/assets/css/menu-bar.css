@@ -18,26 +18,29 @@ nav {
 }
 
 a.menu-entry.active {
-    text-shadow: 1px 1px 2px;
+    text-shadow: 0px 0px 10px;
 }
 
 a.menu-entry + a.menu-entry {
-    margin-left: 15px;
+    margin-left: 5px;
 }
 
 a.menu-entry {
+    outline:          none;
     text-decoration:  none;
     color:            white;
     margin-left:      60px;
     position:         relative;
     top:              -1px;
-    padding:          5px;
+    padding:          5px 15px;
+    padding-bottom:   9px;
 }
 
 a.menu-entry:hover {
+    border-radius:    3px;
     background-color: white;
     color:            #47d2e9;
-    border-radius:    5px;
+    box-shadow:       inset 0px -3px #777;
 }
 
 span.button-like {
