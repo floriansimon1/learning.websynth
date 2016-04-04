@@ -15,7 +15,7 @@ const Maybe = require('data.maybe');
  * @name     MenuBar
  * @memberof module:client.views
  */
-module.exports = (tr, MasterVolumeKnob, TempoKnob, MenuBar) => (
+module.exports = (tr, MasterVolumeKnob, TempoKnob, MenuEntry) => (
     (playing, stopPlaying, startPlaying) => (
         h('nav', [
             h('span.title', {}, 'WebSeq'),
@@ -31,9 +31,23 @@ module.exports = (tr, MasterVolumeKnob, TempoKnob, MenuBar) => (
                 /* Tempo & master volume knobs */
                 h('span.knobs-container', [new TempoKnob(), new MasterVolumeKnob()]),
 
+                /**************/
                 /* Menu links */
-                MenuBar({ title: tr('Sequencer'), path: Maybe.Just('#/'), subEntries: [] }),
-                MenuBar({ title: tr('Samples'), path: Maybe.Just('#/samples'), subEntries: [] })
+                /**************/
+
+                MenuEntry({
+                    activatedBy: new Set(['sequencer']),
+                    path:        Maybe.Just('#/'),
+                    title:       tr('Sequencer'),
+                    subEntries:  []
+                }),
+
+                MenuEntry({
+                    path:        Maybe.Just('#/samples'),
+                    activatedBy: new Set(['samples']),
+                    title:       tr('Samples'),
+                    subEntries:  []
+                })
             ])
         ])
     )

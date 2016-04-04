@@ -90,7 +90,13 @@ module.exports = sandal => {
         )
     );
 
-    sandal.object('client.views.MenuEntry', require('../views/menu-entry'));
+    sandal.object('client.views.SamplesManager', require('../views/samples-manager'));
+
+    sandal.factory(
+        'client.views.MenuEntry',
+        ['client.router'],
+        require('../views/menu-entry')
+    );
 
     sandal.factory(
         'client.views.MenuBar', [
@@ -103,11 +109,5 @@ module.exports = sandal => {
                 store.getState().playing, actions.stopPlaying, actions.startPlaying
             )
         )
-    );
-
-    sandal.factory(
-        'client.views.Webseq',
-        ['client.views.MenuBar', 'client.views.Sequencer'],
-        require('../views/webseq')
     );
 };

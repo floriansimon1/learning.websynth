@@ -8,7 +8,7 @@ const h = require('virtual-dom/h');
  * @param {Array<module:client.models.Instrument>} instruments The full list of instruments to show
  *
  * @name Sequencer
- * @class
+ * @function
  * @memberof module:client.views
  */
 module.exports = Instrument => instruments => (

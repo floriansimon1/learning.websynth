@@ -18,7 +18,7 @@ const h = require('virtual-dom/h');
  *                                                              note as its second argument.
  *
  * @name Note
- * @class
+ * @function
  * @memberof module:client.views
  */
 module.exports = (currentlyPlayedNote, toggleNote, instrument, position) => {

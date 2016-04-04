@@ -11,7 +11,9 @@ module.exports = (Controller, player, document, store) => {
     };
 
     const translateNoteEvent = event => Maybe.fromNullable(
-        store.getState().instruments[lettersMap[event.key]]
+        store.getState().instruments[
+            lettersMap[event.key || String.fromCharCode(event.keyCode).toLowerCase()]
+        ]
     );
 
     const handleKeyEvent = _.curry((eventType, event) => (

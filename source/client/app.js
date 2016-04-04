@@ -14,6 +14,7 @@
  * @module client
  */
 
+const h             = require('virtual-dom/h');
 const diff          = require('virtual-dom/diff');
 const patch         = require('virtual-dom/patch');
 const createElement = require('virtual-dom/create-element');
@@ -52,36 +53,49 @@ sandal.object('environment.document', document);
 
 sandal.resolve('client.config', (configError, config) => sandal.resolve(
     [
-        'client.views.Webseq', 'client.redux.store',
-        'client.synth.player', config.defaultController
+        'client.router', 'client.redux.store',
+        'client.synth.player', config.defaultController,
+        'client.views.MenuBar'
     ],
-    (error, Webseq, store, _, controller) => {
+    (error, router, store, _, controller, MenuBar) => {
         const anyError = configError || error;
 
         if (anyError) {
             console.log(anyError, anyError.stack);
         } else {
             controller.attach().then(() => {
-                /* Initial rendering */
-                var tree = Webseq();
-                var root = createElement(tree);
-                document.body.appendChild(root);
+                var tree;
+                var root;
 
-                /* Rerender function */
-                const rerender = (f, t) => {
-                    console.log(f, t);
-                    /* Computes the diff */
-                    const newTree = Webseq();
-                    const changes = diff(tree, newTree);
+                const render = () => {
+                    sandal.resolve(router.views[router.getState().name], (error, View) => {
+                        if (error) {
+                            console.log(error, error.stack);
+                        } else {
+                            /* Computes the diff */
+                            const newTree = h('div', [MenuBar(), View()]);
+                            const changes = tree ? diff(tree, newTree) : newTree;
 
-                    /* Patches the real DOM */
-                    root = patch(root, changes);
-                    tree = newTree;
+                            /* Alters the real DOM */
+                            if (!tree) {
+                                root = createElement(newTree);
+                                document.body.appendChild(root);
+                            } else {
+                                root = patch(root, changes);
+                            }
+
+                            /* Saves the current tree */
+                            tree = newTree;
+                        }
+                    });
                 };
 
                 /* Rerender on action */
-                store.subscribe(rerender);
-                router.addListener(rerender);
+                store.subscribe(render);
+                router.addListener(render);
+
+                /* Initial rendering */
+                render();
             });
         }
     }

@@ -11,9 +11,8 @@ const h = require('virtual-dom/h');
  * @param {Boolean}                         even          Whether the position of the Instrument
  *                                                        is an even/odd number
  *
- * @name Instrument
- * @class
- *
+ * @name     Instrument
+ * @function
  * @memberof module:client.views
  */
 module.exports = Note => (notesPerTrack, instrument, even) => h(
