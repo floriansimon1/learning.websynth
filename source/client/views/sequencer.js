@@ -12,7 +12,7 @@ const h = require('virtual-dom/h');
  * @memberof module:client.views
  */
 module.exports = Instrument => instruments => (
-    h('div', {}, instruments.map(
+    h('div#sequencer', {}, instruments.map(
         (instrument, i) => Instrument(instrument, !(i % 2))
     ))
 );

@@ -1,3 +1,8 @@
+#sequencer {
+    position: relative;
+    top:      114px;
+}
+
 .instrument {
     height:     40px;
     box-shadow: 0px 5px 5px -5px black;
