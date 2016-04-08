@@ -1,16 +1,38 @@
 #samples-manager {
-    position:    fixed;
     align-items: stretch;
+    top:         114px;
+    position:    fixed;
     display:     flex;
     left:        0;
     right:       0;
     bottom:      0;
-    top:         114px;
 }
 
 #samples-manager > #samples-folders-column {
-    flex: 0 0 20%;
-    background-color: white;
+    list-style-type: none;
+    overflow-x:      hidden;
+    flex:            0 0 20%;
+    text-overflow:   ellipsis;
+    border-right:    1px solid #888;
+    background:      repeating-linear-gradient(
+        180deg,
+        #454545,
+        #454545 40px,
+        #656565 40px,
+        #656565 80px
+    )
+}
+
+#samples-manager > #samples-folders-column > li {
+    line-height: 40px;
+    font-size:   20px;
+    color:       silver;
+    padding:     0px 15px;
+}
+
+#samples-manager > #samples-folders-column > li:hover {
+    text-shadow: 0px 0px 5px;
+    cursor:      pointer;
 }
 
 #samples-manager > #samples-list {

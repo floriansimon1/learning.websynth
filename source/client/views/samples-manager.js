@@ -11,7 +11,10 @@ const h = require('virtual-dom/h');
  */
 module.exports = () => (
     h('div#samples-manager', [
-        h('div#samples-folders-column', 'llul'),
+        h('ul#samples-folders-column', ['a', 'b', 'c'].map(
+            groupName => h('li.folder', groupName)
+        )),
+
         h('div#samples-list', 'llul2'),
     ])
 );
