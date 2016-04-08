@@ -10,5 +10,8 @@ const h = require('virtual-dom/h');
  * @memberof module:client.views
  */
 module.exports = () => (
-    h('div')
+    h('div#samples-manager', [
+        h('div#samples-folders-column', 'llul'),
+        h('div#samples-list', 'llul2'),
+    ])
 );

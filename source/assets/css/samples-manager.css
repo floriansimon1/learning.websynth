@@ -1,0 +1,19 @@
+#samples-manager {
+    position:    fixed;
+    align-items: stretch;
+    display:     flex;
+    left:        0;
+    right:       0;
+    bottom:      0;
+    top:         114px;
+}
+
+#samples-manager > #samples-folders-column {
+    flex: 0 0 20%;
+    background-color: white;
+}
+
+#samples-manager > #samples-list {
+    flex: 1 1 auto;
+    background-color: black;
+}
