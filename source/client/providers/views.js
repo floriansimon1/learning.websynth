@@ -90,7 +90,11 @@ module.exports = sandal => {
         )
     );
 
-    sandal.object('client.views.SamplesManager', require('../views/samples-manager'));
+    sandal.factory(
+        'client.views.SamplesManager',
+        ['core.i18n.tr', 'client.redux.store', 'client.views.SamplesFolder'],
+        require('../views/samples-manager')
+    );
 
     sandal.factory(
         'client.views.MenuEntry',

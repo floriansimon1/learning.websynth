@@ -85,7 +85,15 @@ module.exports = ParameterChange => Immutable.Record({
      * Mandatory delay before playback in seconds
      *
      * @memberof module:core.models.State
-     * @var {Number}
+     * @var      {Number}
      */
-    playbackDelay: 0.2
+    playbackDelay: 0.2,
+
+    /**
+     * A list of displayed sample folders
+     *
+     * @memberof module:core.models.State
+     * @var      {Array<module:core.models.SamplesFolder>}
+     */
+     samplesFolders: []
 });

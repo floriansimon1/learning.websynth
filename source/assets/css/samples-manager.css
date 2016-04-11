@@ -35,6 +35,30 @@
     cursor:      pointer;
 }
 
+#samples-manager > #samples-folders-column > li > i.badge-right {
+    top:      9px;
+    float:    right;
+    position: relative;
+}
+
 #samples-manager > #samples-list {
     flex: 1 1 auto;
+}
+
+#no-sample-yet-box {
+    margin:     auto;
+    color:      white;
+    width:      250px;
+    margin-top: 100px;
+    text-align: center;
+}
+
+#no-sample-yet-box i.ion {
+    font-size:     150px;
+    display:       block;
+    margin-bottom: 15px;
+}
+
+#no-sample-yet-box span.caption {
+    font-size: 20px;
 }
