@@ -15,8 +15,8 @@ module.exports = sandal => {
     );
 
     sandal.object(
-        'core.errors.NoSuchInstrumentError',
-        require('../errors/no-such-instrument')
+        'core.errors.NoSuchModelError',
+        require('../errors/no-such-model')
     );
 
     sandal.object(

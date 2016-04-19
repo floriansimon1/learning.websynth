@@ -12,9 +12,16 @@ const Maybe     = require('data.maybe');
  */
 module.exports = Immutable.Record({
     /**
+     * The ID of the samples folder
+     *
+     * @var {String}
+     */
+    id: null,
+
+    /**
      * The name of the folder
      *
-     * @var String
+     * @var {Maybe<String>}
      */
     name: Maybe.Nothing()
 });

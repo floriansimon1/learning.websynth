@@ -1,6 +1,7 @@
 /** @file Registers models inside the sandal container */
 
 const uuid = require('node-uuid');
+const _    = require('lodash');
 
 /**
  * Data types
@@ -31,12 +32,21 @@ const uuid = require('node-uuid');
   * @property {Number}                         currentTempo The tempo for the current song note
   */
 
+const modelWithIdFactory = (Model, keys) => args => (
+    new Model(Object.assign({}, { id: uuid.v4() }, (
+        keys
+        ? _.zipObject(keys, args)
+        : args
+    )))
+);
+
 module.exports = sandal => {
     /**********/
     /* Models */
     /**********/
 
     sandal.object('core.models.ParameterChange', require('../models/parameter-change'));
+    sandal.object('core.models.SamplesFolder', require('../models/samples-folder'));
     sandal.object('core.models.Instrument', require('../models/instrument'));
     sandal.object('core.models.NoteName', require('../models/note-name'));
     sandal.object('core.models.Note', require('../models/note'));
@@ -50,9 +60,14 @@ module.exports = sandal => {
     /*************/
 
     sandal.factory(
+        'core.models.makeSamplesFolder',
+        ['core.models.SamplesFolder'],
+        SamplesFolder => modelWithIdFactory(SamplesFolder, ['name'])
+    );
+
+    sandal.factory(
         'core.models.makeInstrument',
         ['core.models.Instrument'],
-        Instrument => noteName => new Instrument({ id: uuid.v4(), noteName }),
-        true
+        Instrument => modelWithIdFactory(Instrument, ['noteName'])
     );
 };

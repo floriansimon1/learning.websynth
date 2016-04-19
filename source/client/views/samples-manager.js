@@ -6,11 +6,6 @@ const samples    = [];
 const makeFolder = name => ({ name });
 const folders    = [makeFolder('Folder #1'), makeFolder('Folder #2')];
 
-h('li', [
-    tr('New folder'),
-    h('i.ion.ion-md-add-circle.badge-right')
-])
-
 /**
  * Page to manage samples
  *
@@ -23,9 +18,9 @@ module.exports = (tr, store, SamplesFolderView, SamplesFolder) => () => (
         h('ul#samples-folders-column', (
             store
             .getState()
-            .sampleFolders
+            .samplesFolders
             .map(SamplesFolderView)
-            .concat([SamplesFolderView(SampleFolders())])
+            .concat([SamplesFolderView(SamplesFolder())])
         )),
 
         h('div#samples-list', (

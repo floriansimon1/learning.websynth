@@ -95,5 +95,13 @@ module.exports = ParameterChange => Immutable.Record({
      * @memberof module:core.models.State
      * @var      {Array<module:core.models.SamplesFolder>}
      */
-     samplesFolders: []
+     samplesFolders: [],
+
+     /**
+      * The ID of the folder that is currently being edited.
+      *
+      * @memberof module:core.models.State
+      * @var      {Maybe<String>}
+      */
+     editedSamplesFolderId: Maybe.Nothing()
 });

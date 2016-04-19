@@ -12,14 +12,28 @@ const _ = require('lodash');
  * @function
  * @memberof module:client.views
  */
-module.exports = tr => folder => h('li', [
-    folder.name.getOrElse(tr('New folder')),
-    h('i.ion.badge-right', {
-        className: (
-            folder
-            .name
-            .map(_.constant('ion-md-add-circle'))
-            .getOrElse('ion-md-remove-circle')
-        )
-    })
-]);
+module.exports = (tr, store, actions) => folder => {
+    const currentFolderName = folder.name.getOrElse(tr('New folder'));
+
+    return h(
+        'li',
+        { ondblclick: () => actions.toggleEditedSamplesFolder(folder.name) }, [
+            store.getState().editedSamplesFolderName !== folder.name
+            ? currentFolderName
+            : h('input', {
+                placeholder: tr('Enter a folder name…'),
+                value:       currentFolderName,
+                type:        'text'
+            }),
+
+            h('i.ion.badge-right', {
+                className: (
+                    folder
+                    .name
+                    .map(_.constant('ion-md-remove-circle'))
+                    .getOrElse('ion-md-add-circle')
+                )
+            })
+        ]
+    );
+};

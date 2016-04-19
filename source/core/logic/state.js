@@ -4,6 +4,28 @@ const Immutable = require('immutable');
 const Maybe     = require('data.maybe');
 const _         = require('lodash');
 
+/* Helper function to look for a model and update it */
+const updateModelFunction = collection => (state, model) => {
+    var found = false;
+
+    const updated = state.set(collection, state[collection].map(
+        listedModel => {
+            if (listedModel.id === model.id) {
+                found = true;
+                return model;
+            } else {
+                return listedModel;
+            }
+        }
+    ));
+
+    if (found) {
+        return updated;
+    } else {
+        throw new NoSuchModelError(instrument._id);
+    }
+};
+
 /**
  * Functions to work with State instances
  *
@@ -39,26 +61,19 @@ module.exports = (
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const updateInstrument = (state, instrument) => {
-        var found = false;
+    const updateInstrument = (state, instrument) => updateModelFunction('instruments');
 
-        const updated = state.set('instruments', state.instruments.map(
-            listedInstrument => {
-                if (listedInstrument.id === instrument.id) {
-                    found = true;
-                    return instrument;
-                } else {
-                    return listedInstrument;
-                }
-            }
-        ));
-
-        if (found) {
-            return updated;
-        } else {
-            throw new NoSuchInstrumentError(instrument._id);
-        }
-    };
+    /**
+     * Applies an update on a samples folder
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The updated folder
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const updateCurrentlyEditedFolder = (state, folder) => updateModelFunction('samplesFolders');
 
     /**
      * Sets information on an instrument about the note, if any, it's currently playing
@@ -261,12 +276,33 @@ module.exports = (
         .set('displayedTempo', updates.tempo);
     };
 
+    /**
+     * If the currently edited samples folder is the one
+     * with the passed name, this will stop edition of the
+     * folder name. Otherwise, it will start it
+     *
+     * @param {module:core.models.State} state The state instance to operate on
+     * @param {String}                   name  The name of the folder to start/stop editing
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const toggleEditedSamplesFolder = (state, id) => (
+        state.set(
+            'editedSamplesFolderName', (
+                state.editedSamplesFolderName === name
+                ? Maybe.Nothing()
+                : Maybe.Just(name)
+            )
+        )
+    );
+
     const commands = {
         setOffScheduleNote, clearOffScheduleNote,
         setCurrentlyPlayedNote, startPlaying,
         setMasterVolume, updatePlayedNotes,
         stopPlaying, toggleNote, setTempo,
-        updateInstrument, toggleAllNotes
+        updateInstrument, toggleAllNotes,
+        toggleEditedSamplesFolder
     };
 
     return Object.assign({ commands, getPlayedNotes, currentGridNote }, commands);
