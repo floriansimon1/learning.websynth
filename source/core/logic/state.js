@@ -4,30 +4,9 @@ const Immutable = require('immutable');
 const Maybe     = require('data.maybe');
 const _         = require('lodash');
 
-/* Helper function to look for a model and update it */
-const updateModelFunction = collection => (state, model) => {
-    var found = false;
-
-    const updated = state.set(collection, state[collection].map(
-        listedModel => {
-            if (listedModel.id === model.id) {
-                found = true;
-                return model;
-            } else {
-                return listedModel;
-            }
-        }
-    ));
-
-    if (found) {
-        return updated;
-    } else {
-        throw new NoSuchModelError(instrument._id);
-    }
-};
-
 /**
- * Functions to work with State instances
+ * Functions to work with State instances. Augments the
+ * State constructor with query methods.
  *
  * @namespace
  * @name      stateFunctions
@@ -36,8 +15,30 @@ const updateModelFunction = collection => (state, model) => {
 module.exports = (
     tempoFunctions, instrumentFunctions,
     NotPlayingError, NotInGridError,
-    NoSuchInstrumentError
+    NoSuchModelError, State, utils
 ) => {
+    /* Helper function to look for a model and update it */
+    const updateModelFunction = collection => (state, model) => {
+        var found = false;
+
+        const updated = state.set(collection, state[collection].map(
+            listedModel => {
+                if (listedModel.id === model.id) {
+                    found = true;
+                    return model;
+                } else {
+                    return listedModel;
+                }
+            }
+        ));
+
+        if (found) {
+            return updated;
+        } else {
+            throw new NoSuchModelError(model._id);
+        }
+    };
+
     /**
      * Returns the song note converted to a grid note
      *
@@ -61,22 +62,12 @@ module.exports = (
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const updateInstrument = (state, instrument) => updateModelFunction('instruments');
-
-    /**
-     * Applies an update on a samples folder
-     *
-     * @memberof module:core.logic.stateFunctions
-     *
-     * @param {module:core.models.State}         state  The state instance to operate on
-     * @param {module:core.models.SamplesFolder} folder The updated folder
-     *
-     * @return {module:core.models.State} A new instance of the state with the change
-     */
-    const updateCurrentlyEditedFolder = (state, folder) => updateModelFunction('samplesFolders');
+    const updateInstrument = updateModelFunction('instruments');
 
     /**
      * Sets information on an instrument about the note, if any, it's currently playing
+     *
+     * @memberof module:core.logic.stateFunctions
      *
      * @param {module:core.models.State}      state      The state instance to operate on
      * @param {module:core.models.Instrument} instrument The instrument to update
@@ -90,6 +81,8 @@ module.exports = (
 
     /**
      * Clears information on an instrument about the note, if any, it's currently playing
+     *
+     * @memberof module:core.logic.stateFunctions
      *
      * @param {module:core.models.State}      state      The state instance to operate on
      * @param {module:core.models.Instrument} instrument The instrument to update
@@ -252,6 +245,8 @@ module.exports = (
     /**
      * Applies currently played note updates atomically.
      *
+     * @memberof module:core.logic.stateFunctions
+     *
      * @param {module:core.models.State}             state   The state instance to operate on
      * @param {module:core.models.PlayedNoteUpdates} updates Object describing changes to bring to
      *                                                       currently played notes
@@ -277,24 +272,44 @@ module.exports = (
     };
 
     /**
+     * True if the passed folder is the currently edited folder
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The folder we are looking for
+     *
+     * @return {Boolean}
+     */
+    const isCurrentlyEditedFolder = (state, folder) => (
+        state
+        .editedSamplesFolder
+        .map(editedFolder => editedFolder === folder)
+        .getOrElse(false)
+    );
+
+    /**
      * If the currently edited samples folder is the one
      * with the passed name, this will stop edition of the
      * folder name. Otherwise, it will start it
      *
-     * @param {module:core.models.State} state The state instance to operate on
-     * @param {String}                   name  The name of the folder to start/stop editing
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The folder to toggle
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const toggleEditedSamplesFolder = (state, id) => (
+    const toggleEditedSamplesFolder = (state, folder) => (
         state.set(
-            'editedSamplesFolderName', (
-                state.editedSamplesFolderName === name
+            'editedSamplesFolder', (
+                isCurrentlyEditedFolder(state, folder)
                 ? Maybe.Nothing()
-                : Maybe.Just(name)
+                : Maybe.Just(folder)
             )
         )
     );
+
+    const queries            = { getPlayedNotes, currentGridNote, isCurrentlyEditedFolder };
+    const methodifiedQueries = utils.methodifyAll(queries);
 
     const commands = {
         setOffScheduleNote, clearOffScheduleNote,
@@ -305,5 +320,9 @@ module.exports = (
         toggleEditedSamplesFolder
     };
 
-    return Object.assign({ commands, getPlayedNotes, currentGridNote }, commands);
+    /* Augments the State constructor */
+    Object.assign(State.prototype, methodifiedQueries);
+
+    /* Returns the service functions */
+    return Object.assign(queries, { commands }, commands);
 };

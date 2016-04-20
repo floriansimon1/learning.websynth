@@ -2,14 +2,12 @@ const sandal = require('../providers');
 
 describe('Initially,', () => {
     var state;
-    var stateFunctions;
 
     beforeEach(done => {
         sandal.resolve(
-            ['client.redux.initialState', 'core.logic.stateFunctions'],
+            ['client.redux.initialState'],
             (error, initialState, stateMethods) => {
-                state          = initialState;
-                stateFunctions = stateMethods;
+                state = initialState;
 
                 if (error) {
                     fail(error);
@@ -39,6 +37,6 @@ describe('Initially,', () => {
     });
 
     it('no note should be marked as to play', () => {
-        expect(stateFunctions.getPlayedNotes(state).length).toBe(0);
+        expect(state.getPlayedNotes(state).length).toBe(0);
     });
 });

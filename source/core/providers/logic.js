@@ -28,9 +28,10 @@ module.exports = sandal => {
     sandal.factory(
         'core.logic.stateFunctions',
         [
-            'core.logic.tempoFunctions',
-            'core.logic.instrumentFunctions', 'core.errors.NotPlayingError',
-            'core.errors.NotInGridError', 'core.errors.NoSuchInstrumentError'
+            'core.logic.tempoFunctions', 'core.logic.instrumentFunctions',
+            'core.errors.NotPlayingError', 'core.errors.NotInGridError',
+            'core.errors.NoSuchModelError', 'core.models.State',
+            'core.utils'
         ],
         require('../logic/state')
     );

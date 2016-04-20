@@ -17,8 +17,8 @@ module.exports = (tr, store, actions) => folder => {
 
     return h(
         'li',
-        { ondblclick: () => actions.toggleEditedSamplesFolder(folder.name) }, [
-            store.getState().editedSamplesFolderName !== folder.name
+        { ondblclick: () => actions.toggleEditedSamplesFolder(folder) }, [
+            !store.getState().isCurrentlyEditedFolder(folder)
             ? currentFolderName
             : h('input', {
                 placeholder: tr('Enter a folder name…'),

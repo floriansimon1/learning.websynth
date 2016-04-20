@@ -6,7 +6,12 @@ const Maybe     = require('data.maybe');
 /**
  * The state model
  *
+ * Gets query methods from
+ * {module:core.logic.stateFuncions}. See
+ * {module:core} documentation
+ *
  * @name State
+ *
  * @class
  * @memberof module:core.models
  */
@@ -98,10 +103,12 @@ module.exports = ParameterChange => Immutable.Record({
      samplesFolders: [],
 
      /**
-      * The ID of the folder that is currently being edited.
+      * The folder that is currently being edited. Whenever the
+      * designated folder is changed, this reference needs to be
+      * updated
       *
       * @memberof module:core.models.State
-      * @var      {Maybe<String>}
+      * @var      {Maybe<SamplesFolder>}
       */
-     editedSamplesFolderId: Maybe.Nothing()
+     editedSamplesFolder: Maybe.Nothing()
 });

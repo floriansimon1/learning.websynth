@@ -10,6 +10,8 @@ const Sandal = require('sandal');
 
 var sandal = new Sandal();
 
+sandal.object('core.utils', require('../utils'));
+
 require('./errors')(sandal);
 require('./models')(sandal);
 require('./logic')(sandal);

@@ -1,7 +1,7 @@
 const sandal = require('../../providers');
 
 describe('State functions', () => {
-    var NoSuchInstrumentError;
+    var NoSuchModelError;
     var NotPlayingError;
     var NotInGridError;
     var makeInstrument;
@@ -15,15 +15,15 @@ describe('State functions', () => {
             'core.models.makeInstrument',
             'core.errors.NotInGridError',
             'core.errors.NotPlayingError',
-            'core.errors.NoSuchInstrumentError'
+            'core.errors.NoSuchModelError'
         ],
-        (error, initialState, stateMethods, newInstrument, NotInGrid, NotPlaying, NoSuchInstrument) => {
-            NoSuchInstrumentError = NoSuchInstrument;
-            makeInstrument        = newInstrument;
-            stateFunctions        = stateMethods;
-            state                 = initialState;
-            NotPlayingError       = NotPlaying;
-            NotInGridError        = NotInGrid;
+        (error, initialState, stateMethods, newInstrument, NotInGrid, NotPlaying, NoSuchModel) => {
+            makeInstrument   = newInstrument;
+            stateFunctions   = stateMethods;
+            state            = initialState;
+            NoSuchModelError = NoSuchModel;
+            NotPlayingError  = NotPlaying;
+            NotInGridError   = NotInGrid;
 
             if (error) {
                 fail(error);
@@ -83,7 +83,7 @@ describe('State functions', () => {
 
     it('should report an error when an attempt to update a non-existing instrument is made', () => {
         expect(() => stateFunctions.toggleNote(stateFunctions.stopPlaying(state), makeInstrument(), 3))
-        .toThrowError(NoSuchInstrumentError, '');
+        .toThrowError(NoSuchModelError, '');
     });
 
     it('should report an error when an attempt to toggle a non-existing instrument note is made', () => {
@@ -95,10 +95,11 @@ describe('State functions', () => {
     });
 
     it('should allow to toggle notes to play on existing instruments', () => {
-        const note        = 2;
-        const noteOn      = stateFunctions.toggleNote(state, state.instruments[0], note);
-        const noteOff     = stateFunctions.toggleNote(noteOn, noteOn.instruments[0], note)
-        const playedNotes = stateFunctions.getPlayedNotes(noteOn);
+        const note    = 2;
+        const noteOn  = stateFunctions.toggleNote(state, state.instruments[0], note);
+        const noteOff = stateFunctions.toggleNote(noteOn, noteOn.instruments[0], note)
+
+        const playedNotes = noteOn.getPlayedNotes();
 
         expect(playedNotes.length).toBe(1);
         expect(playedNotes[0].position).toBe(note);

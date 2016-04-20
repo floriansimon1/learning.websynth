@@ -8,11 +8,12 @@
  */
 
 module.exports = sandal => {
+    /* We need stateFunctions here to augment the State prototype */
     sandal.factory(
         'client.redux.initialState',
         [
             'core.models.State', 'core.models.makeInstrument',
-            'core.models.NoteName'
+            'core.models.NoteName', 'core.logic.stateFunctions'
         ],
         require('../redux/initial-state')
     );

@@ -63,10 +63,10 @@ module.exports = sandal => {
     /* Binary that expects an instrument and a note position */
     sandal.factory(
         'client.views.Note',
-        ['client.redux.actions', 'client.redux.store', 'core.logic.stateFunctions'],
-        (actions, store, stateFunctions) => () => _.partial(
+        ['client.redux.actions', 'client.redux.store'],
+        (actions, store) => () => _.partial(
             require('../views/note'),
-            stateFunctions.currentGridNote(store.getState()),
+            store.getState().currentGridNote(),
             actions.toggleNote
         )
     );

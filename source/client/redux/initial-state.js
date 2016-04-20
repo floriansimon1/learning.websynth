@@ -7,7 +7,7 @@
  * @var
  * @memberof module:client.redux
  */
-module.exports = (State, makeInstrument, NoteName) => {
+module.exports = (State, makeInstrument, NoteName, stateFunctions) => {
     const notes = [
         NoteName({ letter: 'C', octave: 2, modifier:  '' }),
         NoteName({ letter: 'E', octave: 2, modifier: '♭' }),

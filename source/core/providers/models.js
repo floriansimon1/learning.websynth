@@ -4,7 +4,12 @@ const uuid = require('node-uuid');
 const _    = require('lodash');
 
 /**
- * Data types
+ * Data types, with query methods, but no
+ * command (or setter) methods. To find methods
+ * for a model, see its corresponding functions.
+ * Functions for a model are usually named
+ * `${model}Functions`, and are located in
+ * the {module:core.logic} namespace.
  *
  * @namespace models
  * @memberof  module:core
@@ -32,13 +37,15 @@ const _    = require('lodash');
   * @property {Number}                         currentTempo The tempo for the current song note
   */
 
-const modelWithIdFactory = (Model, keys) => args => (
-    new Model(Object.assign({}, { id: uuid.v4() }, (
+const modelWithIdFactory = (Model, keys) => function () {
+    const args = [].slice.call(arguments);
+
+    return new Model(Object.assign({}, { id: uuid.v4() }, (
         keys
-        ? _.zipObject(keys, args)
-        : args
+        ? _.zipObject(keys, arguments)
+        : arguments[0]
     )))
-);
+};
 
 module.exports = sandal => {
     /**********/
