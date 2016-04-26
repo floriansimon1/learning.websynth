@@ -7,7 +7,7 @@ const Maybe     = require('data.maybe');
  * Sample folder data type
  *
  * @class
- * @name     NoteName
+ * @name     SamplesFolder
  * @memberof module:core.models
  */
 module.exports = Immutable.Record({

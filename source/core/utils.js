@@ -13,7 +13,7 @@ const _ = require('lodash');
  * @return {Function} The lifted function
  */
 const methodify = f => function () {
-    return f.apply(null, [].concat.call([this], arguments));
+    return f.apply(null, [].concat.apply([this], arguments));
 };
 
 /**

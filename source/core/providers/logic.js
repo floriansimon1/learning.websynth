@@ -31,7 +31,7 @@ module.exports = sandal => {
             'core.logic.tempoFunctions', 'core.logic.instrumentFunctions',
             'core.errors.NotPlayingError', 'core.errors.NotInGridError',
             'core.errors.NoSuchModelError', 'core.models.State',
-            'core.utils'
+            'core.utils', 'core.models.makeSamplesFolder'
         ],
         require('../logic/state')
     );

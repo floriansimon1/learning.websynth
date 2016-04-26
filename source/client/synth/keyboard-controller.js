@@ -16,9 +16,11 @@ module.exports = (Controller, player, document, store) => {
         ]
     );
 
-    const handleKeyEvent = _.curry((eventType, event) => (
-        translateNoteEvent(event).map(actionsByEventType[eventType])
-    ));
+    const handleKeyEvent = _.curry((eventType, event) => {
+        if (event.target.tagName === 'BODY') {
+            translateNoteEvent(event).map(actionsByEventType[eventType])
+        }
+    });
 
     const listeners = _.transform(eventTypes, (listeners, eventType) => (
         listeners[eventType] = handleKeyEvent(eventType)

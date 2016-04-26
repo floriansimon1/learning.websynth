@@ -13,7 +13,8 @@ module.exports = sandal => {
         'client.redux.initialState',
         [
             'core.models.State', 'core.models.makeInstrument',
-            'core.models.NoteName', 'core.logic.stateFunctions'
+            'core.models.makeSamplesFolder', 'core.models.NoteName',
+            'core.logic.stateFunctions'
         ],
         require('../redux/initial-state')
     );

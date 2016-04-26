@@ -1,5 +1,7 @@
 /** @file Holds the initial state of the application */
 
+const Maybe = require('data.maybe');
+
 /**
  * The initial state of the app
  *
@@ -7,7 +9,7 @@
  * @var
  * @memberof module:client.redux
  */
-module.exports = (State, makeInstrument, NoteName, stateFunctions) => {
+module.exports = (State, makeInstrument, makeSamplesFolder, NoteName, tr, stateFunctions) => {
     const notes = [
         NoteName({ letter: 'C', octave: 2, modifier:  '' }),
         NoteName({ letter: 'E', octave: 2, modifier: '♭' }),
@@ -18,10 +20,11 @@ module.exports = (State, makeInstrument, NoteName, stateFunctions) => {
     ];
 
     return new State({
-        instruments:   notes.map(makeInstrument),
-        playing:       false,
-        tempo:         120,
-        masterVolume:  10,
-        notesPerTrack: 16
+        samplesFolders: [makeSamplesFolder(Maybe.Nothing())],
+        instruments:    notes.map(makeInstrument),
+        playing:        false,
+        tempo:          120,
+        masterVolume:   10,
+        notesPerTrack:  16
     });
 };

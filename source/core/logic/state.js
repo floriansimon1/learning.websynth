@@ -15,7 +15,8 @@ const _         = require('lodash');
 module.exports = (
     tempoFunctions, instrumentFunctions,
     NotPlayingError, NotInGridError,
-    NoSuchModelError, State, utils
+    NoSuchModelError, State, utils,
+    makeSamplesFolder
 ) => {
     /* Helper function to look for a model and update it */
     const updateModelFunction = collection => (state, model) => {
@@ -37,6 +38,30 @@ module.exports = (
         } else {
             throw new NoSuchModelError(model._id);
         }
+    };
+
+    /**
+     * Updates a folder's name
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state
+     * @param {module:core.models.SamplesFolder} folder
+     * @param {String}                           name
+     *
+     * @return {module:core.models.State
+     */
+    const saveFolderName = (state, folder, name) => {
+        const updatedFolders = updateSamplesFolder(state, folder.set('name', Maybe.Just(name)))
+        .set('editedSamplesFolder', Maybe.Nothing());
+
+        const currentFolders = updatedFolders.samplesFolders;
+
+        return updatedFolders.set('samplesFolders', (
+            currentFolders.every(folder => folder.name.isJust)
+            ? currentFolders.concat([makeSamplesFolder(Maybe.Nothing())])
+            : currentFolders
+        ));
     };
 
     /**
@@ -63,6 +88,18 @@ module.exports = (
      * @return {module:core.models.State} A new instance of the state with the change
      */
     const updateInstrument = updateModelFunction('instruments');
+
+    /**
+     * Applies an update on a samples folder looked up by ID
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The updated folder
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const updateSamplesFolder = updateModelFunction('samplesFolders');
 
     /**
      * Sets information on an instrument about the note, if any, it's currently playing
@@ -165,6 +202,24 @@ module.exports = (
         state
         .set('playing', true)
         .set('playbackTempoMap', state.tempoMap)
+    );
+
+    /**
+     * Removes a samples folder
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The folder to remove (looked up by ID)
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const removeSamplesFolder = (state, folder) => (
+        state
+        .set('editedSamplesFolder', Maybe.Nothing())
+        .set('samplesFolders', state.get('samplesFolders').filter(
+            otherFolder => folder.id !== otherFolder.id
+        ))
     );
 
     /**
@@ -284,7 +339,7 @@ module.exports = (
     const isCurrentlyEditedFolder = (state, folder) => (
         state
         .editedSamplesFolder
-        .map(editedFolder => editedFolder === folder)
+        .map(editedFolder => editedFolder.id === folder.id)
         .getOrElse(false)
     );
 
@@ -308,12 +363,11 @@ module.exports = (
         )
     );
 
-    const queries            = { getPlayedNotes, currentGridNote, isCurrentlyEditedFolder };
-    const methodifiedQueries = utils.methodifyAll(queries);
-
+    const queries  = { getPlayedNotes, currentGridNote, isCurrentlyEditedFolder };
     const commands = {
         setOffScheduleNote, clearOffScheduleNote,
         setCurrentlyPlayedNote, startPlaying,
+        saveFolderName, removeSamplesFolder,
         setMasterVolume, updatePlayedNotes,
         stopPlaying, toggleNote, setTempo,
         updateInstrument, toggleAllNotes,
@@ -321,7 +375,7 @@ module.exports = (
     };
 
     /* Augments the State constructor */
-    Object.assign(State.prototype, methodifiedQueries);
+    Object.assign(State.prototype, utils.methodifyAll(queries));
 
     /* Returns the service functions */
     return Object.assign(queries, { commands }, commands);

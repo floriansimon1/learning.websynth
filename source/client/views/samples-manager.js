@@ -20,7 +20,6 @@ module.exports = (tr, store, SamplesFolderView, SamplesFolder) => () => (
             .getState()
             .samplesFolders
             .map(SamplesFolderView)
-            .concat([SamplesFolderView(SamplesFolder())])
         )),
 
         h('div#samples-list', (
