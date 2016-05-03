@@ -14,6 +14,7 @@ const _ = require('lodash');
  */
 module.exports = (tr, store, actions) => folder => {
     const hasName = folder.name.isJust;
+    const state   = store.getState();
 
     const validateName = name => !!name.trim();
 
@@ -31,8 +32,10 @@ module.exports = (tr, store, actions) => folder => {
     };
 
     return h(
-        'li',
-        { ondblclick: () => actions.toggleEditedSamplesFolder(folder) }, [
+        `li${state.isCurrentlyViewedFolder(folder) ? '.active' : ''}`, {
+            ondblclick: () => actions.toggleEditedSamplesFolder(folder),
+            onclick:    () => folder.name.map(() => actions.toggleViewedSamplesFolder(folder))
+        }, [
             !store.getState().isCurrentlyEditedFolder(folder)
             ? h(
                 `span.${hasName ? 'has-name' : 'unnamed'}`,

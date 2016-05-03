@@ -22,7 +22,12 @@ module.exports = (tr, store, SamplesFolderView, SamplesFolder) => () => (
             .map(SamplesFolderView)
         )),
 
-        h('div#samples-list', (
+        h('div#samples-list', {
+            ondrop: (a, b, c) => {
+                a.preventDefault();
+                console.log(a, b, c);
+            }
+        }, (
             !samples.length
             ? h('div#no-sample-yet-box', [
                 h('i.ion.ion-md-images'),

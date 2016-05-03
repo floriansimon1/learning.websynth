@@ -30,6 +30,15 @@
     padding:     0px 15px;
 }
 
+#samples-manager > #samples-folders-column > li.active {
+    color:            #454545;
+    background-color: white;
+}
+
+#samples-manager > #samples-folders-column > li.active:hover {
+    text-shadow: none;
+}
+
 #samples-manager > #samples-folders-column > li > input {
     background-color: rgba(0, 0, 0, 0);
     position:         relative;

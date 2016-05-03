@@ -100,7 +100,7 @@ module.exports = ParameterChange => Immutable.Record({
      * @memberof module:core.models.State
      * @var      {Array<module:core.models.SamplesFolder>}
      */
-     samplesFolders: [],
+    samplesFolders: [],
 
      /**
       * The folder that is currently being edited. Whenever the
@@ -110,5 +110,13 @@ module.exports = ParameterChange => Immutable.Record({
       * @memberof module:core.models.State
       * @var      {Maybe<SamplesFolder>}
       */
-     editedSamplesFolder: Maybe.Nothing()
+    editedSamplesFolder: Maybe.Nothing(),
+
+    /**
+     * The curerntly viewed samples folder's ID
+     *
+     * @memberof module:core.models.State
+     * @var      {Maybe<SamplesFolder>}
+     */
+    viewedSamplesFolder: Maybe.Nothing()
 });

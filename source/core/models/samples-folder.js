@@ -23,5 +23,12 @@ module.exports = Immutable.Record({
      *
      * @var {Maybe<String>}
      */
-    name: Maybe.Nothing()
+    name: Maybe.Nothing(),
+
+    /**
+     * A list of contained files
+     *
+     * @var {Array<File>}
+     */
+    files: []
 });

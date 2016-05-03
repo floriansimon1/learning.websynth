@@ -40,6 +40,25 @@ module.exports = (
         }
     };
 
+    /* Helper that determines wheher a resource is the one in a maybe */
+    const resourceIsActive = property => (state, resource) => (
+        state
+        [property]
+        .map(activeResource => activeResource.id === resource.id)
+        .getOrElse(false)
+    );
+
+    /* Toggles a resource in a maybe */
+    const toggleActiveResource = property => (state, resource) => (
+        state.set(
+            property, (
+                resourceIsActive(property)(state, resource)
+                ? Maybe.Nothing()
+                : Maybe.Just(resource)
+            )
+        )
+    );
+
     /**
      * Updates a folder's name
      *
@@ -336,12 +355,19 @@ module.exports = (
      *
      * @return {Boolean}
      */
-    const isCurrentlyEditedFolder = (state, folder) => (
-        state
-        .editedSamplesFolder
-        .map(editedFolder => editedFolder.id === folder.id)
-        .getOrElse(false)
-    );
+    const isCurrentlyEditedFolder = resourceIsActive('editedSamplesFolder');
+
+    /**
+     * True if the passed folder is the currently viewed folder
+     *
+     * @memberof module:core.logic.stateFunctions
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The folder we are looking for
+     *
+     * @return {Boolean}
+     */
+    const isCurrentlyViewedFolder = resourceIsActive('viewedSamplesFolder');
 
     /**
      * If the currently edited samples folder is the one
@@ -353,25 +379,31 @@ module.exports = (
      *
      * @return {module:core.models.State} A new instance of the state with the change
      */
-    const toggleEditedSamplesFolder = (state, folder) => (
-        state.set(
-            'editedSamplesFolder', (
-                isCurrentlyEditedFolder(state, folder)
-                ? Maybe.Nothing()
-                : Maybe.Just(folder)
-            )
-        )
-    );
+    const toggleEditedSamplesFolder = toggleActiveResource('editedSamplesFolder');
 
-    const queries  = { getPlayedNotes, currentGridNote, isCurrentlyEditedFolder };
+    /**
+     * Toggles the active status of a samples folder
+     *
+     * @param {module:core.models.State}         state  The state instance to operate on
+     * @param {module:core.models.SamplesFolder} folder The folder to toggle
+     *
+     * @return {module:core.models.State} A new instance of the state with the change
+     */
+    const toggleViewedSamplesFolder = toggleActiveResource('viewedSamplesFolder');
+
+    const queries  = {
+        getPlayedNotes, currentGridNote,
+        isCurrentlyEditedFolder, isCurrentlyViewedFolder
+    };
+
     const commands = {
+        toggleEditedSamplesFolder, toggleViewedSamplesFolder,
         setOffScheduleNote, clearOffScheduleNote,
         setCurrentlyPlayedNote, startPlaying,
         saveFolderName, removeSamplesFolder,
         setMasterVolume, updatePlayedNotes,
         stopPlaying, toggleNote, setTempo,
-        updateInstrument, toggleAllNotes,
-        toggleEditedSamplesFolder
+        updateInstrument, toggleAllNotes
     };
 
     /* Augments the State constructor */
