@@ -1,7 +1,7 @@
 {
   "author": "Florian Simon <florian@tentwentyfour.lu>",
   "license": "MIT",
-  "repository": "https://github.com/floriansimon1/learning.websynth",
+  "repository": "https://github.com/floriansimon1/websynth",
   "description": "Small synthesizer built using the Web Audio API.",
   "dependencies": {
     "big.js": "^3.1.3",
