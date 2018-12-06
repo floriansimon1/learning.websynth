@@ -1,6 +1,8 @@
 var sandal = require('../../core/providers');
 
-sandal.object('client.config', 'Client configuration insertion point');
+sandal.object('client.config', {
+    defaultController: 'client.synth.keyboardController'
+});
 
 require('./synth')(sandal);
 require('./views')(sandal);

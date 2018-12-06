@@ -141,7 +141,7 @@ gulp.task('insert-app', function () {
                     match:       /--STYLES--/,
                     replacement: filesListToString(
                         files.map(file => path.basename(file)).concat(vendorCss.length ? [vendorCssFile] : []),
-                        '<link href="/'
+                        '<link href="./'
                         + cssUrl
                         + '%s" rel="stylesheet" type="text/css" />',
                         '\n        '
