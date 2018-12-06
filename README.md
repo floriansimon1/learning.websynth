@@ -9,6 +9,8 @@ This app displays a grid of notes that you can toggle by checking their associat
 corresponds to a frequency. Once you've completed your grid, press the "Play" button to start playing your
 new song!
 
+Demo: http://floriansimon1.github.io/websynth
+
 ## Launching
 
 Before following the guide below, make sure to have these installed globally:
